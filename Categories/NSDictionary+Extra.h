@@ -1,0 +1,22 @@
+//
+//  NSDictionary+Extra.h
+//  Pashadelic
+//
+//  Created by Виталий Гоженко on 20/7/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface NSDictionary (Extra)
+
+- (NSDate *)dateForKey:(NSString *)key format:(NSString *)format;
+- (NSString *)stringForKey:(NSString *)key;
+- (int)intForKey:(NSString *)key;
+- (BOOL)boolForKey:(NSString *)key;
+- (double)doubleForKey:(NSString *)key;
+- (float)floatForKey:(NSString *)key;
+- (NSNumber *)numberForKey:(NSString *)key;
+							
+
+@end
