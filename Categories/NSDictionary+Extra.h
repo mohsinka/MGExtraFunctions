@@ -11,6 +11,7 @@
 @interface NSDictionary (Extra)
 
 - (NSDate *)dateForKey:(NSString *)key format:(NSString *)format;
+- (NSDate *)unixDateForKey:(NSString *)key;
 - (NSString *)stringForKey:(NSString *)key;
 - (int)intForKey:(NSString *)key;
 - (BOOL)boolForKey:(NSString *)key;

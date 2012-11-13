@@ -35,6 +35,30 @@
 	} 
 }
 
+- (NSString *)shortIntervalInStringSinceDate:(NSDate *)date
+{
+	int interval = round([date timeIntervalSinceDate:self]);
+	interval = ABS(interval);
+	
+	if (interval < 0) {
+		return @"";
+	} else if (interval < kOneMinute) {
+		return [NSString stringWithFormat:NSLocalizedString(@"now", nil), interval];
+	} else if (interval < kOneHour) {
+		return [NSString stringWithFormat:NSLocalizedString(@"%dm ago", nil), interval / kOneMinute];
+	} else if (interval < kOneDay) {
+		return [NSString stringWithFormat:NSLocalizedString(@"%dh ago", nil), interval / kOneHour];
+	} else if (interval < kOneWeek) {
+		return [NSString stringWithFormat:NSLocalizedString(@"%dd ago", nil), interval / kOneDay];
+	} else if (interval < kOneMonth) {
+		return [NSString stringWithFormat:NSLocalizedString(@"%dw ago", nil), interval / kOneWeek];
+	} else if (interval < kOneYear) {
+		return [NSString stringWithFormat:NSLocalizedString(@"%dm ago", nil), interval / kOneMonth];
+	} else {
+		return [NSString stringWithFormat:NSLocalizedString(@"%dy ago", nil), interval / kOneYear];
+	}
+}
+
 - (NSString *)stringValueFormattedBy:(NSString *)formatString
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

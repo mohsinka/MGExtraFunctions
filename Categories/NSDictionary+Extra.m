@@ -20,6 +20,12 @@
 	return [dateFormatter dateFromString:value];
 }
 
+- (NSDate *)unixDateForKey:(NSString *)key
+{
+	NSTimeInterval interval = [self doubleForKey:key];
+	return [NSDate dateWithTimeIntervalSince1970:interval];
+}
+
 - (NSString *)stringForKey:(NSString *)key
 {
 	id value = [self objectForKey:key];

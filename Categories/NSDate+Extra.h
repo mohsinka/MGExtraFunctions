@@ -18,6 +18,7 @@
 @interface NSDate (Extra)
 
 - (NSString *) intervalInStringSinceDate:(NSDate *)date;
+- (NSString *) shortIntervalInStringSinceDate:(NSDate *)date;
 - (NSString *) stringValueFormattedBy:(NSString *)formatString;
 - (NSComparisonResult) compareMonth:(NSDate *)date;
 - (NSComparisonResult) compareDay:(NSDate *)date;
