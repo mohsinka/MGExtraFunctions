@@ -32,6 +32,17 @@ static MGLocationHelper *_instance;
 
 #pragma mark Public Methods
 
+- (CLRegion *)convertMapRegion:(MKCoordinateRegion)region
+{
+	CLLocation *regionEnd = [[CLLocation alloc] initWithLatitude:region.span.latitudeDelta + region.center.latitude
+													  longitude:region.span.longitudeDelta + region.center.longitude];
+	CLLocation *center = [[CLLocation alloc] initWithLatitude:region.center.latitude longitude:region.center.longitude];
+	CLLocationDistance distance = [center distanceFromLocation:regionEnd];
+
+    CLRegion *regionObject = [[CLRegion alloc] initCircularRegionWithCenter: region.center radius:distance identifier:@"mapRegion"];
+    return regionObject;
+}
+
 - (MKCoordinateRegion)regionForMax:(CLLocationCoordinate2D)maxPosition andMinPosition:(CLLocationCoordinate2D)minPosition
 {
 	MKCoordinateSpan span;
