@@ -17,6 +17,19 @@
 	return button;
 }
 
+- (void)setImage:(UIImage *)image forState:(UIControlState)state animated:(BOOL)animated
+{
+	if (animated) {
+		self.alpha = 0;
+		[self setImage:image forState:state];
+		[UIView animateWithDuration:0.2 animations:^{
+			self.alpha = 1;
+		}];
+	} else {
+		[self setImage:image forState:state];
+	}
+}
+
 - (void)backgroundLoadImageWithParameters:(NSDictionary *)parameters
 {
 	[self performSelectorInBackground:@selector(loadImageWithParameters:) withObject:parameters];

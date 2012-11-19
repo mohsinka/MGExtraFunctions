@@ -13,5 +13,6 @@
 + (UIButton *)buttonWithImage:(UIImage *)image;
 - (void)backgroundLoadImageWithParameters:(NSDictionary *)parameters;
 - (void)loadImageWithParameters:(NSDictionary *)parameters;
+- (void)setImage:(UIImage *)image forState:(UIControlState)state animated:(BOOL)animated;
 
 @end

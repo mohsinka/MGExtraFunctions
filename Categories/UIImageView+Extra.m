@@ -15,6 +15,19 @@
 	[self performSelectorInBackground:@selector(loadImageWithParameters:) withObject:parameters];
 }
 
+- (void)setImage:(UIImage *)image animated:(BOOL)animated
+{
+	if (animated) {
+		self.alpha = 0;
+		self.image = image;
+		[UIView animateWithDuration:0.2 animations:^{
+			self.alpha = 1;
+		}];
+	} else {
+		self.image = image;
+	}
+}
+
 - (void)loadImageWithParameters:(NSDictionary *)parameters
 {
 	@autoreleasepool {
