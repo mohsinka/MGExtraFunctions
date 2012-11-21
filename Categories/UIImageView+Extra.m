@@ -20,7 +20,7 @@
 	if (animated) {
 		self.alpha = 0;
 		self.image = image;
-		[UIView animateWithDuration:0.2 animations:^{
+		[UIView animateWithDuration:0.5 animations:^{
 			self.alpha = 1;
 		}];
 	} else {
