@@ -140,11 +140,14 @@
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style
 {
 	self.userInteractionEnabled = NO;
-	UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
-	activityView.tag = kActivityViewTag;
-	[activityView startAnimating];
+	UIActivityIndicatorView *activityView = (UIActivityIndicatorView *) [self viewWithTag:kActivityViewTag];
+	if (!activityView) {
+		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
+		activityView.tag = kActivityViewTag;
+		[activityView startAnimating];
+		[self addSubview:activityView];
+	}
 	activityView.center = self.centerOfView;
-	[self addSubview:activityView];
 }
 
 - (void)hideActivity
