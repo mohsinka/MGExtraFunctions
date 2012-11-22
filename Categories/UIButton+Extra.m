@@ -19,6 +19,8 @@
 
 - (void)setImage:(UIImage *)image forState:(UIControlState)state animated:(BOOL)animated
 {
+	if ([image isEqual:[self imageForState:state]]) return;
+	
 	if (animated) {
 		self.alpha = 0;
 		[self setImage:image forState:state];

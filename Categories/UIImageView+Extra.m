@@ -17,6 +17,8 @@
 
 - (void)setImage:(UIImage *)image animated:(BOOL)animated
 {
+	if ([image isEqual:self.image]) return;
+	
 	if (animated) {
 		self.alpha = 0;
 		self.image = image;
