@@ -85,9 +85,11 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
-	if (self.isKeyboardShown || !self.contentScrollView) return;
-	
+	if (self.isKeyboardShown) return;
 	self.keyboardShown = YES;
+	
+	if (!self.contentScrollView) return;
+	
 	CGRect frame = [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 	
