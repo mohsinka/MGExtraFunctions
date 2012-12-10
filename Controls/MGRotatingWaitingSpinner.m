@@ -84,13 +84,22 @@
 
 - (void)hide
 {
-	isShowing = NO;
-	[timer invalidate];
-	self.hidden = YES;
-	[self.spinner stopAnimating];
-	if (self.superview) {
-		[self.superview sendSubviewToBack:self];
-	}
+	[UIView animateWithDuration:0.15 animations:^{
+		foreground.transform = CGAffineTransformMakeScale(0.01, 0.01);
+		self.alpha = 0;
+		
+	} completion:^(BOOL finished) {
+		isShowing = NO;
+		[timer invalidate];
+		self.hidden = YES;
+		self.alpha = 1;
+		foreground.transform = CGAffineTransformIdentity;
+		[self.spinner stopAnimating];
+		if (self.superview) {
+			[self.superview sendSubviewToBack:self];
+		}
+	}];
+
 }
 
 @end

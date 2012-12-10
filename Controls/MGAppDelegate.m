@@ -14,7 +14,6 @@
 - (void)hideWaitingSpinner
 {
 	[waitingSpinnerView hide];
-	[waitingSpinnerView removeFromSuperview];
 }
 
 - (void)showWaitingSpinner
