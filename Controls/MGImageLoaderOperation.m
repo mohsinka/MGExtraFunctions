@@ -54,54 +54,57 @@
 
 - (void)main
 {
-	if (_URL.length == 0) {
-		[self failImageLoad:NSLocalizedString(@"Can't load image: URL is empty", nil)];
-		return;
-	}
-	
-	MGImageLoader *loader = [MGImageLoader sharedInstance];
-
-	NSString *hash = [self generateHashFromURL:_URL];
-	NSString *imagePath = [[loader.cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
-	
-	UIImage *image = [loader cachedImageForKey:hash];
-	
-	if (image) {
-		[self finishImageLoad:image];
-		return;
-	}
-	
-	if ([loader.fileManager fileExistsAtPath:imagePath]) {
-		image = [[UIImage alloc] initWithContentsOfFile:imagePath];
-		
-		if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory) {
-			[loader addImageToMemmoryCache:image hash:hash];
+	@autoreleasepool {
+		if (_URL.length == 0) {
+			[self failImageLoad:NSLocalizedString(@"Can't load image: URL is empty", nil)];
+			return;
 		}
+		
+		MGImageLoader *loader = [MGImageLoader sharedInstance];
+		
+		NSString *hash = [self generateHashFromURL:_URL];
+		NSString *imagePath = [[loader.cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
+		
+		UIImage *image = [loader cachedImageForKey:hash];
 		
 		if (image) {
 			[self finishImageLoad:image];
-		}
-		return;
-	}
-		
-	NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:_URL]];
-	image = [[UIImage alloc] initWithData:data];
-	
-	if (image) {
-		if ((_caching & MGImageLoaderCachingTypeDisk) == MGImageLoaderCachingTypeDisk
-			&& imagePath) {
-			[data writeToFile:imagePath atomically:NO];
+			return;
 		}
 		
-		if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory
-			&& hash) {
-			[loader addImageToMemmoryCache:image hash:hash];
+		NSData *data = [[NSData alloc] initWithContentsOfFile:imagePath];
+		if (data) {
+			image = [[UIImage alloc] initWithData:data];
+			
+			if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory) {
+				[loader addImageToMemmoryCache:image hash:hash];
+			}
+			
+			if (image) {
+				[self finishImageLoad:image];
+			}
+			return;
 		}
-
-		[self finishImageLoad:image];
-	} else {
-		[self failImageLoad:[NSString stringWithFormat:
-							 NSLocalizedString(@"Can't load image:\nIncorrect URL ""%@""", nil), _URL]];
+		
+		data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:_URL]];
+		image = [[UIImage alloc] initWithData:data];
+		
+		if (image) {
+			if ((_caching & MGImageLoaderCachingTypeDisk) == MGImageLoaderCachingTypeDisk
+				&& imagePath) {
+				[data writeToFile:imagePath atomically:NO];
+			}
+			
+			if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory
+				&& hash) {
+				[loader addImageToMemmoryCache:image hash:hash];
+			}
+			
+			[self finishImageLoad:image];
+		} else {
+			[self failImageLoad:[NSString stringWithFormat:
+								 NSLocalizedString(@"Can't load image:\nIncorrect URL ""%@""", nil), _URL]];
+		}
 	}
 }
 

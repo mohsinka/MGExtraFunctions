@@ -13,6 +13,7 @@
 
 @interface MGImageLoader (Private)
 - (void)initialize;
+- (void)disableMemmoryWarningTimer;
 @end
 
 
@@ -49,6 +50,37 @@ static MGImageLoader *_imageLoaderInstance;
 	_fileManager = [NSFileManager defaultManager];
 }
 
+- (void)disableMemmoryWarningTimer
+{
+	isMemmoryWarningReceived = NO;
+	[memmoryWarningTimer invalidate];
+	memmoryWarningTimer = nil;
+}
+
+#pragma mark - Public
+
+- (void)memmoryWarning
+{
+	if (isMemmoryWarningReceived) return;
+	
+	isMemmoryWarningReceived = YES;
+	[self clearMemmoryCache];
+	memmoryWarningTimer = [NSTimer scheduledTimerWithTimeInterval:5
+														   target:self
+														 selector:@selector(disableMemmoryWarningTimer)
+														 userInfo:nil
+														  repeats:NO];
+}
+
+- (void)cancelOperationsWithDelegate:(NSObject<MGImageLoaderOperationDelegate> *)delegate
+{
+	for (MGImageLoaderOperation *operation in _queue.operations) {
+		if (!operation.isExecuting && [operation.delegate isEqual:delegate]) {
+			[operation cancel];
+		}
+	}
+}
+
 - (NSString *)generateHashFromURL:(NSString *)URL
 {
 	const char *cStr = [URL UTF8String];
@@ -60,9 +92,6 @@ static MGImageLoader *_imageLoaderInstance;
 			result[8], result[9], result[10], result[11], result[12], result[13], result[14], result[15] ];
 }
 
-
-#pragma mark - Public
-
 - (UIImage *)cachedImageForKey:(NSString *)key
 {
 	return [memmoryCache objectForKey:key];
@@ -70,7 +99,9 @@ static MGImageLoader *_imageLoaderInstance;
 
 - (void)clearMemmoryCache
 {
+	[lock lock];
 	[memmoryCache removeAllObjects];
+	[lock unlock];
 }
 
 - (void)clearDiskCache
