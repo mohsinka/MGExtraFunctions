@@ -27,4 +27,16 @@
 	return NSStringFromClass([self class]);
 }
 
+- (void)performSelectorOnMainThread:(SEL)aSelector withObject:(id)arg1 withObject:(id)arg2 waitUntilDone:(BOOL)wait
+{
+	NSMethodSignature *signature = [self methodSignatureForSelector:aSelector];
+	NSInvocation *invoke = [NSInvocation invocationWithMethodSignature:signature];
+	[invoke setTarget:self];
+	[invoke setSelector:aSelector];
+	[invoke setArgument:&arg1 atIndex:2];
+	[invoke setArgument:&arg2 atIndex:3];
+	[invoke retainArguments];
+	[invoke performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:wait];
+}
+
 @end
