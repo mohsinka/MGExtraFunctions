@@ -36,6 +36,7 @@ enum MGImageLoaderCachingType {
 
 + (MGImageLoader *)sharedInstance;
 
+- (void)addOperation:(MGImageLoaderOperation *)operation;
 - (NSString *)generateHashFromURL:(NSString *)URL;
 - (UIImage *)cachedImageForKey:(NSString *)key;
 - (UIImage *)loadImageFromCacheForURL:(NSString *)URL;

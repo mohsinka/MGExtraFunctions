@@ -59,6 +59,17 @@ static MGImageLoader *_imageLoaderInstance;
 
 #pragma mark - Public
 
+- (void)addOperation:(MGImageLoaderOperation *)operation
+{
+	for (MGImageLoaderOperation *existingOperation in _queue.operations) {
+		if ([existingOperation.URL isEqualToString:operation.URL]) {
+			existingOperation.delegate = operation.delegate;
+			return;
+		}
+	}
+	[_queue addOperation:operation];
+}
+
 - (void)memmoryWarning
 {
 	if (isMemmoryWarningReceived) return;
