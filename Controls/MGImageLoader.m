@@ -59,6 +59,13 @@ static MGImageLoader *_imageLoaderInstance;
 
 #pragma mark - Public
 
+- (BOOL)isImageInCache:(NSString *)URL
+{
+	NSString *hash = [self generateHashFromURL:URL];
+	NSString *imagePath = [[self.cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
+	return [_fileManager fileExistsAtPath:imagePath];
+}
+
 - (void)addOperation:(MGImageLoaderOperation *)operation
 {
 	for (MGImageLoaderOperation *existingOperation in _queue.operations) {
