@@ -16,6 +16,9 @@
 @property (unsafe_unretained, nonatomic) UIView *currentControl;
 @property (unsafe_unretained, nonatomic) IBOutlet UIScrollView *contentScrollView;
 
+
+- (id)initForUniversalDevice;
+- (id)initFromClassName;
 - (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
 - (void)scrollToCurrentControl;

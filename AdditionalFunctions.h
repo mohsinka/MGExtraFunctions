@@ -7,6 +7,35 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    kDeviceIPhone = 0,
+    kDeviceIPad
+} DeviceType;
+
+
+CG_INLINE DeviceType deviceType()
+{
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 30200
+	if (UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM() )
+		return kDeviceIPad;
+	else
+		return kDeviceIPhone;
+#else
+	return kDeviceIPhone;
+#endif
+}
+
+CG_INLINE BOOL isPad()
+{
+	return (BOOL)(deviceType() == kDeviceIPad);
+}
+
+CG_INLINE BOOL isPhone()
+{
+	return (BOOL)(deviceType() == kDeviceIPhone);
+}
+
+
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
