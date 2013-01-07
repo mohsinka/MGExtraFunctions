@@ -110,8 +110,6 @@
 		}
 		self.contentScrollView.height = height;
 		
-	} completion:^(BOOL finished) {
-		[self scrollToCurrentControl];
 	}];
 }
 
