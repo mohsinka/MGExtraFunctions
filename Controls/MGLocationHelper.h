@@ -20,6 +20,7 @@
 
 + (MGLocationHelper *)sharedInstance;
 - (void)updateLocation;
+- (void)stopUpdatingLocation;
 - (double)distanceToLatitude:(double)latitude longitude:(double)longitude;
 - (NSString *)latitudeStringValue;
 - (NSString *)longitudeStringValue;
