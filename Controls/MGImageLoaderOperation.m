@@ -9,26 +9,64 @@
 #import "MGImageLoaderOperation.h"
 #import "NSObject+Extra.h"
 #import "MGImageLoader.h"
+#import <objc/runtime.h>
+
+@interface MGImageLoaderOperation (Private)
+- (void)freeDelegates;
+@end
+
 
 @implementation MGImageLoaderOperation
 
+- (id)init
+{
+	self = [super init];
+	if (self) {
+		self.delegates = [NSMutableArray array];
+	}
+	return self;
+}
+
 - (void)finishImageLoad:(UIImage *)image
 {
-	if (_delegate) {
-		[_delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
+	for (id delegate in _delegates) {
+		if (![delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) continue;
+		[delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
 									withObject:image
 									withObject:_object
-								 waitUntilDone:YES];
+								 waitUntilDone:YES];		
 	}
 }
 
 - (void)failImageLoad:(NSString *)reason
 {
-	if (_delegate) {
-		[_delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
+	for (id delegate in _delegates) {
+		if (![delegate respondsToSelector:@selector(imageDidFailLoadForObject:error:)]) continue;
+		[delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
 									withObject:_object
 									withObject:reason
 								 waitUntilDone:YES];
+	}
+}
+
+- (void)freeDelegates
+{
+	self.delegates = nil;
+}
+
+- (NSObject<MGImageLoaderOperationDelegate> *)delegate
+{
+	if (_delegates.count == 0) return nil;
+	
+	return [_delegates objectAtIndex:0];
+}
+
+- (void)setDelegate:(NSObject<MGImageLoaderOperationDelegate> *)delegate
+{
+	if (_delegates.count == 0) {
+		[_delegates addObject:delegate];
+	} else {
+		[_delegates replaceObjectAtIndex:0 withObject:delegate];
 	}
 }
 
@@ -42,7 +80,7 @@
 			  delegate:(id<MGImageLoaderOperationDelegate>)delegate
 			   caching:(NSUInteger)caching
 {
-	MGImageLoaderOperation *operation = [MGImageLoaderOperation new];
+	MGImageLoaderOperation *operation = [[MGImageLoaderOperation alloc] init];
 	if (operation) {
 		operation.URL = URL;
 		operation.object = object;
@@ -57,6 +95,7 @@
 	@autoreleasepool {
 		if (_URL.length == 0) {
 			[self failImageLoad:NSLocalizedString(@"Can't load image: URL is empty", nil)];
+			[self freeDelegates];
 			return;
 		}
 		
@@ -69,6 +108,7 @@
 		
 		if (image) {
 			[self finishImageLoad:image];
+			[self freeDelegates];
 			return;
 		}
 		
@@ -83,6 +123,7 @@
 			if (image) {
 				[self finishImageLoad:image];
 			}
+			[self freeDelegates];
 			return;
 		}
 		
@@ -105,6 +146,7 @@
 			[self failImageLoad:[NSString stringWithFormat:
 								 NSLocalizedString(@"Can't load image:\nIncorrect URL ""%@""", nil), _URL]];
 		}
+		[self freeDelegates];
 	}
 }
 

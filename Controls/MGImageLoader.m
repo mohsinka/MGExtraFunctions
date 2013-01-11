@@ -69,8 +69,12 @@ static MGImageLoader *_imageLoaderInstance;
 - (void)addOperation:(MGImageLoaderOperation *)operation
 {
 	for (MGImageLoaderOperation *existingOperation in _queue.operations) {
+		
 		if ([existingOperation.URL isEqualToString:operation.URL]) {
-			existingOperation.delegate = operation.delegate;
+			
+			if (operation.delegates.count > 0) {
+				[existingOperation.delegates addObjectsFromArray:operation.delegates];
+			}
 			return;
 		}
 	}
