@@ -110,6 +110,8 @@
 		}
 		self.contentScrollView.height = height;
 		
+	} completion:^(BOOL finished) {
+		[self scrollToCurrentControl];
 	}];
 }
 
@@ -132,14 +134,18 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
 	self.currentControl = textField;
-	[self scrollToCurrentControl];
+	if (self.isKeyboardShown) {
+		[self scrollToCurrentControl];
+	}
 	return YES;
 }
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
 	self.currentControl = textView;
-	[self scrollToCurrentControl];
+	if (self.isKeyboardShown) {
+		[self scrollToCurrentControl];
+	}
 	return YES;
 }
 
