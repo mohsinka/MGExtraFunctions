@@ -13,4 +13,7 @@
 - (void)pushViewControllerWithName:(NSString *)name animated:(BOOL)animated;
 - (id)initWithRootViewControllerName:(NSString *)name;
 - (id)previousViewControllerFor:(UIViewController *)viewController;
+- (void)removeViewControllerFromStack:(UIViewController *)viewController;
+
+
 @end

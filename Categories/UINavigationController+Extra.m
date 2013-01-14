@@ -40,5 +40,22 @@
 	return nil;
 }
 
+- (void)removeViewControllerFromStack:(UIViewController *)viewController
+{
+	BOOL isInStack = NO;
+	for (UIViewController *stackViewController in self.viewControllers) {
+		if ([stackViewController isEqual:viewController]) {
+			isInStack = YES;
+			break;
+		}
+	}
+	
+	if (isInStack) {
+		NSMutableArray *array = [NSMutableArray arrayWithArray:self.viewControllers];
+		[array removeObject:viewController];
+		self.viewControllers = array;
+	}
+}
+
 
 @end
