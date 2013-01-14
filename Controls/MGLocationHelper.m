@@ -32,6 +32,11 @@ static MGLocationHelper *_instance;
 
 #pragma mark Public Methods
 
+- (void)stopUpdatingLocation
+{
+	[locationManager stopUpdatingLocation];
+}
+
 - (CLRegion *)convertMapRegion:(MKCoordinateRegion)region
 {
 	CLLocation *regionEnd = [[CLLocation alloc] initWithLatitude:region.span.latitudeDelta + region.center.latitude

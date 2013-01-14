@@ -8,6 +8,7 @@
 
 #import "MGViewController.h"
 #import "UIView+Extra.h"
+#import "AdditionalFunctions.h"
 
 @interface MGViewController ()
 
@@ -15,13 +16,22 @@
 
 @implementation MGViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initFromClassName
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+	self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
+	return self;
+}
 
-    }
-    return self;
+- (id)initForUniversalDevice
+{
+	NSString *nibName;
+	if (isPhone()) {
+		nibName = [NSString stringWithFormat:@"%@_iPhone", NSStringFromClass([self class])];
+	} else {
+		nibName = [NSString stringWithFormat:@"%@_iPad", NSStringFromClass([self class])];
+	}
+	self = [super initWithNibName:nibName bundle:nil];
+	return self;
 }
 
 - (void)viewDidLoad
@@ -124,14 +134,18 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
 	self.currentControl = textField;
-	[self scrollToCurrentControl];
+	if (self.isKeyboardShown) {
+		[self scrollToCurrentControl];
+	}
 	return YES;
 }
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
 	self.currentControl = textView;
-	[self scrollToCurrentControl];
+	if (self.isKeyboardShown) {
+		[self scrollToCurrentControl];
+	}
 	return YES;
 }
 

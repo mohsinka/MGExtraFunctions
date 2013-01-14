@@ -18,8 +18,9 @@
 
 @property (nonatomic) NSUInteger caching;
 @property (strong, nonatomic) NSString *URL;
-@property (unsafe_unretained, nonatomic) id object;
-@property (unsafe_unretained, nonatomic) NSObject <MGImageLoaderOperationDelegate> *delegate;
+@property (weak, nonatomic) id object;
+@property (strong, nonatomic) NSMutableArray *delegates;
+@property (nonatomic, getter = delegate, setter = setDelegate:) NSObject <MGImageLoaderOperationDelegate> *delegate;
 
 
 + (id)operationWithURL:(NSString *)URL
@@ -29,5 +30,7 @@
 - (NSString *)generateHashFromURL:(NSString *)URL;
 - (void)finishImageLoad:(UIImage *)image;
 - (void)failImageLoad:(NSString *)reason;
+- (NSObject <MGImageLoaderOperationDelegate> *)delegate;
+- (void)setDelegate:(NSObject<MGImageLoaderOperationDelegate> *)delegate;
 
 @end
