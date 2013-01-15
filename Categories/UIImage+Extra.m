@@ -94,7 +94,7 @@
 + (UIImage *)stretchableImageWithName:(NSString *)name
 {
 	UIImage *image = [UIImage imageNamed:name];
-	return [image stretchableImageWithLeftCapWidth:image.size.width / 2 topCapHeight:image.size.height / 2];
+	return [image stretchableImageWithLeftCapWidth:round(image.size.width / 2) topCapHeight:round(image.size.height / 2)];
 }
 
 - (UIImage *) overlayWithImage:(UIImage *)image
