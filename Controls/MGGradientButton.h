@@ -11,8 +11,9 @@
 
 @interface MGGradientButton : UIButton
 
+@property (strong, nonatomic) NSMutableDictionary *gradientColors;
 @property (strong, nonatomic) CAGradientLayer *gradientLayer;
 
-- (void)setGradientFirstColor:(UIColor *)firstColor secondColor:(UIColor *)secondColor;
+- (void)setGradientFirstColor:(UIColor *)firstColor secondColor:(UIColor *)secondColor forState:(UIControlState)state;
 
 @end

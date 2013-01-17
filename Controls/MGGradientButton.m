@@ -8,57 +8,89 @@
 
 #import "MGGradientButton.h"
 
+@interface MGGradientButton (Private)
+- (void)initButton;
+- (void)setColorsFromState;
+@end
+
+
 @implementation MGGradientButton
 
 - (void)awakeFromNib
 {
-	_gradientLayer = [CAGradientLayer layer];
-	_gradientLayer.frame = self.frame;
-	[self.layer addSublayer:_gradientLayer];
+	[self initButton];
 }
 
 - (id)initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
 	if (self) {
-		_gradientLayer = [CAGradientLayer layer];
-		_gradientLayer.frame = frame;
-		[self.layer addSublayer:_gradientLayer];
+		[self initButton];
 	}
 	return self;
+}
+
+- (void)initButton
+{
+	self.layer.shadowOffset = CGSizeMake(0, 0);
+	_gradientLayer = [CAGradientLayer layer];
+	_gradientLayer.frame = self.layer.bounds;
+	_gradientColors = [NSMutableDictionary dictionary];
+	[self.layer addSublayer:_gradientLayer];
 }
 
 - (void)setFrame:(CGRect)frame
 {
 	[super setFrame:frame];
-	_gradientLayer.frame = frame;
+	_gradientLayer.frame = self.layer.bounds;
 }
 
-- (void)highlightView
+- (void)setSelected:(BOOL)selected
 {
-    self.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
-    self.layer.shadowOpacity = 0.25;
-}
-
-- (void)clearHighlightView {
-    self.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
-    self.layer.shadowOpacity = 0.5;
+	[super setSelected:selected];
+	[self setColorsFromState];
 }
 
 - (void)setHighlighted:(BOOL)highlighted
 {
-    if (highlighted) {
-        [self highlightView];
-    } else {
-        [self clearHighlightView];
-    }
-    [super setHighlighted:highlighted];
+	if (highlighted) {
+		self.layer.shadowRadius = 3;
+		self.layer.shadowOpacity = 0.6;
+		
+	} else {
+		self.layer.shadowRadius = 0;
+		self.layer.shadowOpacity = 0;
+	}
+	[super setHighlighted:highlighted];
 }
 
-- (void)setGradientFirstColor:(UIColor *)firstColor secondColor:(UIColor *)secondColor
+- (void)setColorsFromState
 {
-	_gradientLayer.colors = @[(id) firstColor.CGColor, (id) secondColor.CGColor];
-	_gradientLayer.locations = @[@0.0, @1.0];
+	NSArray *colors = [_gradientColors objectForKey:[NSNumber numberWithInt:self.state]];
+	if (!colors) {
+		colors = [_gradientColors objectForKey:[NSNumber numberWithInt:UIControlStateNormal]];
+	}
+	_gradientLayer.colors = colors;
+}
+
+- (void)setGradientFirstColor:(UIColor *)firstColor secondColor:(UIColor *)secondColor forState:(UIControlState)state
+{
+	NSArray *colors = @[(id) firstColor.CGColor, (id) secondColor.CGColor];
+	[_gradientColors setObject:colors forKey:[NSNumber numberWithInt:state]];
+	
+	if (state == self.state) {
+		_gradientLayer.colors = colors;
+		_gradientLayer.locations = @[@0.0, @1.0];
+	}
+}
+
+- (void)drawRect:(CGRect)rect
+{
+	if ([self.layer.sublayers indexOfObject:_gradientLayer] != 0) {
+		[_gradientLayer removeFromSuperlayer];
+		[self.layer insertSublayer:_gradientLayer atIndex:0];
+	}
+	[super drawRect:rect];
 }
 
 @end
