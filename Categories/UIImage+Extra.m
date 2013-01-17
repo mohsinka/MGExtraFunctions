@@ -93,8 +93,23 @@
 
 + (UIImage *)stretchableImageWithName:(NSString *)name
 {
-	UIImage *image = [UIImage imageNamed:name];
-	return [image stretchableImageWithLeftCapWidth:round(image.size.width / 2) topCapHeight:round(image.size.height / 2)];
+	UIImage *originalImage = [UIImage imageNamed:name];
+	int halfHeight = originalImage.size.height / 2;
+	int halfWidth = originalImage.size.width / 2;
+	UIEdgeInsets insets = UIEdgeInsetsMake(halfHeight - 1, halfWidth - 1, halfHeight - 1, halfWidth - 1);
+	return [originalImage resizableImageWithCapInsets:insets];
+}
+
++ (UIImage *)buttonImageWithName:(NSString *)name
+{
+	return [UIImage stretchableImageWithName:name edgeInset:10];
+}
+
++ (UIImage *)stretchableImageWithName:(NSString *)name edgeInset:(int)inset
+{
+	UIImage *originalImage = [UIImage imageNamed:name];
+	UIEdgeInsets insets = UIEdgeInsetsMake(inset, inset, inset, inset);
+	return [originalImage resizableImageWithCapInsets:insets];
 }
 
 - (UIImage *) overlayWithImage:(UIImage *)image

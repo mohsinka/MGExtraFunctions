@@ -17,6 +17,15 @@
 	return button;
 }
 
++ (UIButton *)buttonWithTitle:(NSString *)title font :(UIFont *)font height:(int)height
+{
+	int width = [title sizeWithFont:font].width + 14;
+	UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	button.titleLabel.font = font;
+	[button setTitle:title forState:UIControlStateNormal];
+	return button;
+}
+
 - (void)setImage:(UIImage *)image forState:(UIControlState)state animated:(BOOL)animated
 {
 	if ([image isEqual:[self imageForState:state]]) return;
