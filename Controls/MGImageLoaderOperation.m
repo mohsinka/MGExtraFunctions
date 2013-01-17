@@ -12,7 +12,6 @@
 #import <objc/runtime.h>
 
 @interface MGImageLoaderOperation (Private)
-- (void)freeDelegates;
 @end
 
 
@@ -22,52 +21,30 @@
 {
 	self = [super init];
 	if (self) {
-		self.delegates = [NSMutableArray array];
 	}
 	return self;
 }
 
 - (void)finishImageLoad:(UIImage *)image
 {
-	for (id delegate in _delegates) {
-		if (![delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) continue;
-		[delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
-									withObject:image
-									withObject:_object
-								 waitUntilDone:YES];		
-	}
+	if (!_delegate) return;
+	if (![_delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) return;
+	
+	[_delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
+								withObject:image
+								withObject:_object
+							 waitUntilDone:YES];		
 }
 
 - (void)failImageLoad:(NSString *)reason
 {
-	for (id delegate in _delegates) {
-		if (![delegate respondsToSelector:@selector(imageDidFailLoadForObject:error:)]) continue;
-		[delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
-									withObject:_object
-									withObject:reason
-								 waitUntilDone:YES];
-	}
-}
-
-- (void)freeDelegates
-{
-	self.delegates = nil;
-}
-
-- (NSObject<MGImageLoaderOperationDelegate> *)delegate
-{
-	if (_delegates.count == 0) return nil;
+	if (!_delegate) return;
+	if (![_delegate respondsToSelector:@selector(imageDidFailLoadForObject:error:)]) return;
 	
-	return [_delegates objectAtIndex:0];
-}
-
-- (void)setDelegate:(NSObject<MGImageLoaderOperationDelegate> *)delegate
-{
-	if (_delegates.count == 0) {
-		[_delegates addObject:delegate];
-	} else {
-		[_delegates replaceObjectAtIndex:0 withObject:delegate];
-	}
+	[_delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
+								withObject:_object
+								withObject:reason
+							 waitUntilDone:YES];
 }
 
 - (NSString *)generateHashFromURL:(NSString *)URL
@@ -86,6 +63,7 @@
 		operation.object = object;
 		operation.delegate = delegate;
 		operation.caching = caching;
+		operation.hash = [operation generateHashFromURL:URL];
 	}
 	return operation;
 }
@@ -95,7 +73,6 @@
 	@autoreleasepool {
 		if (_URL.length == 0) {
 			[self failImageLoad:NSLocalizedString(@"Can't load image: URL is empty", nil)];
-			[self freeDelegates];
 			return;
 		}
 		
@@ -108,31 +85,24 @@
 		
 		if (image) {
 			[self finishImageLoad:image];
-			[self freeDelegates];
 			return;
 		}
 		
 		NSData *data = [[NSData alloc] initWithContentsOfFile:imagePath];
-		if (data) {
-			image = [[UIImage alloc] initWithData:data];
-			
-			if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory) {
-				[loader addImageToMemmoryCache:image hash:hash];
-			}
-			
-			if (image) {
-				[self finishImageLoad:image];
-			}
-			[self freeDelegates];
-			return;
+		BOOL cachedToDisk = NO;
+		
+		if (!data) {
+			data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:_URL]];
+		} else {
+			cachedToDisk = YES;
 		}
 		
-		data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:_URL]];
 		image = [[UIImage alloc] initWithData:data];
 		
 		if (image) {
 			if ((_caching & MGImageLoaderCachingTypeDisk) == MGImageLoaderCachingTypeDisk
-				&& imagePath) {
+				&& imagePath
+				&& !cachedToDisk) {
 				[data writeToFile:imagePath atomically:NO];
 			}
 			
@@ -146,7 +116,6 @@
 			[self failImageLoad:[NSString stringWithFormat:
 								 NSLocalizedString(@"Can't load image:\nIncorrect URL ""%@""", nil), _URL]];
 		}
-		[self freeDelegates];
 	}
 }
 

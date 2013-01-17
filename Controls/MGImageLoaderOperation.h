@@ -17,10 +17,10 @@
 @interface MGImageLoaderOperation : NSOperation
 
 @property (nonatomic) NSUInteger caching;
-@property (strong, nonatomic) NSString *URL;
+@property (copy, nonatomic) NSString *URL;
+@property (strong, nonatomic) NSString *hash;
 @property (weak, nonatomic) id object;
-@property (strong, nonatomic) NSMutableArray *delegates;
-@property (nonatomic, getter = delegate, setter = setDelegate:) NSObject <MGImageLoaderOperationDelegate> *delegate;
+@property (weak, nonatomic) NSObject <MGImageLoaderOperationDelegate> *delegate;
 
 
 + (id)operationWithURL:(NSString *)URL
@@ -30,7 +30,5 @@
 - (NSString *)generateHashFromURL:(NSString *)URL;
 - (void)finishImageLoad:(UIImage *)image;
 - (void)failImageLoad:(NSString *)reason;
-- (NSObject <MGImageLoaderOperationDelegate> *)delegate;
-- (void)setDelegate:(NSObject<MGImageLoaderOperationDelegate> *)delegate;
 
 @end

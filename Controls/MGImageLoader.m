@@ -41,8 +41,7 @@ static MGImageLoader *_imageLoaderInstance;
 	_queue.maxConcurrentOperationCount = 10;
 	
 	memmoryCache = [[NSMutableDictionary alloc] init];
-	lock = [[NSLock alloc] init];
-	
+	lockCache = [[NSLock alloc] init];
 	_cachePath = [[[[NSFileManager defaultManager]
 				   URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask]
 				  lastObject] relativePath];
@@ -69,13 +68,8 @@ static MGImageLoader *_imageLoaderInstance;
 - (void)addOperation:(MGImageLoaderOperation *)operation
 {
 	for (MGImageLoaderOperation *existingOperation in _queue.operations) {
-		
 		if ([existingOperation.URL isEqualToString:operation.URL]) {
-			
-			if (operation.delegates.count > 0) {
-				[existingOperation.delegates addObjectsFromArray:operation.delegates];
-			}
-			return;
+			[operation addDependency:existingOperation];
 		}
 	}
 	[_queue addOperation:operation];
@@ -97,7 +91,16 @@ static MGImageLoader *_imageLoaderInstance;
 - (void)cancelOperationsWithDelegate:(NSObject<MGImageLoaderOperationDelegate> *)delegate
 {
 	for (MGImageLoaderOperation *operation in _queue.operations) {
-		if (!operation.isExecuting && [operation.delegate isEqual:delegate]) {
+		if ([operation.delegate isEqual:delegate]) {
+			[operation cancel];
+		}
+	}
+}
+
+- (void)cancelOperationsWithURL:(NSString *)URL
+{
+	for (MGImageLoaderOperation *operation in _queue.operations) {
+		if ([operation.URL isEqual:URL]) {
 			[operation cancel];
 		}
 	}
@@ -111,7 +114,7 @@ static MGImageLoader *_imageLoaderInstance;
     CC_MD5( cStr, strlen(cStr), result);
 	return [NSString stringWithFormat: @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
 			result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7],
-			result[8], result[9], result[10], result[11], result[12], result[13], result[14], result[15] ];
+			result[8], result[9], result[10], result[11], result[12], result[13], result[14], result[15]];
 }
 
 - (UIImage *)cachedImageForKey:(NSString *)key
@@ -121,9 +124,9 @@ static MGImageLoader *_imageLoaderInstance;
 
 - (void)clearMemmoryCache
 {
-	[lock lock];
+	[lockCache tryLock];
 	[memmoryCache removeAllObjects];
-	[lock unlock];
+	[lockCache unlock];
 }
 
 - (void)clearDiskCache
@@ -153,6 +156,14 @@ static MGImageLoader *_imageLoaderInstance;
 	}
 }
 
+- (void)clearCacheForImageURL:(NSString *)URL
+{
+	NSString *hash = [self generateHashFromURL:URL];
+	[memmoryCache removeObjectForKey:hash];
+	[_fileManager removeItemAtPath:[[_cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension]
+							 error:nil];
+}
+
 - (UIImage *)loadImageFromCacheForURL:(NSString *)URL
 {	
 	NSString *hash = [self generateHashFromURL:URL];
@@ -176,9 +187,9 @@ static MGImageLoader *_imageLoaderInstance;
 
 - (void)addImageToMemmoryCache:(UIImage *)image hash:(NSString *)hash
 {
-	[lock lock];
+	[lockCache tryLock];
 	[memmoryCache setValue:image forKey:hash];
-	[lock unlock];
+	[lockCache unlock];
 }
 
 - (void)addImageToMemmoryCache:(UIImage *)image URL:(NSString *)URL

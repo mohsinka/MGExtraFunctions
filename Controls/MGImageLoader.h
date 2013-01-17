@@ -24,7 +24,7 @@ enum MGImageLoaderCachingType {
 @interface MGImageLoader : NSObject
 {	
 	NSMutableDictionary *memmoryCache;
-	NSLock *lock;
+	NSLock *lockCache;
 	NSTimer *memmoryWarningTimer;
 	BOOL isMemmoryWarningReceived;
 }
@@ -48,6 +48,8 @@ enum MGImageLoaderCachingType {
 - (void)clearMemmoryCache;
 - (void)clearDiskCache;
 - (void)clearDiskCacheOlderThan:(NSUInteger)days;
+- (void)clearCacheForImageURL:(NSString *)URL;
 - (void)cancelOperationsWithDelegate:(NSObject <MGImageLoaderOperationDelegate> *)delegate;
+- (void)cancelOperationsWithURL:(NSString *)URL;
 
 @end
