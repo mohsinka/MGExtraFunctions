@@ -71,17 +71,16 @@
 - (void)main
 {
 	@autoreleasepool {
-		if (self.URL.length == 0) {
+		if (_URL.length == 0) {
 			[self failImageLoad:NSLocalizedString(@"Can't load image: URL is empty", nil)];
 			return;
 		}
 		
 		MGImageLoader *loader = [MGImageLoader sharedInstance];
 		
-		NSString *hash = [self generateHashFromURL:_URL];
-		NSString *imagePath = [[loader.cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
+		NSString *imagePath = [[loader.cachePath stringByAppendingPathComponent:_hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
 		
-		UIImage *image = [loader cachedImageForKey:hash];
+		UIImage *image = [loader cachedImageForKey:_hash];
 		
 		if (image) {
 			[self finishImageLoad:image];
@@ -107,8 +106,8 @@
 			}
 			
 			if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory
-				&& hash) {
-				[loader addImageToMemmoryCache:image hash:hash];
+				&& _hash) {
+				[loader addImageToMemmoryCache:image hash:_hash];
 			}
 			
 			[self finishImageLoad:image];
