@@ -27,22 +27,22 @@
 
 - (void)finishImageLoad:(UIImage *)image
 {
-	if (!_delegate) return;
-	if (![_delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) return;
+	if (!self.delegate) return;
+	if (![self.delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) return;
 	
-	[_delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
+	[self.delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
 								withObject:image
-								withObject:_object
+								withObject:self.object
 							 waitUntilDone:YES];		
 }
 
 - (void)failImageLoad:(NSString *)reason
 {
-	if (!_delegate) return;
-	if (![_delegate respondsToSelector:@selector(imageDidFailLoadForObject:error:)]) return;
+	if (!self.delegate) return;
+	if (![self.delegate respondsToSelector:@selector(imageDidFailLoadForObject:error:)]) return;
 	
-	[_delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
-								withObject:_object
+	[self.delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
+								withObject:self.object
 								withObject:reason
 							 waitUntilDone:YES];
 }
@@ -71,7 +71,7 @@
 - (void)main
 {
 	@autoreleasepool {
-		if (_URL.length == 0) {
+		if (self.URL.length == 0) {
 			[self failImageLoad:NSLocalizedString(@"Can't load image: URL is empty", nil)];
 			return;
 		}
