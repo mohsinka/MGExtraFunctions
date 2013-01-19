@@ -108,6 +108,8 @@ static MGImageLoader *_imageLoaderInstance;
 
 - (NSString *)generateHashFromURL:(NSString *)URL
 {
+	if (URL.length == 0) return nil;
+	
 	const char *cStr = [URL UTF8String];
     unsigned char result[CC_MD5_DIGEST_LENGTH];
 	

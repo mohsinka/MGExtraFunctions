@@ -27,22 +27,22 @@
 
 - (void)finishImageLoad:(UIImage *)image
 {
-	if (!_delegate) return;
-	if (![_delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) return;
+	if (!self.delegate) return;
+	if (![self.delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) return;
 	
-	[_delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
+	[self.delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
 								withObject:image
-								withObject:_object
+								withObject:self.object
 							 waitUntilDone:YES];		
 }
 
 - (void)failImageLoad:(NSString *)reason
 {
-	if (!_delegate) return;
-	if (![_delegate respondsToSelector:@selector(imageDidFailLoadForObject:error:)]) return;
+	if (!self.delegate) return;
+	if (![self.delegate respondsToSelector:@selector(imageDidFailLoadForObject:error:)]) return;
 	
-	[_delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
-								withObject:_object
+	[self.delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
+								withObject:self.object
 								withObject:reason
 							 waitUntilDone:YES];
 }
@@ -78,10 +78,9 @@
 		
 		MGImageLoader *loader = [MGImageLoader sharedInstance];
 		
-		NSString *hash = [self generateHashFromURL:_URL];
-		NSString *imagePath = [[loader.cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
+		NSString *imagePath = [[loader.cachePath stringByAppendingPathComponent:_hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
 		
-		UIImage *image = [loader cachedImageForKey:hash];
+		UIImage *image = [loader cachedImageForKey:_hash];
 		
 		if (image) {
 			[self finishImageLoad:image];
@@ -107,8 +106,8 @@
 			}
 			
 			if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory
-				&& hash) {
-				[loader addImageToMemmoryCache:image hash:hash];
+				&& _hash) {
+				[loader addImageToMemmoryCache:image hash:_hash];
 			}
 			
 			[self finishImageLoad:image];
