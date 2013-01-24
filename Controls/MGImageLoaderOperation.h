@@ -19,8 +19,8 @@
 @property (nonatomic) NSUInteger caching;
 @property (copy, nonatomic) NSString *URL;
 @property (strong, nonatomic) NSString *hash;
-@property (weak, nonatomic) id object;
-@property (weak, nonatomic) NSObject <MGImageLoaderOperationDelegate> *delegate;
+@property (unsafe_unretained, nonatomic) id object;
+@property (unsafe_unretained, nonatomic) NSObject <MGImageLoaderOperationDelegate> *delegate;
 
 
 + (id)operationWithURL:(NSString *)URL
