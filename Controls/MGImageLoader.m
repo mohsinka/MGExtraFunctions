@@ -143,16 +143,16 @@ static MGImageLoader *_imageLoaderInstance;
 		
 		for (NSString *file in items) {
 			if ([file rangeOfString:MGImageLoaderFileExtension].location
-				!= file.length - MGImageLoaderFileExtension.length) return;
-			
-			NSDictionary *attributes = [_fileManager attributesOfItemAtPath:[_cachePath stringByAppendingPathComponent:file]
+				!= file.length - MGImageLoaderFileExtension.length) continue;
+			NSString *fullFilePath = [_cachePath stringByAppendingPathComponent:file];
+			NSDictionary *attributes = [_fileManager attributesOfItemAtPath:fullFilePath
 																	 error:nil];
 			if (!attributes) continue;
 			
 			NSDate *fileDate = [attributes fileCreationDate];
 			NSTimeInterval interval = fileDate.timeIntervalSinceNow;
 			if (interval < - 60 * 60 * 24 * days) {
-				[_fileManager removeItemAtPath:file error:nil];
+				[_fileManager removeItemAtPath:fullFilePath error:nil];
 			}
 		}
 	}
