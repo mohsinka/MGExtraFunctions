@@ -120,7 +120,7 @@
 	}
 	}
 	@catch (NSException *exception) {
-		NSLog(@"Exception %@ in %@ main block: delegate: %@, URL: %@", exception.description, NSStringFromClass([self class]), self.delegate, self.URL);
+		NSLog(@"Exception %@ at %@ main block: delegate: %@, URL: %@", exception.description,  NSStringFromClass([self class]), self.delegate, self.URL);
 	}
 	@finally {
 	}
