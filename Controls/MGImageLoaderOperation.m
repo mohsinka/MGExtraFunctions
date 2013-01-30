@@ -70,6 +70,8 @@
 
 - (void)main
 {
+	@try {
+
 	@autoreleasepool {
 		if (_URL.length == 0) {
 			[self failImageLoad:NSLocalizedString(@"Can't load image: URL is empty", nil)];
@@ -115,6 +117,12 @@
 			[self failImageLoad:[NSString stringWithFormat:
 								 NSLocalizedString(@"Can't load image:\nIncorrect URL ""%@""", nil), _URL]];
 		}
+	}
+	}
+	@catch (NSException *exception) {
+		NSLog(@"Exception %@ in %@ main block: delegate: %@, URL: %@", exception.description, NSStringFromClass([self class]), self.delegate, self.URL);
+	}
+	@finally {
 	}
 }
 
