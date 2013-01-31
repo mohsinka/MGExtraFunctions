@@ -33,7 +33,8 @@
 	[self.delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
 								withObject:image
 								withObject:self.object
-							 waitUntilDone:YES];		
+							 waitUntilDone:YES];
+	self.delegate = nil;
 }
 
 - (void)failImageLoad:(NSString *)reason
@@ -45,6 +46,18 @@
 								withObject:self.object
 								withObject:reason
 							 waitUntilDone:YES];
+	self.delegate = nil;
+}
+
+- (void)cancel
+{
+	self.delegate = nil;
+	[super cancel];
+}
+
+- (void)dealloc
+{
+	self.delegate = nil;
 }
 
 - (NSString *)generateHashFromURL:(NSString *)URL
