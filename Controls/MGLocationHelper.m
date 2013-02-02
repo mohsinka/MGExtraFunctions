@@ -120,12 +120,10 @@ static MGLocationHelper *_instance;
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-	if ([error domain] == kCLErrorDomain) {
-		errorCode = [error code];
-    } else {
-    }
-	NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:error.localizedDescription, @"error", nil];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationReceiveDidFail object:self userInfo:parameters];
+	errorCode = [error code];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationReceiveDidFail
+														object:self
+													  userInfo:@{@"error" : error}];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
