@@ -38,6 +38,11 @@
 {
     [super viewDidLoad];
 	self.yControlScrollOffset = 20;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -46,12 +51,14 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:self.view.window];
+
 }
 
-- (void)viewDidUnload
+- (void)viewWillDisappear:(BOOL)animated
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super viewDidUnload];
+	[super viewWillDisappear:animated];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:self.view.window];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:self.view.window];
 }
 
 - (void)didReceiveMemoryWarning
