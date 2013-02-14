@@ -53,7 +53,7 @@
 	}
 }
 
-- (void)sizeToFitWithImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize
+- (void)resizeToFitWithImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize
 {
 	CGSize size = [UIImageView sizeThatFitImageSize:imageSize maxViewSize:maxSize];
 	

@@ -12,7 +12,7 @@
 
 - (void)backgroundLoadImageWithParameters:(NSDictionary *)parameters;
 - (void)loadImageWithParameters:(NSDictionary *)parameters;
-- (void)sizeToFitWithImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize;
+- (void)resizeToFitWithImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize;
 + (CGSize)sizeThatFitImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize;
 - (void)setImage:(UIImage *)image animated:(BOOL)animated;
 @end
