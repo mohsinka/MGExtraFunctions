@@ -24,14 +24,21 @@
 
 - (id)initForUniversalDevice
 {
-	NSString *nibName;
-	if (isPhone()) {
-		nibName = [NSString stringWithFormat:@"%@_iPhone", NSStringFromClass([self class])];
-	} else {
-		nibName = [NSString stringWithFormat:@"%@_iPad", NSStringFromClass([self class])];
+	NSString *nibName = [[self class] nibName];
+	if (![[NSBundle mainBundle] pathForResource:nibName ofType:@"nib"]) {
+		if (isPhone()) {
+			nibName = [nibName stringByAppendingString:@"_iPhone"];
+		} else {
+			nibName = [nibName stringByAppendingString:@"_iPad"];
+		}
 	}
 	self = [super initWithNibName:nibName bundle:nil];
 	return self;
+}
+
++ (NSString *)nibName
+{
+	return NSStringFromClass([self class]);
 }
 
 - (void)viewDidLoad

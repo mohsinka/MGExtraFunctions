@@ -38,11 +38,7 @@
 	[invoke setArgument:&arg1 atIndex:2];
 	[invoke setArgument:&arg2 atIndex:3];
 	[invoke retainArguments];
-	if (wait) {
-		[invoke invoke];
-	} else {
-		[invoke performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:wait];
-	}
+	[invoke performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:wait];
 }
 
 @end

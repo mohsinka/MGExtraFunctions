@@ -19,6 +19,7 @@
 
 - (id)initForUniversalDevice;
 - (id)initFromClassName;
++ (NSString *)nibName;
 - (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
 - (void)scrollToCurrentControl;

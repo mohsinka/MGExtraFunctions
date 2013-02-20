@@ -29,7 +29,7 @@
 {
 	if (!self.delegate) return;
 	if (![self.delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) return;
-	
+
 	[self.delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
 								withObject:image
 								withObject:self.object
@@ -90,7 +90,6 @@
 			[self failImageLoad:NSLocalizedString(@"Can't load image: URL is empty", nil)];
 			return;
 		}
-		
 		MGImageLoader *loader = [MGImageLoader sharedInstance];
 		
 		NSString *imagePath = [[loader.cachePath stringByAppendingPathComponent:_hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
