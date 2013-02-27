@@ -55,12 +55,6 @@
 	[super cancel];
 }
 
-- (void)dealloc
-{
-	[super dealloc];
-	self.delegate = nil;
-}
-
 - (NSString *)generateHashFromURL:(NSString *)URL
 {
 	return [[MGImageLoader sharedInstance] generateHashFromURL:URL];
