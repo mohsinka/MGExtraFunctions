@@ -132,8 +132,14 @@
 
 + (id)loadFromNibNamed:(NSString *)nibName
 {
+	if (![[NSBundle mainBundle] pathForResource:nibName ofType:@"nib"]) {
+		if (isPhone()) {
+			nibName = [nibName stringByAppendingString:@"_iPhone"];
+		} else {
+			nibName = [nibName stringByAppendingString:@"_iPad"];
+		}
+	}
 	NSArray *nib = [[NSBundle mainBundle] loadNibNamed:nibName owner:nil options:nil];
-	if (!nib) return nil;
 	return [nib objectAtIndex:0];
 }
 

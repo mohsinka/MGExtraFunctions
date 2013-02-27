@@ -57,6 +57,7 @@
 
 - (void)dealloc
 {
+	[super dealloc];
 	self.delegate = nil;
 }
 
