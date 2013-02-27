@@ -10,6 +10,5 @@
 
 @interface UILabel (Extra)
 
-- (void)resizeHeightWithCurrentText;
 
 @end

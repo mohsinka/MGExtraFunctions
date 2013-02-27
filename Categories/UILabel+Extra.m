@@ -10,14 +10,4 @@
 
 @implementation UILabel (Extra)
 
-- (void)resizeHeightWithCurrentText
-{
-	int height = [self.text sizeWithFont:self.font
-					   constrainedToSize:CGSizeMake(self.frame.size.width, 9999)
-						   lineBreakMode:self.lineBreakMode].height;
-	CGRect rect = self.frame;
-	rect.size.height = height;
-	self.frame = rect;
-}
-
 @end
