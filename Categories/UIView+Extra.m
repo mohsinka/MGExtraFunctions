@@ -11,6 +11,12 @@
 
 @implementation UIView (Extra)
 
+- (void)rasterizeLayer
+{
+	self.layer.shouldRasterize = YES;
+	self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+}
+
 - (CGPoint)centerOfView
 {
 	return CGPointMake(roundf(self.width / 2), roundf(self.height / 2));

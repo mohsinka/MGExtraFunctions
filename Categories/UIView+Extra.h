@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 #define kFullAutoresizingMask UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin 
 
@@ -41,5 +42,6 @@
 + (id)loadFromNibNamed:(NSString *)nibName;
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style;
 - (void)hideActivity;
+- (void)rasterizeLayer;
 
 @end
