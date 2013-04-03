@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IIViewDeckController.h"
 
-@interface MGViewController : UIViewController
+@interface MGViewController : IIViewDeckController
 <UITextFieldDelegate, UITextViewDelegate>
 
 @property (nonatomic, getter = isKeyboardShown) BOOL keyboardShown;
