@@ -17,7 +17,7 @@
 #define kFullAutoresizeMask UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin
 
 @implementation MGRotatingWaitingSpinner
-@synthesize spinner = _spinner, foreground, timer, isShowing;
+@synthesize spinner = _spinner, foreground;
 
 - (id)initWithStyle:(UIActivityIndicatorViewStyle)style
 {
@@ -30,7 +30,6 @@
 		foreground.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
 		[self addSubview:foreground];
 		[foreground addSubview:self.spinner];
-		isShowing = NO;
 	}
 	return self;
 }
@@ -52,7 +51,10 @@
 
 - (void)show
 {
-	self.hidden = NO;
+	if (self.hidden) {
+		self.hidden = NO;
+		[self resetForeground];
+	}
 	self.frame = CGRectMakeWithSize(0, 0, self.superview.frame.size);
 	[self.spinner startAnimating];
 	if (self.superview) {
@@ -60,26 +62,23 @@
 	}
 	self.foreground.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
 	self.spinner.center = CGPointMake(foreground.frame.size.width / 2, foreground.frame.size.height / 2);
+		
+	CABasicAnimation* rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 0.5];
+    rotationAnimation.duration = 1;
+    rotationAnimation.repeatCount = 9999;
+	rotationAnimation.cumulative = YES;
+    rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:1 :0 :0 :0];
 	
-	
-	[self resetForeground];
-	[self rotateForeground];
-	timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(rotateForeground) userInfo:nil repeats:YES];
-	isShowing = YES;
+    [self.foreground.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+
 }
 
 - (void)resetForeground
 {
-	foreground.transform = CGAffineTransformIdentity;
-	angle = 0;
-}
-
-- (void)rotateForeground
-{
-	[UIView animateWithDuration:0.2 animations:^{
-		angle += 90;
-		foreground.transform = CGAffineTransformMakeRotation((M_PI * angle) / 180.0);
-	}];	
+	self.foreground.transform = CGAffineTransformIdentity;
+	[self.foreground.layer removeAnimationForKey:@"rotationAnimation"];
 }
 
 - (void)hide
@@ -89,11 +88,9 @@
 		self.alpha = 0;
 		
 	} completion:^(BOOL finished) {
-		isShowing = NO;
-		[timer invalidate];
 		self.hidden = YES;
 		self.alpha = 1;
-		foreground.transform = CGAffineTransformIdentity;
+		[self resetForeground];
 		[self.spinner stopAnimating];
 		if (self.superview) {
 			[self.superview sendSubviewToBack:self];

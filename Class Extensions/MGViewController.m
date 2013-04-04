@@ -32,7 +32,7 @@
 			nibName = [nibName stringByAppendingString:@"_iPad"];
 		}
 	}
-	self = [super initWithNibName:nibName bundle:nil];
+	self = [self initWithNibName:nibName bundle:nil];
 	return self;
 }
 
