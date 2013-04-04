@@ -45,6 +45,7 @@ CG_INLINE BOOL isPhone()
 #define IS_PAD										(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 #define IS_PHONE									(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 #define IS_PHONE_4_INCH								(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && [UIScreen mainScreen].bounds.size.height == 568.0)
+#define IS_RETINA_SCREEN ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0))
 
 void ShowErrorDescriptionInLog(NSError *error);
 
