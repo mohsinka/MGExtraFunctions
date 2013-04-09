@@ -67,6 +67,11 @@
 	return self.y + self.height;
 }
 
+- (CGRect)zeroPositionFrame
+{
+	return CGRectMakeWithSize(0, 0, self.frame.size);
+}
+
 - (void)clearBackgroundColor
 {
 	self.backgroundColor = [UIColor clearColor];

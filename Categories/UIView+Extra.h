@@ -33,6 +33,7 @@
 - (CGPoint) centerOfView;
 - (CGFloat) bottomYPoint;
 - (CGFloat) rightXPoint;
+- (CGRect) zeroPositionFrame;
 
 - (UIViewController *)firstViewController;
 - (void)clearBackgroundColor;
