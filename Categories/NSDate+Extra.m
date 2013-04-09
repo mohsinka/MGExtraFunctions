@@ -10,6 +10,11 @@
 
 @implementation NSDate (Extra)
 
++ (NSDate *)tomorrow
+{
+	return [[[NSDate date] dateByAddingTimeInterval:kOneDay] dayBegin];
+}
+
 
 - (NSString *)intervalInStringSinceDate:(NSDate *)date
 {
