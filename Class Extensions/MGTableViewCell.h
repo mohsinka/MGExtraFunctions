@@ -10,4 +10,6 @@
 
 @interface MGTableViewCell : UITableViewCell
 
++ (CGFloat)cellHeight;
+
 @end
