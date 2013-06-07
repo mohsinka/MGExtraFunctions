@@ -18,6 +18,7 @@
 		operation.imageView = imageView;
 		operation.caching = caching;
 		operation.delegate = operation;
+		operation.hash = [operation generateHashFromURL:URL];
 	}
 	
 	return operation;
