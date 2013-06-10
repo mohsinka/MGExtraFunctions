@@ -18,6 +18,7 @@
 		operation.button = button;
 		operation.caching = caching;
 		operation.delegate = operation;
+		operation.hash = [operation generateHashFromURL:URL];
 	}
 	
 	return operation;
