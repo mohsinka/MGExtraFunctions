@@ -16,5 +16,6 @@
 - (UIImage *) overlayWithImage:(UIImage *)image;
 - (UIImage *) cutImageWithRect:(CGRect)rect;
 - (UIImage *) fixOrientation;
+- (UIImage *) imageWithColor:(UIColor *)color;
 
 @end

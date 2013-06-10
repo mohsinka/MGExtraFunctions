@@ -10,6 +10,23 @@
 
 @implementation UIImage (Extra)
 
+- (UIImage *)imageWithColor:(UIColor *)color
+{
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+	
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+	
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+	if ([image respondsToSelector:@selector(resizableImageWithCapInsets:)]) {
+		image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+	}
+    return image;
+}
+
 - (UIImage *)fixOrientation {
 	
     // No-op if the orientation is already correct
