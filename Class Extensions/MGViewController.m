@@ -78,7 +78,9 @@
 
 - (void)scrollToCurrentControl
 {
-	if (!self.contentScrollView || !self.currentControl) return;
+	if (!self.contentScrollView
+		|| !self.currentControl
+		|| ![self.currentControl.superview isEqual:self.contentScrollView]) return;
 	
 	if (self.contentScrollView.height == self.contentScrollView.superview.height) return;
 		
