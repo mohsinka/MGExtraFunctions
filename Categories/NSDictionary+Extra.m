@@ -21,6 +21,14 @@
 	return [dateFormatter dateFromString:value];
 }
 
+- (id)notNullObjectForKey:(id)key
+{
+	id value = [self objectForKey:key];
+	if (!value) return nil;
+	if ([value isKindOfClass:[NSNull class]]) return nil;
+	return value;
+}
+
 - (NSDate *)unixDateForKey:(NSString *)key
 {
 	NSTimeInterval interval = [self doubleForKey:key];
