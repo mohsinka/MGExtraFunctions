@@ -28,5 +28,7 @@
 - (double)longitude;
 - (MKCoordinateRegion) regionForMax:(CLLocationCoordinate2D)maxPosition andMinPosition:(CLLocationCoordinate2D) minPosition;
 - (CLRegion *)convertMapRegion:(MKCoordinateRegion)region;
+- (void)updateHeading;
+- (void)stopUpdatingHeading;
 
 @end

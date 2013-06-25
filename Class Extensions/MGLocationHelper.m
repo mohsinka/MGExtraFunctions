@@ -118,6 +118,32 @@ static MGLocationHelper *_instance;
 
 #pragma mark CLLocationManagerDelegate
 
+- (void)updateHeading
+{
+    if ([CLLocationManager headingAvailable]) {
+        locationManager.headingFilter = 5;
+        [locationManager startUpdatingHeading];
+    }
+}
+
+- (void)stopUpdatingHeading
+{
+    [locationManager stopUpdatingHeading];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
+{
+    if (newHeading.headingAccuracy < 0) return;
+    CLLocationDirection theHeading = ((newHeading.trueHeading > 0) ?
+									  newHeading.trueHeading : newHeading.magneticHeading);
+    float oldRad = -manager.heading.trueHeading * M_PI / 180.0f;
+    float newRad = -theHeading * M_PI / 180.0f;
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    [userInfo setValue:[NSNumber numberWithFloat:oldRad] forKey:@"oldRad"];
+    [userInfo setValue:[NSNumber numberWithFloat:newRad] forKey:@"newRad"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdateHeading" object:nil userInfo:userInfo];
+}
+
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
 	errorCode = [error code];
