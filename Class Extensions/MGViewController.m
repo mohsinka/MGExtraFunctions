@@ -104,7 +104,7 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
-	if (self.isKeyboardShown) return;
+	if (self.isKeyboardShown || !self.view.window) return;
 	self.keyboardShown = YES;
 	
 	if (!self.contentScrollView) return;
@@ -114,7 +114,7 @@
 	
 	[UIView animateWithDuration:duration animations:^{
 		int height = self.contentScrollView.superview.height - frame.size.height;
-		if (self.tabBarController.tabBar.y > 0) {
+		if (self.tabBarController) {
 			height += self.tabBarController.tabBar.height;
 		}
 		self.contentScrollView.height = height;
@@ -126,7 +126,7 @@
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
-	if (!self.isKeyboardShown || !self.contentScrollView) return;
+	if (!self.isKeyboardShown || !self.contentScrollView || !self.view.window) return;
 	
 	self.keyboardShown = NO;
 
