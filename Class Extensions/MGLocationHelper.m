@@ -97,12 +97,12 @@ static MGLocationHelper *_instance;
 
 - (NSString *)latitudeStringValue
 {
-	return [NSString stringWithFormat:@"%f", coordinates.latitude];
+	return [@(coordinates.latitude) stringValue];
 }
 
 - (NSString *)longitudeStringValue
 {
-	return [NSString stringWithFormat:@"%f", coordinates.longitude];
+	return [@(coordinates.longitude) stringValue];
 }
 
 - (double)latitude
