@@ -11,7 +11,7 @@
 #import "AdditionalFunctions.h"
 
 @interface MGViewController ()
-
+@property (weak, nonatomic) id contentScrollViewDelegate;
 @end
 
 @implementation MGViewController
@@ -45,6 +45,8 @@
 {
     [super viewDidLoad];
 	self.yControlScrollOffset = 20;
+	self.contentScrollViewDelegate = self.contentScrollView.delegate;
+	self.contentScrollView.delegate = self;
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -69,6 +71,20 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+	[super touchesBegan:touches withEvent:event];
+	
+	if (self.currentControl) {
+		[self.currentControl resignFirstResponder];
+	}
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+	if ([self.contentScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
+		[self.contentScrollViewDelegate performSelector:@selector(scrollViewWillBeginDragging:) withObject:scrollView];
+	}
+	if (!self.hideKeyboardWhenScroll || !self.isKeyboardShown) return;
+	
 	if (self.currentControl) {
 		[self.currentControl resignFirstResponder];
 	}

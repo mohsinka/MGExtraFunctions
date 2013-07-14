@@ -13,6 +13,7 @@
 
 @property (nonatomic, getter = isKeyboardShown) BOOL keyboardShown;
 @property (nonatomic) int yControlScrollOffset;
+@property (assign, nonatomic) BOOL hideKeyboardWhenScroll;
 @property (unsafe_unretained, nonatomic) UIView *currentControl;
 @property (unsafe_unretained, nonatomic) IBOutlet UIScrollView *contentScrollView;
 
