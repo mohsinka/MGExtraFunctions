@@ -114,19 +114,16 @@
 	int halfHeight = originalImage.size.height / 2;
 	int halfWidth = originalImage.size.width / 2;
 	UIEdgeInsets insets = UIEdgeInsetsMake(halfHeight - 1, halfWidth - 1, halfHeight - 1, halfWidth - 1);
-	return [originalImage resizableImageWithCapInsets:insets];
+	if ([originalImage respondsToSelector:@selector(resizableImageWithCapInsets:resizingMode:)]) {
+		return [originalImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+	} else {
+		return [originalImage resizableImageWithCapInsets:insets];
+	}
 }
 
 + (UIImage *)buttonImageWithName:(NSString *)name
 {
-	return [UIImage stretchableImageWithName:name edgeInset:10];
-}
-
-+ (UIImage *)stretchableImageWithName:(NSString *)name edgeInset:(int)inset
-{
-	UIImage *originalImage = [UIImage imageNamed:name];
-	UIEdgeInsets insets = UIEdgeInsetsMake(inset, inset, inset, inset);
-	return [originalImage resizableImageWithCapInsets:insets];
+	return [UIImage stretchableImageWithName:name];
 }
 
 - (UIImage *) overlayWithImage:(UIImage *)image
