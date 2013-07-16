@@ -73,7 +73,7 @@
 {
 	[super touchesBegan:touches withEvent:event];
 	
-	if (self.currentControl) {
+	if (self.currentControl && self.hideKeyboardWhenTouch) {
 		[self.currentControl resignFirstResponder];
 	}
 }
