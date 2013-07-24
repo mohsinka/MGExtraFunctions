@@ -122,6 +122,9 @@ static MGImageLoader *_imageLoaderInstance;
 
 - (UIImage *)cachedImageForKey:(NSString *)key
 {
+	if (!key) return nil;
+	if (![key isKindOfClass:[NSString class]]) return nil;
+	
 	return [memmoryCache objectForKey:key];
 }
 
