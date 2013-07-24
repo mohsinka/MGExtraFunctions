@@ -70,6 +70,7 @@ static MGImageLoader *_imageLoaderInstance;
 	for (MGImageLoaderOperation *existingOperation in _queue.operations) {
 		if ([existingOperation.URL isEqualToString:operation.URL]) {
 			[operation addDependency:existingOperation];
+			break;
 		}
 	}
 	[_queue addOperation:operation];
