@@ -45,4 +45,6 @@
 - (void)hideActivity;
 - (void)rasterizeLayer;
 
+- (UIImage *)captureView;
+
 @end

@@ -175,4 +175,13 @@
 	[activityView removeFromSuperview];
 }
 
+- (UIImage *)captureView
+{
+	UIGraphicsBeginImageContext(self.frame.size);
+	[self.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return viewImage;
+}
+
 @end
