@@ -34,12 +34,14 @@
 	if (![_imageView isKindOfClass:[UIImageView class]]) return;
 	
 	_imageView.image = image;
+	
+	self.imageView = nil;
 }
 
 - (void)imageDidFailLoadForObject:(id)object error:(NSString *)error
 {
 	NSLog(@"Fail to load image to %@:\n%@", _imageView, error);
-	_imageView.image = nil;
+	self.imageView = nil;
 }
 
 @end
