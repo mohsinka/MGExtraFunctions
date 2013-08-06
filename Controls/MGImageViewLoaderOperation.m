@@ -31,15 +31,17 @@
 {
 	if (!_imageView) return;
 	
-	if (![_imageView isKindOfClass:[UIImageView class]]) return;
-	
-	_imageView.image = image;
+	if ([_imageView isKindOfClass:[UIImageView class]]) {
+		_imageView.image = image;
+	}
 	
 	self.imageView = nil;
 }
 
 - (void)imageDidFailLoadForObject:(id)object error:(NSString *)error
 {
+	if (!_imageView) return;
+	
 	NSLog(@"Fail to load image to %@:\n%@", _imageView, error);
 	self.imageView = nil;
 }

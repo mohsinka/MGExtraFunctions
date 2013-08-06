@@ -31,14 +31,17 @@
 {
 	if (!_button) return;
 	
-	if (![_button isKindOfClass:[UIButton class]]) return;
+	if ([_button isKindOfClass:[UIButton class]]) {
+		[_button setImage:image forState:UIControlStateNormal];
+	}
 	
-	[_button setImage:image forState:UIControlStateNormal];
 	self.button = nil;
 }
 
 - (void)imageDidFailLoadForObject:(id)object error:(NSString *)error
 {
+	if (!_button) return;
+	
 	NSLog(@"Fail to load image to %@:\n%@", _button, error);
 	self.button = nil;
 }
