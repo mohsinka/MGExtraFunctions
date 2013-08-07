@@ -114,9 +114,9 @@
 				[data writeToFile:imagePath atomically:NO];
 			}
 			
-			if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory
+			if ((_caching & MGImageLoaderCachingTypeMemory) == MGImageLoaderCachingTypeMemory
 				&& _hash) {
-				[loader addImageToMemmoryCache:image hash:_hash];
+				[loader addImageToMemoryCache:image hash:_hash];
 			}
 			
 			[self finishImageLoad:image];
