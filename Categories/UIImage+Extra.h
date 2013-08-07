@@ -16,5 +16,6 @@
 - (UIImage *) cutImageWithRect:(CGRect)rect;
 - (UIImage *) fixOrientation;
 - (UIImage *) imageWithColor:(UIColor *)color;
+- (UIImage *) grayscaleCopy;
 
 @end
