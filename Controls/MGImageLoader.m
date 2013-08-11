@@ -195,9 +195,6 @@ static MGImageLoader *_imageLoaderInstance;
 - (void)addImageToMemoryCache:(UIImage *)image hash:(NSString *)hash
 {
 	[lockCache tryLock];
-	while (memoryCache.count > self.maximumMemoryCacheItemsCount && self.maximumMemoryCacheItemsCount > 0) {
-		[memoryCache removeObjectForKey:[[memoryCache allKeys] lastObject]];
-	}
 	[memoryCache setValue:image forKey:hash];
 	[lockCache unlock];
 }
