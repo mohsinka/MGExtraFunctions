@@ -28,24 +28,24 @@
 - (void)finishImageLoad:(UIImage *)image
 {
 	if (!self.delegate) return;
-	if (![self.delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) return;
-
-	[self.delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
-								withObject:image
-								withObject:self.object
-							 waitUntilDone:YES];
+	if ([self.delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) {
+		[self.delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
+									withObject:image
+									withObject:self.object
+								 waitUntilDone:YES];
+	}
 	self.delegate = nil;
 }
 
 - (void)failImageLoad:(NSString *)reason
 {
 	if (!self.delegate) return;
-	if (![self.delegate respondsToSelector:@selector(imageDidFailLoadForObject:error:)]) return;
-	
-	[self.delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
-								withObject:self.object
-								withObject:reason
-							 waitUntilDone:YES];
+	if ([self.delegate respondsToSelector:@selector(imageDidFailLoadForObject:error:)]) {
+		[self.delegate performSelectorOnMainThread:@selector(imageDidFailLoadForObject:error:)
+										withObject:self.object
+										withObject:reason
+									 waitUntilDone:YES];
+	}
 	self.delegate = nil;
 }
 
@@ -114,9 +114,9 @@
 				[data writeToFile:imagePath atomically:NO];
 			}
 			
-			if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory
+			if ((_caching & MGImageLoaderCachingTypeMemory) == MGImageLoaderCachingTypeMemory
 				&& _hash) {
-				[loader addImageToMemmoryCache:image hash:_hash];
+				[loader addImageToMemoryCache:image hash:_hash];
 			}
 			
 			[self finishImageLoad:image];

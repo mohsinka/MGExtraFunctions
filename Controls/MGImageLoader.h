@@ -17,21 +17,22 @@
 enum MGImageLoaderCachingType {
 	MGImageLoaderCachingTypeNone = 0,
 	MGImageLoaderCachingTypeDisk = 1 << 0,
-	MGImageLoaderCachingTypeMemmory = 1 << 1,
-	MGImageLoaderCachingTypeAll = MGImageLoaderCachingTypeDisk|MGImageLoaderCachingTypeMemmory
+	MGImageLoaderCachingTypeMemory = 1 << 1,
+	MGImageLoaderCachingTypeAll = MGImageLoaderCachingTypeDisk|MGImageLoaderCachingTypeMemory
 	};
 
 @interface MGImageLoader : NSObject
 {	
-	NSMutableDictionary *memmoryCache;
+	NSMutableDictionary *memoryCache;
 	NSLock *lockCache;
-	NSTimer *memmoryWarningTimer;
-	BOOL isMemmoryWarningReceived;
+	NSTimer *memoryWarningTimer;
+	BOOL isMemoryWarningReceived;
 }
 
 @property (strong, nonatomic) 	NSString *cachePath;
 @property (strong, nonatomic) 	NSFileManager *fileManager;
 @property (strong, nonatomic)	NSOperationQueue *queue;
+@property (assign, nonatomic)	NSUInteger maximumMemoryCacheItemsCount;
 
 
 + (MGImageLoader *)sharedInstance;
@@ -41,11 +42,11 @@ enum MGImageLoaderCachingType {
 - (NSString *)generateHashFromURL:(NSString *)URL;
 - (UIImage *)cachedImageForKey:(NSString *)key;
 - (UIImage *)loadImageFromCacheForURL:(NSString *)URL;
-- (void)addImageToMemmoryCache:(UIImage *)image hash:(NSString *)hash;
-- (void)addImageToMemmoryCache:(UIImage *)image URL:(NSString *)URL;
+- (void)addImageToMemoryCache:(UIImage *)image hash:(NSString *)hash;
+- (void)addImageToMemoryCache:(UIImage *)image URL:(NSString *)URL;
 - (void)addImageToDiskCache:(UIImage *)image URL:(NSString *)URL;
-- (void)memmoryWarning;
-- (void)clearMemmoryCache;
+- (void)memoryWarning;
+- (void)clearMemoryCache;
 - (void)clearDiskCache;
 - (void)clearDiskCacheOlderThan:(NSUInteger)days;
 - (void)clearCacheForImageURL:(NSString *)URL;

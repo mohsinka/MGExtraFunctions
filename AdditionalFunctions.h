@@ -68,5 +68,6 @@ double DistanceBetweenCoordinates(double latitudeFrom, double longitudeFrom, dou
 @interface UIColor (Extras)
 + (UIColor *) colorWithInteger:(NSInteger) integer;
 + (UIColor *) colorWithIntRed:(int)red green:(int)green blue:(int)blue alpha:(int)alpha;
-+ (UIColor *)colorFromHexString:(NSString *)hexString;
++ (UIColor *) colorFromHexString:(NSString *)hexString;
+- (UIColor *) grayscaleColor;
 @end

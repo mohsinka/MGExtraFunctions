@@ -127,4 +127,17 @@ double DistanceBetweenCoordinates(double latitudeFrom, double longitudeFrom, dou
     return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
 }
 
+- (UIColor *)grayscaleColor
+{
+	CGFloat red = 0;
+    CGFloat blue = 0;
+    CGFloat green = 0;
+    CGFloat alpha = 0;
+    if ([self getRed:&red green:&green blue:&blue alpha:&alpha]) {
+        return [UIColor colorWithWhite:(0.299*red + 0.587*green + 0.114*blue) alpha:alpha];
+    } else {
+        return self;
+    }
+}
+
 @end
