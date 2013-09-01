@@ -9,7 +9,7 @@
 #import "MGImageLoaderOperation.h"
 #import "NSObject+Extra.h"
 #import "MGImageLoader.h"
-#import <objc/runtime.h>
+
 
 @interface MGImageLoaderOperation (Private)
 @end
@@ -28,6 +28,10 @@
 - (void)finishImageLoad:(UIImage *)image
 {
 	if (!self.delegate) return;
+	if (object_getClass(self.delegate) == Nil) {
+		NSLog(@"No class for %@", self);
+		return;
+	}
 	if (![self.delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) return;
 
 	[self.delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)

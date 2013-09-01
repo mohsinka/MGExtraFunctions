@@ -30,7 +30,10 @@
 - (void)imageDidFinishLoad:(UIImage *)image forObject:(id)object
 {
 	if (!_button) return;
-	
+	if (object_getClass(_button) == Nil) {
+		NSLog(@"No class for %@", self);
+		return;
+	}
 	if (![_button isKindOfClass:[UIButton class]]) return;
 	
 	[_button setImage:image forState:UIControlStateNormal];

@@ -30,7 +30,10 @@
 - (void)imageDidFinishLoad:(UIImage *)image forObject:(id)object
 {
 	if (!_imageView) return;
-	
+	if (object_getClass(self.imageView) == Nil) {
+		NSLog(@"No class for %@", self);
+		return;
+	}
 	if (![_imageView isKindOfClass:[UIImageView class]]) return;
 	
 	_imageView.image = image;

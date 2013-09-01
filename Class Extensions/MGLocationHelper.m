@@ -158,7 +158,16 @@ static MGLocationHelper *_instance;
 	isLocationReceived = YES;
 	NSDictionary *parameters = [NSDictionary dictionaryWithObject:newLocation forKey:kAKLocationKey];
 	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationChanged object:self userInfo:parameters];
-}	
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+	CLLocation *newLocation = [locations lastObject];
+	coordinates = newLocation.coordinate;
+	isLocationReceived = YES;
+	NSDictionary *parameters = [NSDictionary dictionaryWithObject:newLocation forKey:kAKLocationKey];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationChanged object:self userInfo:parameters];
+}
 
 
 @end

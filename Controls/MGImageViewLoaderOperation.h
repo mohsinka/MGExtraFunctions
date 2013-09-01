@@ -11,7 +11,7 @@
 @interface MGImageViewLoaderOperation : MGImageLoaderOperation
 <MGImageLoaderOperationDelegate>
 
-@property (strong, nonatomic) UIImageView *imageView;
+@property (weak, atomic) UIImageView *imageView;
 
 + (id)operationWithURL:(NSString *)URL imageView:(UIImageView *)imageView caching:(NSUInteger)caching;
 
