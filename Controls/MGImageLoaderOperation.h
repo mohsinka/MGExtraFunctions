@@ -12,6 +12,7 @@
 @class MGImageLoaderOperation;
 @protocol MGImageLoaderOperationDelegate <NSObject>
 - (void)imageDidFinishLoad:(UIImage *)image forObject:(id)object;
+@optional
 - (void)imageDidFailLoadForObject:(id)object error:(NSString *)error;
 @end
 

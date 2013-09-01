@@ -152,12 +152,12 @@
 
 - (BOOL)isEarlierThanDate:(NSDate *)date
 {
-	return ([self compare:date] == NSOrderedAscending);
+	return (self.timeIntervalSince1970 < date.timeIntervalSince1970);
 }
 
 - (BOOL)isLaterThanDate:(NSDate *)date
 {
-	return ([self compare:date] == NSOrderedDescending);
+	return (self.timeIntervalSince1970 > date.timeIntervalSince1970);
 }
 
 @end
