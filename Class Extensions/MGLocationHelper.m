@@ -35,6 +35,7 @@ static MGLocationHelper *_instance;
 - (void)stopUpdatingLocation
 {
 	[locationManager stopUpdatingLocation];
+	isLocationReceived = NO;
 }
 
 - (CLRegion *)convertMapRegion:(MKCoordinateRegion)region
@@ -146,6 +147,7 @@ static MGLocationHelper *_instance;
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
+	isLocationReceived = NO;
 	errorCode = [error code];
 	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationReceiveDidFail
 														object:self
