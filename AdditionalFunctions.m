@@ -121,6 +121,8 @@ double DistanceBetweenCoordinates(double latitudeFrom, double longitudeFrom, dou
 
 + (UIColor *)colorFromHexString:(NSString *)hexString {
     unsigned rgbValue = 0;
+	if (hexString.length == 0) return nil;
+	
     NSScanner *scanner = [NSScanner scannerWithString:hexString];
     [scanner setScanLocation:1]; // bypass '#' character
     [scanner scanHexInt:&rgbValue];
