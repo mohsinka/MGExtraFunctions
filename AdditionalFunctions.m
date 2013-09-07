@@ -98,6 +98,16 @@ double DistanceBetweenCoordinates(double latitudeFrom, double longitudeFrom, dou
 
 @end
 
+@implementation NSString (Extras)
+- (BOOL)validateAsEmail
+{
+	NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+	
+    return [emailTest evaluateWithObject:self];
+}
+@end
+
 @implementation UIColor (Extras)
 
 + (UIColor *)colorWithInteger:(NSInteger)integer 
@@ -120,13 +130,15 @@ double DistanceBetweenCoordinates(double latitudeFrom, double longitudeFrom, dou
 }
 
 + (UIColor *)colorFromHexString:(NSString *)hexString {
-    unsigned rgbValue = 0;
 	if (hexString.length == 0) return nil;
+	NSUInteger red, green, blue, alpha = 1;
+	if (hexString.length < 7) {
+		sscanf([hexString UTF8String], "#%02X%02X%02X", &red, &green, &blue);
+	} else {
+		sscanf([hexString UTF8String], "#%02X%02X%02X%02X", &alpha, &red, &green, &blue);
+	}
 	
-    NSScanner *scanner = [NSScanner scannerWithString:hexString];
-    [scanner setScanLocation:1]; // bypass '#' character
-    [scanner scanHexInt:&rgbValue];
-    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+	return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:alpha / 255.0];
 }
 
 - (UIColor *)grayscaleColor

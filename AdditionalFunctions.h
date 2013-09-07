@@ -65,6 +65,10 @@ double DistanceBetweenCoordinates(double latitudeFrom, double longitudeFrom, dou
 + (void) showAlertWithTitle:(NSString *)title message:(NSString *)message;
 @end
 
+@interface NSString (Extras)
+- (BOOL)validateAsEmail;
+@end
+
 @interface UIColor (Extras)
 + (UIColor *) colorWithInteger:(NSInteger) integer;
 + (UIColor *) colorWithIntRed:(int)red green:(int)green blue:(int)blue alpha:(int)alpha;

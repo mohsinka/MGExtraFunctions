@@ -105,9 +105,7 @@
 
 - (void)scrollToCurrentControl
 {
-	if (!self.contentScrollView
-		|| !self.currentControl
-		|| ![self.currentControl.superview isEqual:self.contentScrollView]) return;
+	if (!self.contentScrollView || !self.currentControl) return;
 	
 	if (self.contentScrollView.height == self.contentScrollView.superview.height) return;
 		
@@ -116,6 +114,7 @@
 	while (superview != self.contentScrollView) {
 		yOffset += superview.y;
 		superview = superview.superview;
+		if (!superview) return;
 	}
 	yOffset -= self.yControlScrollOffset;
 	if (yOffset + self.contentScrollView.height > self.contentScrollView.contentSize.height) {
