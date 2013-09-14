@@ -12,9 +12,6 @@ typedef enum {
     kDeviceIPad
 } DeviceType;
 
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-
 CG_INLINE DeviceType deviceType()
 {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 30200
@@ -49,8 +46,6 @@ CG_INLINE BOOL isPhone()
 #define IS_PHONE_4_INCH								(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && [UIScreen mainScreen].bounds.size.height == 568.0)
 #define IS_RETINA_SCREEN ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0))
 
-void ShowErrorDescriptionInLog(NSError *error);
-
 CGRect CGRectWithY(CGRect rect, CGFloat y);
 CGRect CGRectWithX(CGRect rect, CGFloat x);
 CGRect CGRectWithWidth(CGRect rect, CGFloat width);
@@ -58,20 +53,8 @@ CGRect CGRectWithHeight(CGRect rect, CGFloat height);
 CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size);
 NSString * IntToString(int i);
 NSString * BoolToString(BOOL value);
-double RandomDouble(double start, double end);
-double DistanceBetweenCoordinates(double latitudeFrom, double longitudeFrom, double latitudeTo, double longitudeTo);
 
 @interface UIAlertView (Extras)
 + (void) showAlertWithTitle:(NSString *)title message:(NSString *)message;
 @end
 
-@interface NSString (Extras)
-- (BOOL)validateAsEmail;
-@end
-
-@interface UIColor (Extras)
-+ (UIColor *) colorWithInteger:(NSInteger) integer;
-+ (UIColor *) colorWithIntRed:(int)red green:(int)green blue:(int)blue alpha:(int)alpha;
-+ (UIColor *) colorFromHexString:(NSString *)hexString;
-- (UIColor *) grayscaleColor;
-@end
