@@ -45,6 +45,12 @@ NSString * IntToString(int i)
 	return [NSString stringWithFormat:@"%d", i];
 }
 
+NSString * FloatToString(float f)
+{
+	return [NSString stringWithFormat:@"%f", f];
+}
+
+
 NSString * BoolToString(BOOL value)
 {
 	if (value) {
