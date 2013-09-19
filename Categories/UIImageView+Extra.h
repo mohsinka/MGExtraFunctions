@@ -10,7 +10,6 @@
 
 @interface UIImageView (Extra)
 
-- (void)backgroundLoadImageWithParameters:(NSDictionary *)parameters;
 - (void)loadImageWithParameters:(NSDictionary *)parameters;
 - (void)resizeToFitWithImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize;
 + (CGSize)sizeThatFitImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize;

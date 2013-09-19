@@ -10,11 +10,6 @@
 
 @implementation UIImageView (Extra)
 
-- (void)backgroundLoadImageWithParameters:(NSDictionary *)parameters
-{
-	[self performSelectorInBackground:@selector(loadImageWithParameters:) withObject:parameters];
-}
-
 - (void)setImage:(UIImage *)image animated:(BOOL)animated
 {
 	if ([image isEqual:self.image]) return;

@@ -43,6 +43,11 @@
 	return value;
 }
 
+- (NSURL *)urlForKey:(NSString *)key
+{
+	return [NSURL URLWithString:[self stringForKey:key]];
+}
+
 - (int)intForKey:(NSString *)key
 {
 	id value = [self objectForKey:key];
