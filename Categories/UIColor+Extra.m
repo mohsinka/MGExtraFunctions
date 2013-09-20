@@ -31,8 +31,8 @@
 
 + (UIColor *)colorFromHexString:(NSString *)hexString {
 	if (hexString.length == 0) return nil;
-	NSUInteger red, green, blue, alpha = 1;
-	if (hexString.length < 7) {
+	NSUInteger red, green, blue, alpha = 255;
+	if (hexString.length < 8) {
 		sscanf([hexString UTF8String], "#%02X%02X%02X", &red, &green, &blue);
 	} else {
 		sscanf([hexString UTF8String], "#%02X%02X%02X%02X", &alpha, &red, &green, &blue);
