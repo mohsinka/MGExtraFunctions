@@ -1,0 +1,220 @@
+//
+//  MGImageLoader.m
+//  Pashadelic
+//
+//  Created by Vitaliy Gozhenko on 18.12.12.
+//
+//
+
+#import "MGImageLoader.h"
+#import "MGImageViewLoaderOperation.h"
+#import "MGButtonImageLoaderOperation.h"
+#include <CommonCrypto/CommonDigest.h>
+
+@interface MGImageLoader (Private)
+- (void)initialize;
+- (void)disableMemoryWarningTimer;
+@end
+
+
+@implementation MGImageLoader
+
+
+static MGImageLoader *_imageLoaderInstance;
++ (MGImageLoader *)sharedInstance
+{
+	@synchronized(self) {
+		
+        if (_imageLoaderInstance == nil) {
+            _imageLoaderInstance = [[super alloc] init];
+			[_imageLoaderInstance initialize];
+        }
+    }
+    return _imageLoaderInstance;
+}
+
+#pragma mark - Private
+
+- (void)initialize
+{
+	self.maximumMemoryCacheItemsCount = 0;
+	_queue = [[NSOperationQueue alloc] init];
+	_queue.maxConcurrentOperationCount = 10;
+	
+	memoryCache = [[NSMutableDictionary alloc] init];
+	lockCache = [[NSLock alloc] init];
+	_cachePath = [[[[NSFileManager defaultManager]
+				   URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask]
+				  lastObject] relativePath];
+	
+	_fileManager = [NSFileManager defaultManager];
+}
+
+- (void)disableMemoryWarningTimer
+{
+	isMemoryWarningReceived = NO;
+	[memoryWarningTimer invalidate];
+	memoryWarningTimer = nil;
+}
+
+#pragma mark - Public
+
+- (BOOL)isImageInCache:(NSString *)URL
+{
+	NSString *hash = [self generateHashFromURL:URL];
+	NSString *imagePath = [[self.cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
+	return [_fileManager fileExistsAtPath:imagePath];
+}
+
+- (void)addOperation:(MGImageLoaderOperation *)operation
+{
+	for (MGImageLoaderOperation *existingOperation in _queue.operations) {
+		if ([existingOperation.URL isEqualToString:operation.URL]) {
+			[operation addDependency:existingOperation];
+			break;
+		}
+	}
+	[_queue addOperation:operation];
+}
+
+- (void)memoryWarning
+{
+	if (isMemoryWarningReceived) return;
+	
+	isMemoryWarningReceived = YES;
+	[self clearMemoryCache];
+	memoryWarningTimer = [NSTimer scheduledTimerWithTimeInterval:5
+														   target:self
+														 selector:@selector(disableMemoryWarningTimer)
+														 userInfo:nil
+														  repeats:NO];
+}
+
+- (void)cancelOperationsWithDelegate:(NSObject<MGImageLoaderOperationDelegate> *)delegate
+{
+	for (MGImageLoaderOperation *operation in _queue.operations) {
+		if ([operation.delegate isEqual:delegate]) {
+			[operation cancel];
+		}
+	}
+}
+
+- (void)cancelOperationsWithURL:(NSString *)URL
+{
+	for (MGImageLoaderOperation *operation in _queue.operations) {
+		if ([operation.URL isEqual:URL]) {
+			[operation cancel];
+		}
+	}
+}
+
+- (NSString *)generateHashFromURL:(NSString *)URL
+{
+	if (URL.length == 0) return nil;
+	
+	const char *cStr = [URL UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+	
+    CC_MD5( cStr, strlen(cStr), result);
+	return [NSString stringWithFormat: @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
+			result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7],
+			result[8], result[9], result[10], result[11], result[12], result[13], result[14], result[15]];
+}
+
+- (UIImage *)cachedImageForKey:(NSString *)key
+{
+	if (!key) return nil;
+	if (![key isKindOfClass:[NSString class]]) return nil;
+	
+	return [memoryCache objectForKey:key];
+}
+
+- (void)clearMemoryCache
+{
+	[lockCache tryLock];
+	[memoryCache removeAllObjects];
+	[lockCache unlock];
+}
+
+- (void)clearDiskCache
+{
+	[self clearDiskCacheOlderThan:0];
+}
+
+- (void)clearDiskCacheOlderThan:(NSUInteger)days
+{
+	@autoreleasepool {
+		NSArray *items = [_fileManager contentsOfDirectoryAtPath:_cachePath error:nil];
+		
+		for (NSString *file in items) {
+			if ([file rangeOfString:MGImageLoaderFileExtension].location
+				!= file.length - MGImageLoaderFileExtension.length) continue;
+			NSString *fullFilePath = [_cachePath stringByAppendingPathComponent:file];
+			NSDictionary *attributes = [_fileManager attributesOfItemAtPath:fullFilePath
+																	 error:nil];
+			if (!attributes) continue;
+			
+			NSDate *fileDate = [attributes fileCreationDate];
+			NSTimeInterval interval = fileDate.timeIntervalSinceNow;
+			if (interval < - 60 * 60 * 24 * days) {
+				[_fileManager removeItemAtPath:fullFilePath error:nil];
+			}
+		}
+	}
+}
+
+- (void)clearCacheForImageURL:(NSString *)URL
+{
+	NSString *hash = [self generateHashFromURL:URL];
+	[memoryCache removeObjectForKey:hash];
+	[_fileManager removeItemAtPath:[[_cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension]
+							 error:nil];
+}
+
+- (UIImage *)loadImageFromCacheForURL:(NSString *)URL
+{	
+	NSString *hash = [self generateHashFromURL:URL];
+	NSString *imagePath = [[_cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
+	
+	UIImage *image = [self cachedImageForKey:hash];
+	
+	if (image) {
+		return image;
+	}
+	
+	if ([_fileManager fileExistsAtPath:imagePath]) {
+		image = [[UIImage alloc] initWithContentsOfFile:imagePath];
+				
+		if (image) {
+			return image;
+		}
+	}
+	return nil;
+}
+
+- (void)addImageToMemoryCache:(UIImage *)image hash:(NSString *)hash
+{
+	[lockCache tryLock];
+	[memoryCache setValue:image forKey:hash];
+	[lockCache unlock];
+}
+
+- (void)addImageToMemoryCache:(UIImage *)image URL:(NSString *)URL
+{
+	if (!image || URL.length == 0) return;
+	
+	NSString *hash = [self generateHashFromURL:URL];
+	[self addImageToMemoryCache:image hash:hash];
+}
+
+- (void)addImageToDiskCache:(UIImage *)image URL:(NSString *)URL
+{
+	if (!image || URL.length == 0) return;
+	
+	NSString *hash = [self generateHashFromURL:URL];
+	NSString *imagePath = [[_cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
+	NSData *data = UIImagePNGRepresentation(image);
+	[data writeToFile:imagePath atomically:NO];
+}
+
+@end
