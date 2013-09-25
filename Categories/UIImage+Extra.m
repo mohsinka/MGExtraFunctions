@@ -32,7 +32,7 @@
 	CGRect imageRect = CGRectMake(0, 0, self.size.width, self.size.height);
 	
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-	CGContextRef context = CGBitmapContextCreate(nil, self.size.width, self.size.height, 8, 0, colorSpace, kCGImageAlphaNone);
+	CGContextRef context = CGBitmapContextCreate(nil, self.size.width, self.size.height, 8, 0, colorSpace, (CGBitmapInfo) kCGImageAlphaNone);
 	
 	CGContextDrawImage(context, imageRect, [self CGImage]);
 	

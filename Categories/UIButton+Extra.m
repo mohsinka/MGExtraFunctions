@@ -10,6 +10,16 @@
 
 @implementation UIButton (Extra)
 
+- (NSString *)title
+{
+	return [self titleForState:UIControlStateNormal];
+}
+
+- (void)setTitle:(NSString *)title
+{
+	[self setTitle:title forState:UIControlStateNormal];
+}
+
 - (void)setBackgroundImageForSelectedState:(UIImage *)image
 {
 	[self setBackgroundImage:image forState:UIControlStateSelected];
