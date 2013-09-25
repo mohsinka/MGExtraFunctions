@@ -25,29 +25,6 @@
 	}
 }
 
-- (void)loadImageWithParameters:(NSDictionary *)parameters
-{
-	@autoreleasepool {
-		NSString *URL = [parameters valueForKey:@"URL"];
-		NSNumber *identifier = [parameters valueForKey:@"identifier"];
-		if (!identifier || !URL) return;
-		
-		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-		NSString *imagePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"images_cache"];
-		imagePath = [imagePath stringByAppendingPathComponent:URL.lastPathComponent];
-		imagePath = [imagePath stringByAppendingString:identifier.stringValue];
-		UIImage *loadedImage = [UIImage imageWithContentsOfFile:imagePath];
-		
-		if (!loadedImage) {
-			NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:URL]];
-			[data writeToFile:imagePath atomically:NO];
-			loadedImage = [UIImage imageWithData:data];
-		}
-		
-		self.image = loadedImage;
-	}
-}
-
 - (void)resizeToFitWithImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize
 {
 	CGSize size = [UIImageView sizeThatFitImageSize:imageSize maxViewSize:maxSize];
