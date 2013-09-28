@@ -71,7 +71,9 @@ static MGLocationHelper *_instance;
 
 - (void) updateLocation 
 {
-	[locationManager setDesiredAccuracy:self.accuracy];
+	if (locationManager.desiredAccuracy != self.accuracy) {
+		[locationManager setDesiredAccuracy:self.accuracy];
+	}
 	[locationManager startUpdatingLocation];
 }	
 
