@@ -3,9 +3,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-#define kAKLocationChanged			@"kAKLocationChanged"
-#define kAKLocationReceiveDidFail	@"kAKLocationReceiveDidFail"
-#define kAKLocationKey				@"kAKLocationKey"
+#define MGLocationChangedNotification			@"MGLocationChangedNotification"
+#define MGLocationReceiveDidFailNotification	@"MGLocationReceiveDidFailNotification"
 
 @interface MGLocationHelper : NSObject 
 <CLLocationManagerDelegate > 
@@ -17,6 +16,7 @@
 @property (nonatomic, strong)	CLLocationManager		*locationManager; 
 @property (nonatomic, readonly) CLLocationCoordinate2D	coordinates;
 @property (nonatomic, readonly) BOOL isLocationReceived;
+@property (assign, nonatomic) CLLocationAccuracy accuracy;
 
 + (MGLocationHelper *)sharedInstance;
 - (void)updateLocation;

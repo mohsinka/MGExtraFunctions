@@ -22,9 +22,9 @@ static MGLocationHelper *_instance;
 	
 	if (self) {		
 		isLocationReceived = NO;
+		self.accuracy = kCLLocationAccuracyBest;
 		locationManager = [[CLLocationManager alloc] init];
 		locationManager.delegate = self;
-		[locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
 	}
 	return self;
 }
@@ -71,6 +71,7 @@ static MGLocationHelper *_instance;
 
 - (void) updateLocation 
 {
+	[locationManager setDesiredAccuracy:self.accuracy];
 	[locationManager startUpdatingLocation];
 }	
 
@@ -149,7 +150,7 @@ static MGLocationHelper *_instance;
 {
 	isLocationReceived = NO;
 	errorCode = [error code];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationReceiveDidFail
+	[[NSNotificationCenter defaultCenter] postNotificationName:MGLocationReceiveDidFailNotification
 														object:self
 													  userInfo:@{@"error" : error}];
 }
@@ -158,8 +159,8 @@ static MGLocationHelper *_instance;
 {
 	coordinates = newLocation.coordinate;
 	isLocationReceived = YES;
-	NSDictionary *parameters = [NSDictionary dictionaryWithObject:newLocation forKey:kAKLocationKey];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationChanged object:self userInfo:parameters];
+	NSDictionary *parameters = [NSDictionary dictionaryWithObject:newLocation forKey:@"location"];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MGLocationChangedNotification object:self userInfo:parameters];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
@@ -167,8 +168,8 @@ static MGLocationHelper *_instance;
 	CLLocation *newLocation = [locations lastObject];
 	coordinates = newLocation.coordinate;
 	isLocationReceived = YES;
-	NSDictionary *parameters = [NSDictionary dictionaryWithObject:newLocation forKey:kAKLocationKey];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationChanged object:self userInfo:parameters];
+	NSDictionary *parameters = [NSDictionary dictionaryWithObject:newLocation forKey:@"location"];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MGLocationChangedNotification object:self userInfo:parameters];
 }
 
 
