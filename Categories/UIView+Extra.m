@@ -154,6 +154,20 @@
 	return [nib objectAtIndex:0];
 }
 
+- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color
+{
+	self.userInteractionEnabled = NO;
+	UIActivityIndicatorView *activityView = (UIActivityIndicatorView *) [self viewWithTag:kActivityViewTag];
+	if (!activityView) {
+		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
+		activityView.tag = kActivityViewTag;
+		[activityView startAnimating];
+		[self addSubview:activityView];
+	}
+	activityView.color = color;
+	activityView.center = self.centerOfView;
+}
+
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style
 {
 	self.userInteractionEnabled = NO;
