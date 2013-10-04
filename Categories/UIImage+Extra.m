@@ -10,6 +10,43 @@
 
 @implementation UIImage (Extra)
 
+- (UIImage *)imageWithColor:(UIColor *)color
+{
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+	
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+	
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+	if ([image respondsToSelector:@selector(resizableImageWithCapInsets:)]) {
+		image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+	}
+    return image;
+}
+
+- (UIImage *)grayscaleCopy
+{
+	CGRect imageRect = CGRectMake(0, 0, self.size.width, self.size.height);
+	
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+	CGContextRef context = CGBitmapContextCreate(nil, self.size.width, self.size.height, 8, 0, colorSpace, (CGBitmapInfo) kCGImageAlphaNone);
+	
+	CGContextDrawImage(context, imageRect, [self CGImage]);
+	
+	CGImageRef imageRef = CGBitmapContextCreateImage(context);
+	
+	UIImage *newImage = [UIImage imageWithCGImage:imageRef];
+	
+	CGColorSpaceRelease(colorSpace);
+	CGContextRelease(context);
+	CFRelease(imageRef);
+	
+	return newImage;
+}
+
 - (UIImage *)fixOrientation {
 	
     // No-op if the orientation is already correct
@@ -97,19 +134,16 @@
 	int halfHeight = originalImage.size.height / 2;
 	int halfWidth = originalImage.size.width / 2;
 	UIEdgeInsets insets = UIEdgeInsetsMake(halfHeight - 1, halfWidth - 1, halfHeight - 1, halfWidth - 1);
-	return [originalImage resizableImageWithCapInsets:insets];
+	if ([originalImage respondsToSelector:@selector(resizableImageWithCapInsets:resizingMode:)]) {
+		return [originalImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+	} else {
+		return [originalImage resizableImageWithCapInsets:insets];
+	}
 }
 
 + (UIImage *)buttonImageWithName:(NSString *)name
 {
-	return [UIImage stretchableImageWithName:name edgeInset:10];
-}
-
-+ (UIImage *)stretchableImageWithName:(NSString *)name edgeInset:(int)inset
-{
-	UIImage *originalImage = [UIImage imageNamed:name];
-	UIEdgeInsets insets = UIEdgeInsetsMake(inset, inset, inset, inset);
-	return [originalImage resizableImageWithCapInsets:insets];
+	return [UIImage stretchableImageWithName:name];
 }
 
 - (UIImage *) overlayWithImage:(UIImage *)image

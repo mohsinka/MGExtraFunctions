@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <objc/runtime.h>
 
 @class MGImageLoaderOperation;
 @protocol MGImageLoaderOperationDelegate <NSObject>
 - (void)imageDidFinishLoad:(UIImage *)image forObject:(id)object;
+@optional
 - (void)imageDidFailLoadForObject:(id)object error:(NSString *)error;
 @end
 
@@ -19,8 +21,8 @@
 @property (nonatomic) NSUInteger caching;
 @property (copy, nonatomic) NSString *URL;
 @property (strong, nonatomic) NSString *hash;
-@property (unsafe_unretained, nonatomic) id object;
-@property (unsafe_unretained, nonatomic) NSObject <MGImageLoaderOperationDelegate> *delegate;
+@property (weak, nonatomic) id object;
+@property (weak, atomic) NSObject <MGImageLoaderOperationDelegate> *delegate;
 
 
 + (id)operationWithURL:(NSString *)URL

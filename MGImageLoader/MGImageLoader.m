@@ -13,7 +13,7 @@
 
 @interface MGImageLoader (Private)
 - (void)initialize;
-- (void)disableMemmoryWarningTimer;
+- (void)disableMemoryWarningTimer;
 @end
 
 
@@ -37,10 +37,11 @@ static MGImageLoader *_imageLoaderInstance;
 
 - (void)initialize
 {
+	self.maximumMemoryCacheItemsCount = 0;
 	_queue = [[NSOperationQueue alloc] init];
 	_queue.maxConcurrentOperationCount = 10;
 	
-	memmoryCache = [[NSMutableDictionary alloc] init];
+	memoryCache = [[NSMutableDictionary alloc] init];
 	lockCache = [[NSLock alloc] init];
 	_cachePath = [[[[NSFileManager defaultManager]
 				   URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask]
@@ -49,11 +50,11 @@ static MGImageLoader *_imageLoaderInstance;
 	_fileManager = [NSFileManager defaultManager];
 }
 
-- (void)disableMemmoryWarningTimer
+- (void)disableMemoryWarningTimer
 {
-	isMemmoryWarningReceived = NO;
-	[memmoryWarningTimer invalidate];
-	memmoryWarningTimer = nil;
+	isMemoryWarningReceived = NO;
+	[memoryWarningTimer invalidate];
+	memoryWarningTimer = nil;
 }
 
 #pragma mark - Public
@@ -70,20 +71,21 @@ static MGImageLoader *_imageLoaderInstance;
 	for (MGImageLoaderOperation *existingOperation in _queue.operations) {
 		if ([existingOperation.URL isEqualToString:operation.URL]) {
 			[operation addDependency:existingOperation];
+			break;
 		}
 	}
 	[_queue addOperation:operation];
 }
 
-- (void)memmoryWarning
+- (void)memoryWarning
 {
-	if (isMemmoryWarningReceived) return;
+	if (isMemoryWarningReceived) return;
 	
-	isMemmoryWarningReceived = YES;
-	[self clearMemmoryCache];
-	memmoryWarningTimer = [NSTimer scheduledTimerWithTimeInterval:5
+	isMemoryWarningReceived = YES;
+	[self clearMemoryCache];
+	memoryWarningTimer = [NSTimer scheduledTimerWithTimeInterval:5
 														   target:self
-														 selector:@selector(disableMemmoryWarningTimer)
+														 selector:@selector(disableMemoryWarningTimer)
 														 userInfo:nil
 														  repeats:NO];
 }
@@ -121,13 +123,16 @@ static MGImageLoader *_imageLoaderInstance;
 
 - (UIImage *)cachedImageForKey:(NSString *)key
 {
-	return [memmoryCache objectForKey:key];
+	if (!key) return nil;
+	if (![key isKindOfClass:[NSString class]]) return nil;
+	
+	return [memoryCache objectForKey:key];
 }
 
-- (void)clearMemmoryCache
+- (void)clearMemoryCache
 {
 	[lockCache tryLock];
-	[memmoryCache removeAllObjects];
+	[memoryCache removeAllObjects];
 	[lockCache unlock];
 }
 
@@ -161,7 +166,7 @@ static MGImageLoader *_imageLoaderInstance;
 - (void)clearCacheForImageURL:(NSString *)URL
 {
 	NSString *hash = [self generateHashFromURL:URL];
-	[memmoryCache removeObjectForKey:hash];
+	[memoryCache removeObjectForKey:hash];
 	[_fileManager removeItemAtPath:[[_cachePath stringByAppendingPathComponent:hash] stringByAppendingPathExtension:MGImageLoaderFileExtension]
 							 error:nil];
 }
@@ -187,19 +192,19 @@ static MGImageLoader *_imageLoaderInstance;
 	return nil;
 }
 
-- (void)addImageToMemmoryCache:(UIImage *)image hash:(NSString *)hash
+- (void)addImageToMemoryCache:(UIImage *)image hash:(NSString *)hash
 {
 	[lockCache tryLock];
-	[memmoryCache setValue:image forKey:hash];
+	[memoryCache setValue:image forKey:hash];
 	[lockCache unlock];
 }
 
-- (void)addImageToMemmoryCache:(UIImage *)image URL:(NSString *)URL
+- (void)addImageToMemoryCache:(UIImage *)image URL:(NSString *)URL
 {
 	if (!image || URL.length == 0) return;
 	
 	NSString *hash = [self generateHashFromURL:URL];
-	[self addImageToMemmoryCache:image hash:hash];
+	[self addImageToMemoryCache:image hash:hash];
 }
 
 - (void)addImageToDiskCache:(UIImage *)image URL:(NSString *)URL

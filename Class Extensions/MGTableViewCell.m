@@ -15,4 +15,9 @@
 	return NSStringFromClass([self class]);
 }
 
++ (CGFloat)cellHeight
+{
+	return 44;
+}
+
 @end

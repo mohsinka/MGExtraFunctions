@@ -21,6 +21,15 @@
 	return array;
 }
 
+- (id)objectAtIndexOrNil:(NSUInteger)index
+{
+	if (index < self.count) {
+		return [self objectAtIndex:index];
+	} else {
+		return nil;
+	}
+}
+
 - (id)firstObject
 {
 	if (self.count > 0) {
@@ -29,4 +38,26 @@
 	return nil;
 }
 
+- (NSArray*)shuffledArray {
+	
+    NSMutableArray *temp = [[NSMutableArray alloc] initWithArray:self];
+	[temp shuffle];
+    return [NSArray arrayWithArray:temp];
+}
+
 @end
+
+
+@implementation NSMutableArray (Extra)
+
+
+- (void)shuffle
+{
+    for(NSUInteger i = [self count]; i > 1; i--) {
+        NSUInteger j = arc4random_uniform(i);
+        [self exchangeObjectAtIndex:i-1 withObjectAtIndex:j];
+    }
+}
+
+@end
+

@@ -11,7 +11,6 @@
 @interface NSString (Extra)
 + (NSString *) stringWithDuration:(NSUInteger) duration;
 - (NSDate *) dateFormattedByString:(NSString *)formatString;
-- (NSString *) stringForSQLiteParameter;
 - (NSString *)stringByRemovingCharacters:(NSString *)characters;
 - (BOOL)validateAsEmail;
 @end

@@ -22,9 +22,9 @@ static MGLocationHelper *_instance;
 	
 	if (self) {		
 		isLocationReceived = NO;
+		self.accuracy = kCLLocationAccuracyBest;
 		locationManager = [[CLLocationManager alloc] init];
 		locationManager.delegate = self;
-		[locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
 	}
 	return self;
 }
@@ -35,6 +35,7 @@ static MGLocationHelper *_instance;
 - (void)stopUpdatingLocation
 {
 	[locationManager stopUpdatingLocation];
+	isLocationReceived = NO;
 }
 
 - (CLRegion *)convertMapRegion:(MKCoordinateRegion)region
@@ -70,6 +71,9 @@ static MGLocationHelper *_instance;
 
 - (void) updateLocation 
 {
+	if (locationManager.desiredAccuracy != self.accuracy) {
+		[locationManager setDesiredAccuracy:self.accuracy];
+	}
 	[locationManager startUpdatingLocation];
 }	
 
@@ -97,12 +101,12 @@ static MGLocationHelper *_instance;
 
 - (NSString *)latitudeStringValue
 {
-	return [NSString stringWithFormat:@"%f", coordinates.latitude];
+	return [@(coordinates.latitude) stringValue];
 }
 
 - (NSString *)longitudeStringValue
 {
-	return [NSString stringWithFormat:@"%f", coordinates.longitude];
+	return [@(coordinates.longitude) stringValue];
 }
 
 - (double)latitude
@@ -118,23 +122,57 @@ static MGLocationHelper *_instance;
 
 #pragma mark CLLocationManagerDelegate
 
+- (void)updateHeading
+{
+    if ([CLLocationManager headingAvailable]) {
+        locationManager.headingFilter = 5;
+        [locationManager startUpdatingHeading];
+    }
+}
+
+- (void)stopUpdatingHeading
+{
+    [locationManager stopUpdatingHeading];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
+{
+    if (newHeading.headingAccuracy < 0) return;
+    CLLocationDirection theHeading = ((newHeading.trueHeading > 0) ?
+									  newHeading.trueHeading : newHeading.magneticHeading);
+    float oldRad = -manager.heading.trueHeading * M_PI / 180.0f;
+    float newRad = -theHeading * M_PI / 180.0f;
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    [userInfo setValue:[NSNumber numberWithFloat:oldRad] forKey:@"oldRad"];
+    [userInfo setValue:[NSNumber numberWithFloat:newRad] forKey:@"newRad"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdateHeading" object:nil userInfo:userInfo];
+}
+
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-	if ([error domain] == kCLErrorDomain) {
-		errorCode = [error code];
-    } else {
-    }
-	NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:error.localizedDescription, @"error", nil];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationReceiveDidFail object:self userInfo:parameters];
+	isLocationReceived = NO;
+	errorCode = [error code];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MGLocationReceiveDidFailNotification
+														object:self
+													  userInfo:@{@"error" : error}];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
 	coordinates = newLocation.coordinate;
 	isLocationReceived = YES;
-	NSDictionary *parameters = [NSDictionary dictionaryWithObject:newLocation forKey:kAKLocationKey];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kAKLocationChanged object:self userInfo:parameters];
-}	
+	NSDictionary *parameters = [NSDictionary dictionaryWithObject:newLocation forKey:@"location"];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MGLocationChangedNotification object:self userInfo:parameters];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+	CLLocation *newLocation = [locations lastObject];
+	coordinates = newLocation.coordinate;
+	isLocationReceived = YES;
+	NSDictionary *parameters = [NSDictionary dictionaryWithObject:newLocation forKey:@"location"];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MGLocationChangedNotification object:self userInfo:parameters];
+}
 
 
 @end

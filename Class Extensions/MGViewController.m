@@ -11,7 +11,7 @@
 #import "AdditionalFunctions.h"
 
 @interface MGViewController ()
-
+@property (weak, nonatomic) id contentScrollViewDelegate;
 @end
 
 @implementation MGViewController
@@ -24,20 +24,34 @@
 
 - (id)initForUniversalDevice
 {
-	NSString *nibName;
-	if (isPhone()) {
-		nibName = [NSString stringWithFormat:@"%@_iPhone", NSStringFromClass([self class])];
-	} else {
-		nibName = [NSString stringWithFormat:@"%@_iPad", NSStringFromClass([self class])];
+	NSString *nibName = [[self class] nibName];
+	if (![[NSBundle mainBundle] pathForResource:nibName ofType:@"nib"]) {
+		if (isPhone()) {
+			nibName = [nibName stringByAppendingString:@"_iPhone"];
+		} else {
+			nibName = [nibName stringByAppendingString:@"_iPad"];
+		}
 	}
-	self = [super initWithNibName:nibName bundle:nil];
+	self = [self initWithNibName:nibName bundle:nil];
 	return self;
+}
+
++ (NSString *)nibName
+{
+	return NSStringFromClass([self class]);
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	self.yControlScrollOffset = 20;
+	self.contentScrollViewDelegate = self.contentScrollView.delegate;
+	self.contentScrollView.delegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -48,20 +62,40 @@
                                                object:self.view.window];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:self.view.window];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:self.view.window];
+}
+
 - (void)viewDidUnload
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[super viewDidUnload];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)dealloc
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+	[super touchesBegan:touches withEvent:event];
+	
+	if (self.currentControl && self.hideKeyboardWhenTouch) {
+		[self.currentControl resignFirstResponder];
+	}
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+	if ([self.contentScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
+		[self.contentScrollViewDelegate performSelector:@selector(scrollViewWillBeginDragging:) withObject:scrollView];
+	}
+	if (!self.hideKeyboardWhenScroll || !self.isKeyboardShown) return;
+	
 	if (self.currentControl) {
 		[self.currentControl resignFirstResponder];
 	}
@@ -80,6 +114,7 @@
 	while (superview != self.contentScrollView) {
 		yOffset += superview.y;
 		superview = superview.superview;
+		if (!superview) return;
 	}
 	yOffset -= self.yControlScrollOffset;
 	if (yOffset + self.contentScrollView.height > self.contentScrollView.contentSize.height) {
@@ -95,7 +130,7 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
-	if (self.isKeyboardShown) return;
+	if (self.isKeyboardShown || !self.view.window) return;
 	self.keyboardShown = YES;
 	
 	if (!self.contentScrollView) return;
@@ -105,7 +140,7 @@
 	
 	[UIView animateWithDuration:duration animations:^{
 		int height = self.contentScrollView.superview.height - frame.size.height;
-		if (self.tabBarController.tabBar.y > 0) {
+		if (self.tabBarController) {
 			height += self.tabBarController.tabBar.height;
 		}
 		self.contentScrollView.height = height;
@@ -117,7 +152,7 @@
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
-	if (!self.isKeyboardShown || !self.contentScrollView) return;
+	if (!self.isKeyboardShown || !self.contentScrollView || !self.view.window) return;
 	
 	self.keyboardShown = NO;
 

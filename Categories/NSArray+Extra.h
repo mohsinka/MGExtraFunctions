@@ -12,5 +12,14 @@
 
 - (NSArray *)arrayOfKey:(NSString *)key;
 - (id)firstObject;
+- (NSArray*)shuffledArray;
+- (id)objectAtIndexOrNil:(NSUInteger)index;
+
+@end
+
+
+@interface NSMutableArray (Extra)
+
+- (void)shuffle;
 
 @end

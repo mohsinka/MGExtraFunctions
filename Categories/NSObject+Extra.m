@@ -29,7 +29,7 @@
 
 - (void)performSelectorOnMainThread:(SEL)aSelector withObject:(id)arg1 withObject:(id)arg2 waitUntilDone:(BOOL)wait
 {
-	if (aSelector == nil || arg1 == nil || arg2 == nil) return;
+	if (!aSelector) return;
 	
 	NSMethodSignature *signature = [self methodSignatureForSelector:aSelector];
 	NSInvocation *invoke = [NSInvocation invocationWithMethodSignature:signature];

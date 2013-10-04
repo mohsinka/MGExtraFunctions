@@ -10,6 +10,39 @@
 
 @implementation UIButton (Extra)
 
+- (NSString *)title
+{
+	return [self titleForState:UIControlStateNormal];
+}
+
+- (void)setTitle:(NSString *)title
+{
+	[self setTitle:title forState:UIControlStateNormal];
+}
+
+- (void)setBackgroundImageForSelectedState:(UIImage *)image
+{
+	[self setBackgroundImage:image forState:UIControlStateSelected];
+	[self setBackgroundImage:image forState:UIControlStateSelected|UIControlStateHighlighted];
+}
+
+- (void)setImageForSelectedState:(UIImage *)image
+{
+	[self setImage:image forState:UIControlStateSelected];
+	[self setImage:image forState:UIControlStateSelected|UIControlStateHighlighted];
+}
+
+- (void)setTitleForSelectedState:(NSString *)title
+{
+	[self setTitle:title forState:UIControlStateSelected];
+	[self setTitle:title forState:UIControlStateSelected|UIControlStateHighlighted];
+}
+- (void)setTitleColorForSelectedState:(UIColor *)color
+{
+	[self setTitleColor:color forState:UIControlStateSelected];
+	[self setTitleColor:color forState:UIControlStateSelected|UIControlStateHighlighted];
+}
+
 + (UIButton *)buttonWithImage:(UIImage *)image
 {
 	UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
@@ -38,35 +71,6 @@
 		}];
 	} else {
 		[self setImage:image forState:state];
-	}
-}
-
-- (void)backgroundLoadImageWithParameters:(NSDictionary *)parameters
-{
-	[self performSelectorInBackground:@selector(loadImageWithParameters:) withObject:parameters];
-}
-
-- (void)loadImageWithParameters:(NSDictionary *)parameters
-{
-	@autoreleasepool {	
-		NSString *URL = [parameters valueForKey:@"URL"];
-		NSNumber *identifier = [parameters valueForKey:@"identifier"];
-		if (!identifier || !URL) return;
-		
-		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-		NSString *imagePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"images_cache"];
-		imagePath = [imagePath stringByAppendingPathComponent:URL.lastPathComponent];
-		imagePath = [imagePath stringByAppendingString:identifier.stringValue];
-		UIImage *loadedImage = [UIImage imageWithContentsOfFile:imagePath];
-		
-		if (!loadedImage) {
-			NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:URL]];
-			[data writeToFile:imagePath atomically:NO];
-			loadedImage = [UIImage imageWithData:data];
-		}
-		
-		[self setImage:loadedImage forState:UIControlStateNormal];
-		[self setImage:loadedImage forState:UIControlStateHighlighted];
 	}
 }
 

@@ -11,6 +11,12 @@
 
 @implementation UIView (Extra)
 
+- (void)rasterizeLayer
+{
+	self.layer.shouldRasterize = YES;
+	self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+}
+
 - (CGPoint)centerOfView
 {
 	return CGPointMake(roundf(self.width / 2), roundf(self.height / 2));
@@ -59,6 +65,11 @@
 - (CGFloat)bottomYPoint
 {
 	return self.y + self.height;
+}
+
+- (CGRect)zeroPositionFrame
+{
+	return CGRectMakeWithSize(0, 0, self.frame.size);
 }
 
 - (void)clearBackgroundColor
@@ -132,8 +143,14 @@
 
 + (id)loadFromNibNamed:(NSString *)nibName
 {
+	if (![[NSBundle mainBundle] pathForResource:nibName ofType:@"nib"]) {
+		if (isPhone()) {
+			nibName = [nibName stringByAppendingString:@"_iPhone"];
+		} else {
+			nibName = [nibName stringByAppendingString:@"_iPad"];
+		}
+	}
 	NSArray *nib = [[NSBundle mainBundle] loadNibNamed:nibName owner:nil options:nil];
-	if (!nib) return nil;
 	return [nib objectAtIndex:0];
 }
 
@@ -156,6 +173,15 @@
 	UIView *activityView = [self viewWithTag:kActivityViewTag];
 	if (!activityView) return;
 	[activityView removeFromSuperview];
+}
+
+- (UIImage *)captureView
+{
+	UIGraphicsBeginImageContext(self.frame.size);
+	[self.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return viewImage;
 }
 
 @end

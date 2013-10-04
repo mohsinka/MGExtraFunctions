@@ -13,11 +13,14 @@
 
 - (void)hideWaitingSpinner
 {
+	if (waitingSpinnerView.isHidden) return;
+	
 	[waitingSpinnerView hide];
 }
 
 - (void)showWaitingSpinner
 {
+	if (!waitingSpinnerView.isHidden) return;
 	[self.window addSubview:waitingSpinnerView];
 	[waitingSpinnerView show];
 }

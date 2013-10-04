@@ -12,9 +12,10 @@
 
 + (UIImage *) stretchableImageWithName:(NSString *)name;
 + (UIImage *) buttonImageWithName:(NSString *)name;
-+ (UIImage *) stretchableImageWithName:(NSString *)name edgeInset:(int)inset;
 - (UIImage *) overlayWithImage:(UIImage *)image;
 - (UIImage *) cutImageWithRect:(CGRect)rect;
 - (UIImage *) fixOrientation;
+- (UIImage *) imageWithColor:(UIColor *)color;
+- (UIImage *) grayscaleCopy;
 
 @end

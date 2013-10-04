@@ -11,7 +11,7 @@
 @interface MGButtonImageLoaderOperation : MGImageLoaderOperation
 <MGImageLoaderOperationDelegate>
 
-@property (unsafe_unretained, nonatomic) UIButton *button;
+@property (weak, atomic) UIButton *button;
 
 + (id)operationWithURL:(NSString *)URL button:(UIButton *)button caching:(NSUInteger)caching;
 

@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) NSMutableDictionary *gradientColors;
 @property (strong, nonatomic) CAGradientLayer *gradientLayer;
+@property (strong, nonatomic) CALayer *highlightLayer;
 
 - (void)setGradientFirstColor:(UIColor *)firstColor secondColor:(UIColor *)secondColor forState:(UIControlState)state;
 

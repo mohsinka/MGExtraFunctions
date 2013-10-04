@@ -9,14 +9,9 @@
 #import "MGWaitingSpinnerView.h"
 
 @interface MGRotatingWaitingSpinner : MGWaitingSpinnerView
-{
-	double angle;
-}
-@property (strong, nonatomic) UIView *foreground;
-@property (strong, nonatomic) NSTimer *timer;
-@property (nonatomic) BOOL isShowing;
 
-- (void)rotateForeground;
+@property (strong, nonatomic) UIView *foreground;
+
 - (void)resetForeground;
 
 @end

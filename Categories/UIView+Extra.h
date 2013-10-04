@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
-#define kFullAutoresizingMask UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin 
+#define kFullAutoresizingMask UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
 
 #define kExtraMinRatingTag		500
 #define kActivityViewTag		2983
@@ -32,6 +33,7 @@
 - (CGPoint) centerOfView;
 - (CGFloat) bottomYPoint;
 - (CGFloat) rightXPoint;
+- (CGRect) zeroPositionFrame;
 
 - (UIViewController *)firstViewController;
 - (void)clearBackgroundColor;
@@ -41,5 +43,8 @@
 + (id)loadFromNibNamed:(NSString *)nibName;
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style;
 - (void)hideActivity;
+- (void)rasterizeLayer;
+
+- (UIImage *)captureView;
 
 @end

@@ -13,12 +13,15 @@
 
 @property (nonatomic, getter = isKeyboardShown) BOOL keyboardShown;
 @property (nonatomic) int yControlScrollOffset;
+@property (assign, nonatomic) BOOL hideKeyboardWhenScroll;
+@property (assign, nonatomic) BOOL hideKeyboardWhenTouch;
 @property (unsafe_unretained, nonatomic) UIView *currentControl;
 @property (unsafe_unretained, nonatomic) IBOutlet UIScrollView *contentScrollView;
 
 
 - (id)initForUniversalDevice;
 - (id)initFromClassName;
++ (NSString *)nibName;
 - (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
 - (void)scrollToCurrentControl;

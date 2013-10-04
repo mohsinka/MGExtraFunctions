@@ -18,6 +18,7 @@
 		operation.imageView = imageView;
 		operation.caching = caching;
 		operation.delegate = operation;
+		operation.hash = [operation generateHashFromURL:URL];
 	}
 	
 	return operation;
@@ -29,16 +30,21 @@
 - (void)imageDidFinishLoad:(UIImage *)image forObject:(id)object
 {
 	if (!_imageView) return;
-	
+	if (object_getClass(self.imageView) == Nil) {
+		NSLog(@"No class for %@", self);
+		return;
+	}
 	if (![_imageView isKindOfClass:[UIImageView class]]) return;
 	
 	_imageView.image = image;
+	
+	self.imageView = nil;
 }
 
 - (void)imageDidFailLoadForObject:(id)object error:(NSString *)error
 {
 	NSLog(@"Fail to load image to %@:\n%@", _imageView, error);
-	_imageView.image = nil;
+	self.imageView = nil;
 }
 
 @end

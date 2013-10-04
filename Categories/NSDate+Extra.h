@@ -30,6 +30,7 @@
 - (int) numberOfWeeksInMonth;
 - (BOOL)isEarlierThanDate:(NSDate *)date;
 - (BOOL)isLaterThanDate:(NSDate *)date;
++ (NSDate *)tomorrow;
 
 @end
 

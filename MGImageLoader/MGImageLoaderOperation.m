@@ -9,7 +9,7 @@
 #import "MGImageLoaderOperation.h"
 #import "NSObject+Extra.h"
 #import "MGImageLoader.h"
-#import <objc/runtime.h>
+
 
 @interface MGImageLoaderOperation (Private)
 @end
@@ -28,12 +28,17 @@
 - (void)finishImageLoad:(UIImage *)image
 {
 	if (!self.delegate) return;
+	if (object_getClass(self.delegate) == Nil) {
+		NSLog(@"No class for %@", self);
+		return;
+	}
 	if (![self.delegate respondsToSelector:@selector(imageDidFinishLoad:forObject:)]) return;
-	
+
 	[self.delegate performSelectorOnMainThread:@selector(imageDidFinishLoad:forObject:)
 								withObject:image
 								withObject:self.object
-							 waitUntilDone:YES];		
+							 waitUntilDone:YES];
+	self.delegate = nil;
 }
 
 - (void)failImageLoad:(NSString *)reason
@@ -45,6 +50,13 @@
 								withObject:self.object
 								withObject:reason
 							 waitUntilDone:YES];
+	self.delegate = nil;
+}
+
+- (void)cancel
+{
+	self.delegate = nil;
+	[super cancel];
 }
 
 - (NSString *)generateHashFromURL:(NSString *)URL
@@ -77,7 +89,6 @@
 			[self failImageLoad:NSLocalizedString(@"Can't load image: URL is empty", nil)];
 			return;
 		}
-		
 		MGImageLoader *loader = [MGImageLoader sharedInstance];
 		
 		NSString *imagePath = [[loader.cachePath stringByAppendingPathComponent:_hash] stringByAppendingPathExtension:MGImageLoaderFileExtension];
@@ -107,9 +118,9 @@
 				[data writeToFile:imagePath atomically:NO];
 			}
 			
-			if ((_caching & MGImageLoaderCachingTypeMemmory) == MGImageLoaderCachingTypeMemmory
+			if ((_caching & MGImageLoaderCachingTypeMemory) == MGImageLoaderCachingTypeMemory
 				&& _hash) {
-				[loader addImageToMemmoryCache:image hash:_hash];
+				[loader addImageToMemoryCache:image hash:_hash];
 			}
 			
 			[self finishImageLoad:image];
@@ -120,7 +131,7 @@
 	}
 	}
 	@catch (NSException *exception) {
-		NSLog(@"Exception %@ at %@ main block: delegate: %@, URL: %@", exception.description,  NSStringFromClass([self class]), self.delegate, self.URL);
+		NSLog(@"Exception %@ in %@ main block: delegate: %@, URL: %@", exception.description, NSStringFromClass([self class]), self.delegate, self.URL);
 	}
 	@finally {
 	}

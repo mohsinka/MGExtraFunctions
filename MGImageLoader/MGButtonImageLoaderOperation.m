@@ -18,6 +18,7 @@
 		operation.button = button;
 		operation.caching = caching;
 		operation.delegate = operation;
+		operation.hash = [operation generateHashFromURL:URL];
 	}
 	
 	return operation;
@@ -29,15 +30,19 @@
 - (void)imageDidFinishLoad:(UIImage *)image forObject:(id)object
 {
 	if (!_button) return;
-	
+	if (object_getClass(_button) == Nil) {
+		NSLog(@"No class for %@", self);
+		return;
+	}
 	if (![_button isKindOfClass:[UIButton class]]) return;
 	
 	[_button setImage:image forState:UIControlStateNormal];
+	self.button = nil;
 }
 
 - (void)imageDidFailLoadForObject:(id)object error:(NSString *)error
 {
 	NSLog(@"Fail to load image to %@:\n%@", _button, error);
-	[_button setImage:nil forState:UIControlStateNormal];
+	self.button = nil;
 }
 @end

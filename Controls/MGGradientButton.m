@@ -32,11 +32,17 @@
 
 - (void)initButton
 {
-	self.layer.shadowOffset = CGSizeMake(0, 0);
+	self.layer.shadowOffset = CGSizeMake(0, 0);	
 	_gradientLayer = [CAGradientLayer layer];
 	_gradientLayer.frame = self.layer.bounds;
 	_gradientColors = [NSMutableDictionary dictionary];
 	[self.layer addSublayer:_gradientLayer];
+	
+	_highlightLayer = [CALayer layer];
+	_highlightLayer.frame = self.layer.bounds;
+	_highlightLayer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.35].CGColor;
+	_highlightLayer.hidden = YES;
+	[self.layer addSublayer:_highlightLayer];
 }
 
 - (void)setFrame:(CGRect)frame
@@ -53,14 +59,7 @@
 
 - (void)setHighlighted:(BOOL)highlighted
 {
-	if (highlighted) {
-		self.layer.shadowRadius = 3;
-		self.layer.shadowOpacity = 0.6;
-		
-	} else {
-		self.layer.shadowRadius = 0;
-		self.layer.shadowOpacity = 0;
-	}
+	_highlightLayer.hidden = !highlighted;
 	[super setHighlighted:highlighted];
 }
 
@@ -89,6 +88,8 @@
 	if ([self.layer.sublayers indexOfObject:_gradientLayer] != 0) {
 		[_gradientLayer removeFromSuperlayer];
 		[self.layer insertSublayer:_gradientLayer atIndex:0];
+		[_highlightLayer removeFromSuperlayer];
+		[self.layer insertSublayer:_highlightLayer above:_gradientLayer];
 	}
 	[super drawRect:rect];
 }
