@@ -12,6 +12,7 @@
 
 @interface MGViewController ()
 @property (weak, nonatomic) id contentScrollViewDelegate;
+@property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
 @end
 
 @implementation MGViewController
@@ -44,6 +45,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
 	self.yControlScrollOffset = 20;
 	self.contentScrollViewDelegate = self.contentScrollView.delegate;
 	self.contentScrollView.delegate = self;
@@ -89,6 +91,13 @@
 	}
 }
 
+- (void)hideKeyboard
+{
+	if (self.currentControl && self.hideKeyboardWhenTouch) {
+		[self.currentControl resignFirstResponder];
+	}
+}
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
 	if ([self.contentScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
@@ -99,6 +108,20 @@
 	if (self.currentControl) {
 		[self.currentControl resignFirstResponder];
 	}
+}
+
+- (void)setContentScrollView:(UIScrollView *)contentScrollView
+{
+	_contentScrollView = contentScrollView;
+	[self.tapGesture.view removeGestureRecognizer:self.tapGesture];
+	[contentScrollView addGestureRecognizer:self.tapGesture];
+}
+
+- (void)setHideKeyboardWhenTouch:(BOOL)hideKeyboardWhenTouch
+{
+	_hideKeyboardWhenTouch = hideKeyboardWhenTouch;
+	[self.tapGesture.view removeGestureRecognizer:self.tapGesture];
+	[self.contentScrollView addGestureRecognizer:self.tapGesture];
 }
 
 #pragma mark - Public
