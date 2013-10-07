@@ -39,6 +39,10 @@ CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size)
 {
 	return CGRectMake(x, y, size.width, size.height);
 }
+int RoundToInt(double x)
+{
+	return (int) round(x);
+}
 
 NSString * IntToString(int i)
 {

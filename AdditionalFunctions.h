@@ -52,6 +52,7 @@ CGRect CGRectWithWidth(CGRect rect, CGFloat width);
 CGRect CGRectWithHeight(CGRect rect, CGFloat height);
 CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size);
 NSString * IntToString(int i);
+int RoundToInt(double x);
 NSString * FloatToString(float f);
 NSString * BoolToString(BOOL value);
 
