@@ -18,7 +18,7 @@
 @property (unsafe_unretained, nonatomic) UIView *currentControl;
 @property (unsafe_unretained, nonatomic) IBOutlet UIScrollView *contentScrollView;
 
-
+- (void)hideKeyboard;
 - (id)initForUniversalDevice;
 - (id)initFromClassName;
 + (NSString *)nibName;
