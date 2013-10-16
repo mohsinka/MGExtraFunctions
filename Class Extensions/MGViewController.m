@@ -46,6 +46,7 @@
 {
     [super viewDidLoad];
 	self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+	self.tapGesture.cancelsTouchesInView = NO;
 	self.yControlScrollOffset = 20;
 	self.contentScrollViewDelegate = self.contentScrollView.delegate;
 	self.contentScrollView.delegate = self;
