@@ -17,6 +17,16 @@
 
 @implementation MGViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+		self.tapGesture.cancelsTouchesInView = NO;
+	}
+	return self;
+}
+
 - (id)initFromClassName
 {
 	self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
@@ -45,8 +55,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-	self.tapGesture.cancelsTouchesInView = NO;
 	self.yControlScrollOffset = 20;
 	self.contentScrollViewDelegate = self.contentScrollView.delegate;
 	self.contentScrollView.delegate = self;
@@ -114,8 +122,14 @@
 - (void)setContentScrollView:(UIScrollView *)contentScrollView
 {
 	_contentScrollView = contentScrollView;
-	[self.tapGesture.view removeGestureRecognizer:self.tapGesture];
-	[contentScrollView addGestureRecognizer:self.tapGesture];
+	if (!self.tapGesture) return;
+	
+	if (self.tapGesture.view) {
+		[self.tapGesture.view removeGestureRecognizer:self.tapGesture];
+	}
+	if (contentScrollView) {
+		[contentScrollView addGestureRecognizer:self.tapGesture];
+	}
 }
 
 - (void)setHideKeyboardWhenTouch:(BOOL)hideKeyboardWhenTouch

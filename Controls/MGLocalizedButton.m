@@ -12,10 +12,19 @@
 
 - (void)awakeFromNib
 {
+	NSString *normalTitle = [self titleForState:UIControlStateNormal];
 	[self setTitle:NSLocalizedString([self titleForState:UIControlStateNormal], nil) forState:UIControlStateNormal];
-	[self setTitle:NSLocalizedString([self titleForState:UIControlStateHighlighted], nil) forState:UIControlStateHighlighted];
-	[self setTitle:NSLocalizedString([self titleForState:UIControlStateDisabled], nil) forState:UIControlStateDisabled];
-	[self setTitle:NSLocalizedString([self titleForState:UIControlStateSelected], nil) forState:UIControlStateSelected];
+	if (![normalTitle isEqualToString:[self titleForState:UIControlStateHighlighted]]) {
+		[self setTitle:NSLocalizedString([self titleForState:UIControlStateHighlighted], nil) forState:UIControlStateHighlighted];
+	}
+	
+	if (![normalTitle isEqualToString:[self titleForState:UIControlStateDisabled]]) {
+		[self setTitle:NSLocalizedString([self titleForState:UIControlStateDisabled], nil) forState:UIControlStateDisabled];
+	}
+	
+	if (![normalTitle isEqualToString:[self titleForState:UIControlStateSelected]]) {
+		[self setTitle:NSLocalizedString([self titleForState:UIControlStateSelected], nil) forState:UIControlStateSelected];
+	}
 }
 
 @end
