@@ -109,9 +109,12 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-	if ([self.contentScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
-		[self.contentScrollViewDelegate performSelector:@selector(scrollViewWillBeginDragging:) withObject:scrollView];
+	if (![self.contentScrollViewDelegate isEqual:self]) {
+		if ([self.contentScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
+			[self.contentScrollViewDelegate performSelector:@selector(scrollViewWillBeginDragging:) withObject:scrollView];
+		}
 	}
+	
 	if (!self.hideKeyboardWhenScroll || !self.isKeyboardShown) return;
 	
 	if (self.currentControl) {
@@ -177,7 +180,7 @@
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 	
 	[UIView animateWithDuration:duration animations:^{
-		int height = self.contentScrollView.superview.height - frame.size.height;
+		int height = self.contentScrollView.superview.height - frame.size.height - self.contentScrollView.y;
 		if (self.tabBarController) {
 			height += self.tabBarController.tabBar.height;
 		}
