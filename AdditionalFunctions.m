@@ -69,7 +69,7 @@ NSString * BoolToString(BOOL value)
 + (void) showAlertWithTitle:(NSString *)title message:(NSString *)message {
     UIAlertView *view = [[UIAlertView alloc] initWithTitle:title 
                                                    message:message
-                                                  delegate:self
+                                                  delegate:nil
                                          cancelButtonTitle:@"OK"
                                          otherButtonTitles:nil];
     [view show];
