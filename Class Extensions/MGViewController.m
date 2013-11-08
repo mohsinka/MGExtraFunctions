@@ -178,12 +178,10 @@
 	
 	CGRect frame = [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+	self.previousContectScrollViewHeight = self.contentScrollView.height;
 	
 	[UIView animateWithDuration:duration animations:^{
 		int height = self.contentScrollView.superview.height - frame.size.height - self.contentScrollView.y;
-		if (self.tabBarController) {
-			height += self.tabBarController.tabBar.height;
-		}
 		self.contentScrollView.height = height;
 		
 	} completion:^(BOOL finished) {
@@ -200,7 +198,7 @@
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 	
 	[UIView animateWithDuration:duration animations:^{
-		self.contentScrollView.height = self.contentScrollView.superview.height;
+		self.contentScrollView.height = self.previousContectScrollViewHeight;
 	}];
 }
 

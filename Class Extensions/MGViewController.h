@@ -12,7 +12,8 @@
 <UITextFieldDelegate, UITextViewDelegate>
 
 @property (nonatomic, getter = isKeyboardShown) BOOL keyboardShown;
-@property (nonatomic) int yControlScrollOffset;
+@property (assign, nonatomic) NSInteger yControlScrollOffset;
+@property (assign, nonatomic) NSInteger previousContectScrollViewHeight;
 @property (assign, nonatomic) BOOL hideKeyboardWhenScroll;
 @property (assign, nonatomic) BOOL hideKeyboardWhenTouch;
 @property (unsafe_unretained, nonatomic) UIView *currentControl;
