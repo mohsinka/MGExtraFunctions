@@ -27,7 +27,6 @@
 
 - (void)initialize
 {
-	self.daysToStoreInCache = 5;
 	waitingSpinnerView = [[MGRotatingWaitingSpinner alloc] initWithStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	[self.window addSubview:waitingSpinnerView];
 	
@@ -51,31 +50,6 @@
 		[UIApplication sharedApplication].networkActivityIndicatorVisible = (newInternetActivitiesCount > 0);
 	}
 	internetActivitiesCount = newInternetActivitiesCount;
-}
-
-- (void)clearOldCacheImagesInBackground
-{
-	[self performSelectorInBackground:@selector(clearOldCacheImages) withObject:nil];
-}
-
-- (void)clearOldCacheImages;
-{
-	@autoreleasepool {
-		NSFileManager *manager = [NSFileManager defaultManager];
-		NSArray *items = [manager contentsOfDirectoryAtPath:cachePath error:nil];
-		
-		for (NSString *file in items) {
-			NSDictionary *attributes = [manager attributesOfItemAtPath:[cachePath stringByAppendingPathComponent:file]
-																 error:nil];
-			if (!attributes) continue;
-			
-			NSDate *fileDate = [attributes fileCreationDate];
-			NSTimeInterval interval = fileDate.timeIntervalSinceNow;
-			if (interval < - 60 * 60 * 24 * self.daysToStoreInCache) {
-				[manager removeItemAtPath:file error:nil];
-			}
-		}
-	}
 }
 
 @end

@@ -13,7 +13,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic) int internetActivitiesCount;
-@property (nonatomic) int daysToStoreInCache;
 @property (strong, nonatomic) MGRotatingWaitingSpinner *waitingSpinnerView;
 @property (copy, nonatomic) NSString *cachePath;
 @property (copy, nonatomic) NSString *libraryPath;
@@ -22,7 +21,5 @@
 - (void)initialize;
 - (void)hideWaitingSpinner;
 - (void)showWaitingSpinner;
-- (void)clearOldCacheImages;
-- (void)clearOldCacheImagesInBackground;
 
 @end
