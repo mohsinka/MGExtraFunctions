@@ -42,6 +42,7 @@
 - (int)rating;
 + (id)loadFromNibNamed:(NSString *)nibName;
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style;
+- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color;
 - (void)hideActivity;
 - (void)rasterizeLayer;
 

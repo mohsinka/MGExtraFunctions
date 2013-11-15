@@ -21,6 +21,15 @@
 	return array;
 }
 
+- (id)objectAtIndexOrNil:(NSUInteger)index
+{
+	if (index < self.count) {
+		return [self objectAtIndex:index];
+	} else {
+		return nil;
+	}
+}
+
 - (id)firstObject
 {
 	if (self.count > 0) {

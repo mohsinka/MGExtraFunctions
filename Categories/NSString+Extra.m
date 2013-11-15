@@ -33,11 +33,6 @@
 	return returnString;
 }
 
-- (NSString *) stringForSQLiteParameter 
-{
-	return [self stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
-}
-
 - (NSDate *) dateFormattedByString:(NSString *)formatString 
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

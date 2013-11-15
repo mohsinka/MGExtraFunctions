@@ -10,6 +10,9 @@
 
 @interface UIButton (Extra)
 
+@property (nonatomic, setter = setTitle:, getter = title) NSString *title;
+- (NSString *)title;
+- (void)setTitle:(NSString *)title;
 + (UIButton *)buttonWithImage:(UIImage *)image;
 + (UIButton *)buttonWithTitle:(NSString *)title font:(UIFont *)font height:(int)height;
 - (void)setImage:(UIImage *)image forState:(UIControlState)state animated:(BOOL)animated;

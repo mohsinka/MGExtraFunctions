@@ -12,9 +12,20 @@
 
 @interface MGViewController ()
 @property (weak, nonatomic) id contentScrollViewDelegate;
+@property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
 @end
 
 @implementation MGViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+		self.tapGesture.cancelsTouchesInView = NO;
+	}
+	return self;
+}
 
 - (id)initFromClassName
 {
@@ -89,16 +100,46 @@
 	}
 }
 
+- (void)hideKeyboard
+{
+	if (self.currentControl && self.hideKeyboardWhenTouch) {
+		[self.currentControl resignFirstResponder];
+	}
+}
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-	if ([self.contentScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
-		[self.contentScrollViewDelegate performSelector:@selector(scrollViewWillBeginDragging:) withObject:scrollView];
+	if (![self.contentScrollViewDelegate isEqual:self]) {
+		if ([self.contentScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
+			[self.contentScrollViewDelegate performSelector:@selector(scrollViewWillBeginDragging:) withObject:scrollView];
+		}
 	}
+	
 	if (!self.hideKeyboardWhenScroll || !self.isKeyboardShown) return;
 	
 	if (self.currentControl) {
 		[self.currentControl resignFirstResponder];
 	}
+}
+
+- (void)setContentScrollView:(UIScrollView *)contentScrollView
+{
+	_contentScrollView = contentScrollView;
+	if (!self.tapGesture) return;
+	
+	if (self.tapGesture.view) {
+		[self.tapGesture.view removeGestureRecognizer:self.tapGesture];
+	}
+	if (contentScrollView) {
+		[contentScrollView addGestureRecognizer:self.tapGesture];
+	}
+}
+
+- (void)setHideKeyboardWhenTouch:(BOOL)hideKeyboardWhenTouch
+{
+	_hideKeyboardWhenTouch = hideKeyboardWhenTouch;
+	[self.tapGesture.view removeGestureRecognizer:self.tapGesture];
+	[self.contentScrollView addGestureRecognizer:self.tapGesture];
 }
 
 #pragma mark - Public
@@ -137,12 +178,10 @@
 	
 	CGRect frame = [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+	self.previousContectScrollViewHeight = self.contentScrollView.height;
 	
 	[UIView animateWithDuration:duration animations:^{
-		int height = self.contentScrollView.superview.height - frame.size.height;
-		if (self.tabBarController) {
-			height += self.tabBarController.tabBar.height;
-		}
+		int height = self.contentScrollView.superview.height - frame.size.height - self.contentScrollView.y;
 		self.contentScrollView.height = height;
 		
 	} completion:^(BOOL finished) {
@@ -159,7 +198,7 @@
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 	
 	[UIView animateWithDuration:duration animations:^{
-		self.contentScrollView.height = self.contentScrollView.superview.height;
+		self.contentScrollView.height = self.previousContectScrollViewHeight;
 	}];
 }
 
