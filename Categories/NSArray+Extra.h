@@ -14,6 +14,8 @@
 - (id)firstObject;
 - (NSArray*)shuffledArray;
 - (id)objectAtIndexOrNil:(NSUInteger)index;
+- (id)randomObject;
+- (NSArray *)randomSubarrayWithCapacity:(NSUInteger)capacity;
 
 @end
 
