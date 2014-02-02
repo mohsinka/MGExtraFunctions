@@ -176,13 +176,14 @@
 	
 	if (!self.contentScrollView) return;
 	
-	CGRect frame = [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+	CGRect keyboardFrame = [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-	self.previousContectScrollViewHeight = self.contentScrollView.height;
 	
 	[UIView animateWithDuration:duration animations:^{
-		int height = self.contentScrollView.superview.height - frame.size.height - self.contentScrollView.y;
-		self.contentScrollView.height = height;
+		UIEdgeInsets contentInset = self.contentScrollView.contentInset;
+		contentInset.bottom = keyboardFrame.size.height;
+		self.contentScrollView.contentInset = contentInset;
+		self.contentScrollView.scrollIndicatorInsets = contentInset;
 		
 	} completion:^(BOOL finished) {
 		[self scrollToCurrentControl];
@@ -198,7 +199,10 @@
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 	
 	[UIView animateWithDuration:duration animations:^{
-		self.contentScrollView.height = self.previousContectScrollViewHeight;
+		UIEdgeInsets contentInset = self.contentScrollView.contentInset;
+		contentInset.bottom = 0;
+		self.contentScrollView.contentInset = contentInset;
+		self.contentScrollView.scrollIndicatorInsets = contentInset;
 	}];
 }
 

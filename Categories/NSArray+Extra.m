@@ -29,6 +29,19 @@
 		return nil;
 	}
 }
+- (NSArray *)randomSubarrayWithCapacity:(NSUInteger)capacity
+{
+	capacity = MIN(capacity, self.count);
+	NSMutableArray *selfMutableCopy = self.mutableCopy;
+	NSMutableArray *subarray = [NSMutableArray arrayWithCapacity:capacity];
+	while (subarray.count < capacity) {
+		id object = selfMutableCopy.randomObject;
+		[subarray addObject:object];
+		[selfMutableCopy removeObject:object];
+	}
+	return [NSArray arrayWithArray:subarray];
+}
+
 
 - (id)firstObject
 {
@@ -43,6 +56,13 @@
     NSMutableArray *temp = [[NSMutableArray alloc] initWithArray:self];
 	[temp shuffle];
     return [NSArray arrayWithArray:temp];
+}
+
+- (id)randomObject
+{
+	if (self.count == 0) return nil;
+	
+	return self[arc4random_uniform(self.count)];
 }
 
 @end
