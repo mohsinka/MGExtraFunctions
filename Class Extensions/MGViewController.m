@@ -13,6 +13,7 @@
 @interface MGViewController ()
 @property (weak, nonatomic) id contentScrollViewDelegate;
 @property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
+@property (assign, nonatomic, readonly) BOOL systemVersionGreaterThan7;
 @end
 
 @implementation MGViewController
@@ -21,8 +22,11 @@
 {
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
-		self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-		self.tapGesture.cancelsTouchesInView = NO;
+    _systemVersionGreaterThan7 = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0");
+    if (!self.systemVersionGreaterThan7) {
+      self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+      self.tapGesture.cancelsTouchesInView = NO;
+    }
 	}
 	return self;
 }
@@ -54,23 +58,35 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-	self.yControlScrollOffset = 20;
-	self.contentScrollViewDelegate = self.contentScrollView.delegate;
-	self.contentScrollView.delegate = self;
+  [super viewDidLoad];
+	self.verticalControlScrollOffset = 20;
+  
+  if (self.systemVersionGreaterThan7) {
+    
+    if (self.hideKeyboardWhenScroll ) {
+      self.contentScrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+      
+    } else if (self.hideKeyboardWhenTouch ) {
+      self.contentScrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+    }
+    
+  } else {
+    self.contentScrollViewDelegate = self.contentScrollView.delegate;
+    self.contentScrollView.delegate = self;
+  }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
 	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:self.view.window];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:self.view.window];
+                                           selector:@selector(keyboardWillShow:)
+                                               name:UIKeyboardWillShowNotification
+                                             object:self.view.window];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(keyboardWillHide:)
+                                               name:UIKeyboardWillHideNotification
+                                             object:self.view.window];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -95,6 +111,8 @@
 {
 	[super touchesBegan:touches withEvent:event];
 	
+  if (self.systemVersionGreaterThan7) return;
+  
 	if (self.currentControl && self.hideKeyboardWhenTouch) {
 		[self.currentControl resignFirstResponder];
 	}
@@ -148,8 +166,7 @@
 {
 	if (!self.contentScrollView || !self.currentControl) return;
 	
-	if (self.contentScrollView.height == self.contentScrollView.superview.height) return;
-		
+  if (!self.isKeyboardShown) return;
 	int yOffset = _currentControl.y;
 	UIView *superview = _currentControl.superview;
 	while (superview != self.contentScrollView) {
@@ -157,7 +174,7 @@
 		superview = superview.superview;
 		if (!superview) return;
 	}
-	yOffset -= self.yControlScrollOffset;
+	yOffset -= self.verticalControlScrollOffset;
 	if (yOffset + self.contentScrollView.height > self.contentScrollView.contentSize.height) {
 		yOffset = self.contentScrollView.contentSize.height - self.contentScrollView.height;
 	}
@@ -195,7 +212,7 @@
 	if (!self.isKeyboardShown || !self.contentScrollView || !self.view.window) return;
 	
 	self.keyboardShown = NO;
-
+  
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 	
 	[UIView animateWithDuration:duration animations:^{
