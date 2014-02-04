@@ -23,10 +23,8 @@
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
     _systemVersionGreaterThan7 = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0");
-    if (!self.systemVersionGreaterThan7) {
-      self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-      self.tapGesture.cancelsTouchesInView = NO;
-    }
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    self.tapGesture.cancelsTouchesInView = NO;
 	}
 	return self;
 }
