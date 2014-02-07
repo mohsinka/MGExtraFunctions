@@ -5,22 +5,22 @@
 @synthesize locationManager, isLocationReceived, coordinates, errorCode;
 
 static MGLocationHelper *_instance;
-+ (MGLocationHelper *)sharedInstance 
++ (MGLocationHelper *)sharedInstance
 {
 	@synchronized(self) {
 		
-        if (_instance == nil) {
-            _instance = [[super alloc] init];
-        }
+    if (_instance == nil) {
+      _instance = [[super alloc] init];
     }
-    return _instance;
+  }
+  return _instance;
 }
 
 - (id) init
 {
 	self = [super init];
 	
-	if (self) {		
+	if (self) {
 		isLocationReceived = NO;
 		self.accuracy = kCLLocationAccuracyBest;
 		locationManager = [[CLLocationManager alloc] init];
@@ -41,12 +41,12 @@ static MGLocationHelper *_instance;
 - (CLRegion *)convertMapRegion:(MKCoordinateRegion)region
 {
 	CLLocation *regionEnd = [[CLLocation alloc] initWithLatitude:region.span.latitudeDelta + region.center.latitude
-													  longitude:region.span.longitudeDelta + region.center.longitude];
+                                                     longitude:region.span.longitudeDelta + region.center.longitude];
 	CLLocation *center = [[CLLocation alloc] initWithLatitude:region.center.latitude longitude:region.center.longitude];
 	CLLocationDistance distance = [center distanceFromLocation:regionEnd];
-
-    CLRegion *regionObject = [[CLRegion alloc] initCircularRegionWithCenter: region.center radius:distance identifier:@"mapRegion"];
-    return regionObject;
+  
+  CLCircularRegion *regionObject = [[CLCircularRegion alloc] initWithCenter:region.center radius:distance identifier:@"mapRegion"];
+  return regionObject;
 }
 
 - (MKCoordinateRegion)regionForMax:(CLLocationCoordinate2D)maxPosition andMinPosition:(CLLocationCoordinate2D)minPosition
@@ -54,7 +54,7 @@ static MGLocationHelper *_instance;
 	MKCoordinateSpan span;
 	CLLocationCoordinate2D center;
 	center = CLLocationCoordinate2DMake((maxPosition.latitude + minPosition.latitude) / 2,
-										(maxPosition.longitude + minPosition.longitude) / 2);
+                                      (maxPosition.longitude + minPosition.longitude) / 2);
 	if (center.latitude < -90 || center.latitude > 90 || center.longitude < -180 || center.longitude > 180) {
 		center = CLLocationCoordinate2DMake(0, 0);
 		span.latitudeDelta = 89;
@@ -69,13 +69,13 @@ static MGLocationHelper *_instance;
 	return region;
 }
 
-- (void) updateLocation 
+- (void) updateLocation
 {
 	if (locationManager.desiredAccuracy != self.accuracy) {
 		[locationManager setDesiredAccuracy:self.accuracy];
 	}
 	[locationManager startUpdatingLocation];
-}	
+}
 
 - (double)distanceToLatitude:(double)latitude longitude:(double)longitude
 {
@@ -124,28 +124,28 @@ static MGLocationHelper *_instance;
 
 - (void)updateHeading
 {
-    if ([CLLocationManager headingAvailable]) {
-        locationManager.headingFilter = 5;
-        [locationManager startUpdatingHeading];
-    }
+  if ([CLLocationManager headingAvailable]) {
+    locationManager.headingFilter = 5;
+    [locationManager startUpdatingHeading];
+  }
 }
 
 - (void)stopUpdatingHeading
 {
-    [locationManager stopUpdatingHeading];
+  [locationManager stopUpdatingHeading];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
 {
-    if (newHeading.headingAccuracy < 0) return;
-    CLLocationDirection theHeading = ((newHeading.trueHeading > 0) ?
-									  newHeading.trueHeading : newHeading.magneticHeading);
-    float oldRad = -manager.heading.trueHeading * M_PI / 180.0f;
-    float newRad = -theHeading * M_PI / 180.0f;
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    [userInfo setValue:[NSNumber numberWithFloat:oldRad] forKey:@"oldRad"];
-    [userInfo setValue:[NSNumber numberWithFloat:newRad] forKey:@"newRad"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdateHeading" object:nil userInfo:userInfo];
+  if (newHeading.headingAccuracy < 0) return;
+  CLLocationDirection theHeading = ((newHeading.trueHeading > 0) ?
+                                    newHeading.trueHeading : newHeading.magneticHeading);
+  float oldRad = -manager.heading.trueHeading * M_PI / 180.0f;
+  float newRad = -theHeading * M_PI / 180.0f;
+  NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+  [userInfo setValue:[NSNumber numberWithFloat:oldRad] forKey:@"oldRad"];
+  [userInfo setValue:[NSNumber numberWithFloat:newRad] forKey:@"newRad"];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdateHeading" object:nil userInfo:userInfo];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -153,8 +153,8 @@ static MGLocationHelper *_instance;
 	isLocationReceived = NO;
 	errorCode = [error code];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MGLocationReceiveDidFailNotification
-														object:self
-													  userInfo:@{@"error" : error}];
+                                                      object:self
+                                                    userInfo:@{@"error" : error}];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation

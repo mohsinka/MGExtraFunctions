@@ -52,7 +52,7 @@
 
 + (UIButton *)buttonWithTitle:(NSString *)title font :(UIFont *)font height:(int)height
 {
-	int width = [title sizeWithFont:font].width + 14;
+	int width = [title sizeWithAttributes:@{NSFontAttributeName: font}].width + 14;
 	UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	button.titleLabel.font = font;
 	[button setTitle:title forState:UIControlStateNormal];
