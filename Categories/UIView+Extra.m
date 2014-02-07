@@ -191,7 +191,7 @@
 
 - (UIImage *)captureView
 {
-	UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, [[UIScreen mainScreen] scale]);
+	UIGraphicsBeginImageContext(self.frame.size);
 	[self.layer renderInContext:UIGraphicsGetCurrentContext()];
 	UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
