@@ -84,7 +84,7 @@
 
 - (void)setFullAutoresizingMask
 {
-	self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
+	self.autoresizingMask = kFullAutoresizingMask;
 }
 
 - (void)setRating:(int)rating
