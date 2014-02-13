@@ -161,6 +161,7 @@
 	if (!activityView) {
 		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
 		activityView.tag = kActivityViewTag;
+    activityView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
 		[activityView startAnimating];
 		[self addSubview:activityView];
 	}
