@@ -11,8 +11,6 @@
 #import "AdditionalFunctions.h"
 
 @interface MGViewController ()
-@property (weak, nonatomic) id contentScrollViewDelegate;
-@property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
 @property (assign, nonatomic, readonly) BOOL systemVersionGreaterThan7;
 @end
 
@@ -23,8 +21,6 @@
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
     _systemVersionGreaterThan7 = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0");
-    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-    self.tapGesture.cancelsTouchesInView = NO;
 	}
 	return self;
 }
@@ -58,20 +54,6 @@
 {
   [super viewDidLoad];
 	self.verticalControlScrollOffset = 20;
-  
-  if (self.systemVersionGreaterThan7) {
-    
-    if (self.hideKeyboardWhenScroll ) {
-      self.contentScrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-      
-    } else if (self.hideKeyboardWhenTouch ) {
-      self.contentScrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-    }
-    
-  } else {
-    self.contentScrollViewDelegate = self.contentScrollView.delegate;
-    self.contentScrollView.delegate = self;
-  }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -105,58 +87,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[super touchesBegan:touches withEvent:event];
-	
-  if (self.systemVersionGreaterThan7) return;
-  
-	if (self.currentControl && self.hideKeyboardWhenTouch) {
-		[self.currentControl resignFirstResponder];
-	}
-}
-
-- (void)hideKeyboard
-{
-	if (self.currentControl && self.hideKeyboardWhenTouch) {
-		[self.currentControl resignFirstResponder];
-	}
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-	if (![self.contentScrollViewDelegate isEqual:self]) {
-		if ([self.contentScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
-			[self.contentScrollViewDelegate performSelector:@selector(scrollViewWillBeginDragging:) withObject:scrollView];
-		}
-	}
-	
-	if (!self.hideKeyboardWhenScroll || !self.isKeyboardShown) return;
-	
-	if (self.currentControl) {
-		[self.currentControl resignFirstResponder];
-	}
-}
-
-- (void)setContentScrollView:(UIScrollView *)contentScrollView
-{
-	_contentScrollView = contentScrollView;
-	if (!self.tapGesture) return;
-	
-	if (self.tapGesture.view) {
-		[self.tapGesture.view removeGestureRecognizer:self.tapGesture];
-	}
-	if (contentScrollView) {
-		[contentScrollView addGestureRecognizer:self.tapGesture];
-	}
-}
-
-- (void)setHideKeyboardWhenTouch:(BOOL)hideKeyboardWhenTouch
-{
-	_hideKeyboardWhenTouch = hideKeyboardWhenTouch;
-	[self.tapGesture.view removeGestureRecognizer:self.tapGesture];
-	[self.contentScrollView addGestureRecognizer:self.tapGesture];
-}
 
 #pragma mark - Public
 

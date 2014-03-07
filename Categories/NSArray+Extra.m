@@ -73,8 +73,8 @@
 
 - (void)shuffle
 {
-    for(NSUInteger i = [self count]; i > 1; i--) {
-        NSUInteger j = arc4random_uniform(i);
+    for (NSUInteger i = [self count]; i > 1; i--) {
+        NSUInteger j = arc4random_uniform((unsigned int) i);
         [self exchangeObjectAtIndex:i-1 withObjectAtIndex:j];
     }
 }

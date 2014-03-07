@@ -12,13 +12,13 @@
 
 + (NSString *) stringWithDuration:(NSUInteger) duration
 {
-	int hours = duration / 3600;
-	int minutes = (duration % 3600) / 60;
-	int seconds = duration - hours * 3600 - minutes * 60;
+	NSUInteger hours = duration / 3600;
+	NSUInteger minutes = (duration % 3600) / 60;
+	NSUInteger seconds = duration - hours * 3600 - minutes * 60;
 	if (hours > 0) {
-		return [NSString stringWithFormat:@"%d:%02d:%02d", hours, minutes, seconds];
+		return [NSString stringWithFormat:@"%lu:%02lu:%02lu", (unsigned long) hours, (unsigned long)minutes, (unsigned long)seconds];
 	} else {
-		return [NSString stringWithFormat:@"%d:%02d", minutes, seconds];
+		return [NSString stringWithFormat:@"%lu:%02lu", (unsigned long)minutes, (unsigned long)seconds];
 	}
 }
 

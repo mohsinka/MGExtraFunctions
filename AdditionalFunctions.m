@@ -44,9 +44,9 @@ int RoundToInt(double x)
 	return (int) round(x);
 }
 
-NSString * IntToString(int i)
+NSString * IntToString(NSInteger i)
 {
-	return [NSString stringWithFormat:@"%d", i];
+	return [NSString stringWithFormat:@"%ld", (long)i];
 }
 
 NSString * FloatToString(float f)
