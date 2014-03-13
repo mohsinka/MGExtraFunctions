@@ -48,7 +48,7 @@
 	return [NSURL URLWithString:[self stringForKey:key]];
 }
 
-- (int)intForKey:(NSString *)key
+- (NSInteger)intForKey:(NSString *)key
 {
 	id value = [self objectForKey:key];
 	if (!value) return 0;

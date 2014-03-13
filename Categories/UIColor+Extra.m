@@ -33,9 +33,9 @@
 	if (hexString.length == 0) return nil;
 	NSUInteger red, green, blue, alpha = 255;
 	if (hexString.length < 8) {
-		sscanf([hexString UTF8String], "#%02X%02X%02X", &red, &green, &blue);
+		sscanf([hexString UTF8String], "#%2X%2X%2X", &red, &green, &blue);
 	} else {
-		sscanf([hexString UTF8String], "#%02X%02X%02X%02X", &alpha, &red, &green, &blue);
+		sscanf([hexString UTF8String], "#%2X%2X%2X%2X", &alpha, &red, &green, &blue);
 	}
 	
 	return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:alpha / 255.0];

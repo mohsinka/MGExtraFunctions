@@ -137,7 +137,7 @@
 	NSDateComponents *componentsMonthBegin = [calendar components:NSDayCalendarUnit | NSWeekdayCalendarUnit 
 														 fromDate:self.monthBegin];
 	
-	int numberOfDaysInMonth = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:self].length;
+	NSUInteger numberOfDaysInMonth = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:self].length;
 	if (numberOfDaysInMonth == 30) {
 		if (componentsMonthBegin.weekday == 7) {
 			return 6;
