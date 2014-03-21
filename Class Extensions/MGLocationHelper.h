@@ -12,7 +12,7 @@
 	CLLocationManager		*locationManager;
 }
 
-@property (nonatomic) int errorCode;
+@property (nonatomic) NSInteger errorCode;
 @property (nonatomic, strong)	CLLocationManager		*locationManager; 
 @property (nonatomic, readonly) CLLocationCoordinate2D	coordinates;
 @property (nonatomic, readonly) BOOL isLocationReceived;

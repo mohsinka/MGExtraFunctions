@@ -36,8 +36,10 @@
 	NSMutableArray *subarray = [NSMutableArray arrayWithCapacity:capacity];
 	while (subarray.count < capacity) {
 		id object = selfMutableCopy.randomObject;
-		[subarray addObject:object];
-		[selfMutableCopy removeObject:object];
+		if (object) {
+			[subarray addObject:object];
+			[selfMutableCopy removeObject:object];
+		}
 	}
 	return [NSArray arrayWithArray:subarray];
 }
