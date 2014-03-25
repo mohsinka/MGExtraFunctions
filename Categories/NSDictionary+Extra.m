@@ -87,17 +87,17 @@
 
 - (NSNumber *)numberForKey:(NSString *)key
 {
-	id value = [self objectForKey:key];
-	if (!value) return [NSNumber numberWithInt:0];
-	if ([value isKindOfClass:[NSNull class]]) return [NSNumber numberWithInt:0];
+	return [self decimalNumberForKey:key];
+}
 
-	if ([value isKindOfClass:[NSNumber class]]) {
-		return value;
-	} else if ([value isKindOfClass:[NSString class]]) {
-		return [NSNumber numberWithDouble:[value doubleValue]];
-	} else {
-		return nil;
-	}
+- (NSDecimalNumber *)decimalNumberForKey:(NSString *)key
+{
+	id value = [self objectForKey:key];
+	if (!value) return nil;
+	if ([value isKindOfClass:[NSNumber class]]) return [NSDecimalNumber decimalNumberWithDecimal:[value decimalValue]];
+	if (![value isKindOfClass:[NSString class]]) return nil;
+	
+	return [NSDecimalNumber decimalNumberWithString:value];
 }
 
 

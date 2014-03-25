@@ -94,21 +94,9 @@
 {
 	if (!self.contentScrollView || !self.currentControl) return;
 	
-  if (!self.isKeyboardShown) return;
-	int yOffset = _currentControl.y;
-	UIView *superview = _currentControl.superview;
-	while (superview != self.contentScrollView) {
-		yOffset += superview.y;
-		superview = superview.superview;
-		if (!superview) return;
-	}
-	yOffset -= self.verticalControlScrollOffset;
-	if (yOffset + self.contentScrollView.height > self.contentScrollView.contentSize.height) {
-		yOffset = self.contentScrollView.contentSize.height - self.contentScrollView.height;
-	}
-	if (yOffset < 0) {
-		yOffset = 0;
-	}
+	CGPoint controlPosition = [self.contentScrollView convertPoint:CGPointZero fromView:self.currentControl];
+	NSUInteger scrollFrameHeight = self.contentScrollView.height - self.contentScrollView.contentInset.bottom;
+	NSInteger yOffset = controlPosition.y - scrollFrameHeight + self.currentControl.height + self.verticalControlScrollOffset;
 	
 	[self.contentScrollView setContentOffset:CGPointMake(0, yOffset) animated:YES];
 }
@@ -123,6 +111,8 @@
 	
 	CGRect keyboardFrame = [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	double duration = [[notification.userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+	
+
 	
 	[UIView animateWithDuration:duration animations:^{
 		UIEdgeInsets contentInset = self.contentScrollView.contentInset;

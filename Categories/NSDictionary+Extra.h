@@ -19,6 +19,7 @@
 - (double)doubleForKey:(NSString *)key;
 - (float)floatForKey:(NSString *)key;
 - (NSNumber *)numberForKey:(NSString *)key;
+- (NSDecimalNumber *)decimalNumberForKey:(NSString *)key;
 - (id)notNullObjectForKey:(id)key;
 							
 
