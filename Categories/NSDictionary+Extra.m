@@ -97,7 +97,11 @@
 	if ([value isKindOfClass:[NSNumber class]]) return [NSDecimalNumber decimalNumberWithDecimal:[value decimalValue]];
 	if (![value isKindOfClass:[NSString class]]) return nil;
 	
-	return [NSDecimalNumber decimalNumberWithString:value];
+	NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:value];
+	if ([number isEqualToNumber:[NSDecimalNumber notANumber]]) {
+		return [NSDecimalNumber decimalNumberWithString:@"0"];
+	}
+	return number;
 }
 
 
