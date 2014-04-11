@@ -41,8 +41,8 @@ CG_INLINE BOOL isPhone()
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
-#define IS_PAD										(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define IS_PHONE									(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_PAD												(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_PHONE											(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 #define IS_PHONE_4_INCH								(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && [UIScreen mainScreen].bounds.size.height == 568.0)
 #define IS_RETINA_SCREEN ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0))
 
@@ -51,12 +51,8 @@ CGRect CGRectWithX(CGRect rect, CGFloat x);
 CGRect CGRectWithWidth(CGRect rect, CGFloat width);
 CGRect CGRectWithHeight(CGRect rect, CGFloat height);
 CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size);
-NSString * IntToString(NSInteger i);
-int RoundToInt(double x);
-NSString * FloatToString(float f);
-NSString * BoolToString(BOOL value);
 
-@interface UIAlertView (Extras)
+@interface UIAlertView (Extra)
 + (void) showAlertWithTitle:(NSString *)title message:(NSString *)message;
 @end
 

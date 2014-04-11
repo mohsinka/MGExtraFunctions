@@ -87,43 +87,6 @@
 	self.autoresizingMask = kFullAutoresizingMask;
 }
 
-- (void)setRating:(int)rating
-{
-	if (rating > kExtraMinRatingTag && rating <= kExtraMinRatingTag + 5) {
-		rating -=kExtraMinRatingTag;
-	}
-	for (int i = kExtraMinRatingTag + 1; i <= kExtraMinRatingTag + 5; i++) {
-		id star = [self viewWithTag:i];
-		BOOL highlight = (i - kExtraMinRatingTag <= rating);
-		if ([star isKindOfClass:[UIImageView class]]) {
-			[star setHighlighted:highlight];
-		} else if ([star isKindOfClass:[UIButton class]]) {
-			[star setSelected:highlight];
-		}
-	}
-}
-
-- (int)rating
-{
-	int rating = 0;
-	for (int i = kExtraMinRatingTag + 1; i <= kExtraMinRatingTag + 5; i++) {
-		id star = [self viewWithTag:i];
-		
-		if ([star isKindOfClass:[UIImageView class]]) {
-			if ([star isHighlighted]) {
-				rating++;
-			}
-			
-		} else if ([star isKindOfClass:[UIButton class]]) {
-			if ([star isSelected]) {
-				rating++;
-			}
-
-		}
-	}
-	return rating;
-}
-
 - (UIViewController *)firstViewController 
 {
     return (UIViewController *) [self traverseResponderChainForUIViewController];

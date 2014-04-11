@@ -44,15 +44,6 @@
 	return [NSArray arrayWithArray:subarray];
 }
 
-
-- (id)firstObject
-{
-	if (self.count > 0) {
-		return [self objectAtIndex:0];
-	}
-	return nil;
-}
-
 - (NSArray*)shuffledArray {
 	
     NSMutableArray *temp = [[NSMutableArray alloc] initWithArray:self];
