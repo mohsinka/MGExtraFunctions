@@ -58,9 +58,9 @@ NSString * FloatToString(float f)
 NSString * BoolToString(BOOL value)
 {
 	if (value) {
-		return NSLocalizedString(@"enabled", nil);
+		return NSLocalizedString(@"true", nil);
 	} else {
-		return NSLocalizedString(@"disabled", nil);
+		return NSLocalizedString(@"false", nil);
 	}
 }
 
