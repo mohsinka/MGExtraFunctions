@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (Extra)
-+ (NSString *) stringWithDuration:(NSUInteger) duration;
 - (NSDate *) dateFormattedByString:(NSString *)formatString;
 - (NSString *)stringByRemovingCharacters:(NSString *)characters;
 - (BOOL)validateAsEmail;

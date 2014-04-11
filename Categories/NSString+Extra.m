@@ -10,18 +10,6 @@
 
 @implementation NSString (Extra)
 
-+ (NSString *) stringWithDuration:(NSUInteger) duration
-{
-	NSUInteger hours = duration / 3600;
-	NSUInteger minutes = (duration % 3600) / 60;
-	NSUInteger seconds = duration - hours * 3600 - minutes * 60;
-	if (hours > 0) {
-		return [NSString stringWithFormat:@"%lu:%02lu:%02lu", (unsigned long) hours, (unsigned long)minutes, (unsigned long)seconds];
-	} else {
-		return [NSString stringWithFormat:@"%lu:%02lu", (unsigned long)minutes, (unsigned long)seconds];
-	}
-}
-
 - (NSString *)stringByRemovingCharacters:(NSString *)characters
 {
 	NSString *returnString = [self copy];

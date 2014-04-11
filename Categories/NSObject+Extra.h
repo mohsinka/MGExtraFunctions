@@ -10,7 +10,6 @@
 
 @interface NSObject (Extra)
 
-- (NSNumber *)numberValue;
 + (NSString *)className;
 - (void)performSelectorOnMainThread:(SEL)aSelector withObject:(id)arg1 withObject:(id)arg2 waitUntilDone:(BOOL)wait;
 

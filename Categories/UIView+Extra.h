@@ -11,7 +11,6 @@
 
 #define kFullAutoresizingMask UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
 
-#define kExtraMinRatingTag		500
 #define kActivityViewTag		2983
 
 @interface UIView (Extra)
@@ -38,8 +37,6 @@
 - (UIViewController *)firstViewController;
 - (void)clearBackgroundColor;
 - (void)setFullAutoresizingMask;
-- (void)setRating:(int) rating;
-- (int)rating;
 + (id)loadFromNibNamed:(NSString *)nibName;
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style;
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color;

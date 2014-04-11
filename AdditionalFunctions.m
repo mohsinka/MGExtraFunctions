@@ -39,32 +39,8 @@ CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size)
 {
 	return CGRectMake(x, y, size.width, size.height);
 }
-int RoundToInt(double x)
-{
-	return (int) round(x);
-}
 
-NSString * IntToString(NSInteger i)
-{
-	return [NSString stringWithFormat:@"%ld", (long)i];
-}
-
-NSString * FloatToString(float f)
-{
-	return [NSString stringWithFormat:@"%f", f];
-}
-
-
-NSString * BoolToString(BOOL value)
-{
-	if (value) {
-		return NSLocalizedString(@"enabled", nil);
-	} else {
-		return NSLocalizedString(@"disabled", nil);
-	}
-}
-
-@implementation UIAlertView (Extras)
+@implementation UIAlertView (Extra)
 
 + (void) showAlertWithTitle:(NSString *)title message:(NSString *)message {
     UIAlertView *view = [[UIAlertView alloc] initWithTitle:title 

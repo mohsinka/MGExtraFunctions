@@ -10,18 +10,6 @@
 
 @implementation NSObject (Extra)
 
-- (NSNumber *)numberValue
-{
-	if ([self isKindOfClass:[NSString class]]) {
-		NSString *string = (NSString *) self;
-		return [NSNumber numberWithDouble:[string doubleValue]];
-	} else if ([self isKindOfClass:[NSNumber class]]) {
-		return (NSNumber *) self;
-	} else {
-		return nil;
-	}
-}
-
 + (NSString *)className
 {
 	return NSStringFromClass([self class]);

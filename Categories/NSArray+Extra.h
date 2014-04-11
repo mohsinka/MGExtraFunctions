@@ -11,7 +11,6 @@
 @interface NSArray (Extra)
 
 - (NSArray *)arrayOfKey:(NSString *)key;
-- (id)firstObject;
 - (NSArray*)shuffledArray;
 - (id)objectAtIndexOrNil:(NSUInteger)index;
 - (id)randomObject;
