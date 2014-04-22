@@ -157,7 +157,7 @@
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color
 {
 	self.userInteractionEnabled = NO;
-	UIActivityIndicatorView *activityView = (UIActivityIndicatorView *) [self viewWithTag:kActivityViewTag];
+	UIActivityIndicatorView *activityView = (UIActivityIndicatorView *) [self viewWithTagWithoutSubviews:kActivityViewTag];
 	if (!activityView) {
 		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
 		activityView.tag = kActivityViewTag;
@@ -165,27 +165,21 @@
 		[activityView startAnimating];
 		[self addSubview:activityView];
 	}
-	activityView.color = color;
+	if (color) {
+		activityView.color = color;
+	}
 	activityView.center = self.centerOfView;
 }
 
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style
 {
-	self.userInteractionEnabled = NO;
-	UIActivityIndicatorView *activityView = (UIActivityIndicatorView *) [self viewWithTag:kActivityViewTag];
-	if (!activityView) {
-		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
-		activityView.tag = kActivityViewTag;
-		[activityView startAnimating];
-		[self addSubview:activityView];
-	}
-	activityView.center = self.centerOfView;
+	[self showActivityWithStyle:style color:nil];
 }
 
 - (void)hideActivity
 {
 	self.userInteractionEnabled = YES;
-	UIView *activityView = [self viewWithTag:kActivityViewTag];
+	UIView *activityView = [self viewWithTagWithoutSubviews:kActivityViewTag];
 	if (!activityView) return;
 	[activityView removeFromSuperview];
 }
@@ -197,6 +191,15 @@
 	UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	return viewImage;
+}
+
+- (UIView *)viewWithTagWithoutSubviews:(NSUInteger)tag
+{
+	for (UIView *view in self.subviews) {
+    if (view.tag == tag) return view;
+	}
+	
+	return nil;
 }
 
 @end
