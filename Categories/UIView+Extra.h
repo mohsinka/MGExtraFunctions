@@ -42,6 +42,7 @@
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color;
 - (void)hideActivity;
 - (void)rasterizeLayer;
+- (UIView *)viewWithTagWithoutSubviews:(NSUInteger)tag;
 
 - (UIImage *)captureView;
 
