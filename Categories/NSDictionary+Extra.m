@@ -40,6 +40,7 @@
 	id value = [self objectForKey:key];
 	if (!value) return @"";
 	if ([value isKindOfClass:[NSNull class]]) return @"";
+	if ([value isKindOfClass:[NSNumber class]]) return [value description];
 	return value;
 }
 
