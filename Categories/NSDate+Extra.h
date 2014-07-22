@@ -12,8 +12,8 @@
 #define kNSDateOneHourInterval (3600)
 #define kNSDateOneDayInterval (3600 * 24)
 #define kNSDateOneWeekInterval (3600 * 24 * 7)
-#define kNSDateOneMonthInterval (3600 * 24 * 30)
-#define kNSDateOneYearInterval (3600 * 24 * 355)
+#define kNSDateOneMonthInterval (3600 * 24 * 31)
+#define kNSDateOneYearInterval (3600 * 24 * 356)
 
 @interface NSDate (Extra)
 
