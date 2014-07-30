@@ -160,6 +160,17 @@
 	return (self.timeIntervalSince1970 > date.timeIntervalSince1970);
 }
 
+- (BOOL)isBetweenDate:(NSDate*)beginDate andDate:(NSDate*)endDate
+{
+	if ([self compare:beginDate] == NSOrderedAscending)
+		return NO;
+	
+	if ([self compare:endDate] == NSOrderedDescending)
+		return NO;
+	
+	return YES;
+}
+
 @end
 
 @implementation NSDateComponents (Extra)
