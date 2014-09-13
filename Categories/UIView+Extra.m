@@ -149,12 +149,8 @@
 
 - (UIImage *)captureView
 {
-	UIGraphicsBeginImageContext(self.frame.size);
-	if ([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-		[self drawViewHierarchyInRect:self.bounds afterScreenUpdates:YES];
-	} else {
-		[self.layer renderInContext:UIGraphicsGetCurrentContext()];
-	}
+	UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, 0);
+	[self.layer renderInContext:UIGraphicsGetCurrentContext()];
 	UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	return viewImage;
