@@ -18,6 +18,9 @@
 
 - (NSString *)intervalInStringSinceDate:(NSDate *)date
 {
+	if (!date) {
+		date = [NSDate date];
+	}
 	int interval = round([date timeIntervalSinceDate:self]);
 	interval = ABS(interval);
 	
@@ -42,6 +45,10 @@
 
 - (NSString *)shortIntervalInStringSinceDate:(NSDate *)date
 {
+	if (!date) {
+		date = [NSDate date];
+	}
+
 	int interval = round([date timeIntervalSinceDate:self]);
 	interval = ABS(interval);
 	
