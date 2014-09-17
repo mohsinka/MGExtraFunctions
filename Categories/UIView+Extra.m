@@ -139,6 +139,13 @@
 	[self showActivityWithStyle:style color:nil];
 }
 
+- (void)setAllSubviewsHidden:(BOOL)hidden
+{
+	for (UIView *view in self.subviews) {
+    [view setHidden:hidden];
+	}
+}
+
 - (void)hideActivity
 {
 	self.userInteractionEnabled = YES;
