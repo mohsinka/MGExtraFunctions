@@ -43,6 +43,13 @@ CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size)
 @implementation UIAlertView (Extra)
 
 + (void) showAlertWithTitle:(NSString *)title message:(NSString *)message {
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+		if (title.length == 0) {
+			title = message;
+			message = nil;
+		}
+	}
+	
     UIAlertView *view = [[UIAlertView alloc] initWithTitle:title 
                                                    message:message
                                                   delegate:nil
