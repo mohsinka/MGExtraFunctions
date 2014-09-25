@@ -43,7 +43,7 @@
 - (void)hideActivity;
 - (void)rasterizeLayer;
 - (UIView *)viewWithTagWithoutSubviews:(NSUInteger)tag;
-
+- (void)setAllSubviewsHidden:(BOOL)hidden;
 - (UIImage *)captureView;
 
 @end
