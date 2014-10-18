@@ -17,5 +17,7 @@
 - (UIImage *) fixOrientation;
 - (UIImage *) imageWithColor:(UIColor *)color;
 - (UIImage *) grayscaleCopy;
+- (UIImage *) grayscaleMaskImage;
+- (UIImage *) negativeMaskImage;
 
 @end
