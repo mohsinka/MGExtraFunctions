@@ -154,7 +154,7 @@
 	[activityView removeFromSuperview];
 }
 
-- (UIImage *)captureView
+- (UIImage *)captureViewToUIImage
 {
 	UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, 0);
 	[self.layer renderInContext:UIGraphicsGetCurrentContext()];
