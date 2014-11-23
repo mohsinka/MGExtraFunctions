@@ -21,6 +21,5 @@
 - (NSNumber *)numberForKey:(NSString *)key;
 - (NSDecimalNumber *)decimalNumberForKey:(NSString *)key;
 - (id)notNullObjectForKey:(id)key;
-							
 
 @end
