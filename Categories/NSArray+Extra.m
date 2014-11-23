@@ -55,7 +55,7 @@
 {
 	if (self.count == 0) return nil;
 	
-	return self[arc4random_uniform((unsigned) self.count)];
+	return self[arc4random_uniform((unsigned) self.count)];	
 }
 
 @end
@@ -71,6 +71,16 @@
         [self exchangeObjectAtIndex:i-1 withObjectAtIndex:j];
     }
 }
+
+- (void)moveObjectAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex
+{
+	if (fromIndex == toIndex) return;
+	
+	id object = [self objectAtIndex:fromIndex];
+	[self removeObjectAtIndex:fromIndex];
+	[self insertObject:object atIndex:toIndex];
+}
+
 
 @end
 
