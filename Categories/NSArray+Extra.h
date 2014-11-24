@@ -22,5 +22,7 @@
 @interface NSMutableArray (Extra)
 
 - (void)shuffle;
+- (void)moveObjectAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
+
 
 @end
