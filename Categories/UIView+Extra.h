@@ -15,6 +15,7 @@
 
 @interface UIView (Extra)
 
+@property (nonatomic, getter=position, setter = setPosition:) CGPoint position;
 @property (nonatomic, getter=width, setter = setWidth:) CGFloat width;
 @property (nonatomic, getter=height, setter = setHeight:) CGFloat height;
 @property (nonatomic, getter=y, setter = setY:) CGFloat y;

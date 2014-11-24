@@ -17,6 +17,16 @@
 	self.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
+- (void)setPosition:(CGPoint)position
+{
+	self.frame = CGRectMakeWithSize(position.x, position.y, self.frame.size);
+}
+
+- (CGPoint)position
+{
+	return self.frame.origin;
+}
+
 - (CGPoint)centerOfView
 {
 	return CGPointMake(roundf(self.width / 2), roundf(self.height / 2));
