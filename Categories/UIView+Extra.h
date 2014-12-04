@@ -39,6 +39,7 @@
 - (void)clearBackgroundColor;
 - (void)setFullAutoresizingMask;
 + (id)loadFromNibNamed:(NSString *)nibName;
+- (BOOL)isActivityShown;
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style;
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color;
 - (void)hideActivity;

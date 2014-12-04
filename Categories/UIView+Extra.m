@@ -164,6 +164,15 @@
 	[activityView removeFromSuperview];
 }
 
+- (BOOL)isActivityShown
+{
+	if ([self viewWithTagWithoutSubviews:kActivityViewTag]) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
 - (UIImage *)captureViewToUIImage
 {
 	UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, 0);
