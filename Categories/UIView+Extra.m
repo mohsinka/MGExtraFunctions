@@ -94,7 +94,7 @@
 
 - (void)setFullAutoresizingMask
 {
-	self.autoresizingMask = kFullAutoresizingMask;
+	self.autoresizingMask = UIViewAutoresizingFlexibleWidthAndHeight;
 }
 
 - (UIViewController *)firstViewController 

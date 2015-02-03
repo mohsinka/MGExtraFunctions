@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-#define kFullAutoresizingMask UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
+#define UIViewAutoresizingFlexibleWidthAndHeight UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
 
 #define kActivityViewTag		2983
 
