@@ -7,6 +7,7 @@
 //
 
 #import "MGMailComposeViewController.h"
+#import "AdditionalFunctions.h"
 
 @interface MGMailComposeViewController ()
 <MFMailComposeViewControllerDelegate>

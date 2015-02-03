@@ -117,7 +117,7 @@
 + (id)loadFromNibNamed:(NSString *)nibName
 {
 	if (![[NSBundle mainBundle] pathForResource:nibName ofType:@"nib"]) {
-		if (isPhone()) {
+		if (IS_PHONE) {
 			nibName = [nibName stringByAppendingString:@"_iPhone"];
 		} else {
 			nibName = [nibName stringByAppendingString:@"_iPad"];
