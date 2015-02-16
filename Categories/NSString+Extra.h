@@ -12,4 +12,5 @@
 - (NSDate *) dateFormattedByString:(NSString *)formatString;
 - (NSString *)stringByRemovingCharacters:(NSString *)characters;
 - (BOOL)validateAsEmail;
+- (BOOL)validateWithRegEx:(NSString *)regEx;
 @end
