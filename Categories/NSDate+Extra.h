@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#define kNSDateOneMinuteInterval (60)
-#define kNSDateOneHourInterval (3600)
-#define kNSDateOneDayInterval (3600 * 24)
-#define kNSDateOneWeekInterval (3600 * 24 * 7)
-#define kNSDateOneMonthInterval (3600 * 24 * 31)
-#define kNSDateOneYearInterval (3600 * 24 * 356)
+#define kNSDateOneMinuteInterval (NSTimeInterval) (60)
+#define kNSDateOneHourInterval (NSTimeInterval) (3600)
+#define kNSDateOneDayInterval (NSTimeInterval) (3600 * 24)
+#define kNSDateOneWeekInterval (NSTimeInterval) (3600 * 24 * 7)
+#define kNSDateOneMonthInterval (NSTimeInterval) (3600 * 24 * 31)
+#define kNSDateOneYearInterval (NSTimeInterval) (3600 * 24 * 356)
 
 @interface NSDate (Extra)
 
