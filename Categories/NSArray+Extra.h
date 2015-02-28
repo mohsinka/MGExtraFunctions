@@ -15,7 +15,7 @@
 - (id)objectAtIndexOrNil:(NSUInteger)index;
 - (id)randomObject;
 - (NSArray *)randomSubarrayWithCapacity:(NSUInteger)capacity;
-
+- (NSArray *)arrayByRemovingObject:(id)object;
 @end
 
 

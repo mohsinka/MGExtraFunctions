@@ -21,6 +21,13 @@
 	return array;
 }
 
+- (NSArray *)arrayByRemovingObject:(id)object
+{
+	NSMutableArray *array = self.mutableCopy;
+	[array removeObject:object];
+	return [NSArray arrayWithArray:array];
+}
+
 - (id)objectAtIndexOrNil:(NSUInteger)index
 {
 	if (index < self.count) {
