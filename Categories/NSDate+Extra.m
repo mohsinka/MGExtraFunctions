@@ -29,17 +29,17 @@
 	} else if (interval < kNSDateOneMinuteInterval) {
 		return [NSString stringWithFormat:NSLocalizedString(@"just now", nil), interval];
 	} else if (interval < kNSDateOneHourInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%d minutes ago", nil), interval / kNSDateOneMinuteInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0f minutes ago", nil), interval / kNSDateOneMinuteInterval];
 	} else if (interval < kNSDateOneDayInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%d hours ago", nil), interval / kNSDateOneHourInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0f hours ago", nil), interval / kNSDateOneHourInterval];
 	} else if (interval < kNSDateOneWeekInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%d days ago", nil), interval / kNSDateOneDayInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0f days ago", nil), interval / kNSDateOneDayInterval];
 	} else if (interval < kNSDateOneMonthInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%d weeks ago", nil), interval / kNSDateOneWeekInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0f weeks ago", nil), interval / kNSDateOneWeekInterval];
 	} else if (interval < kNSDateOneYearInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%d month ago", nil), interval / kNSDateOneMonthInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0f month ago", nil), interval / kNSDateOneMonthInterval];
 	} else {
-		return [NSString stringWithFormat:NSLocalizedString(@"%d years ago", nil), interval / kNSDateOneYearInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0f years ago", nil), interval / kNSDateOneYearInterval];
 	} 
 }
 
