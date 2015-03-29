@@ -24,6 +24,7 @@
 - (NSDate *) dateFormattedByString:(NSString *)formatString 
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     [dateFormatter setDateFormat:formatString];
     return [dateFormatter dateFromString:self];
 }
@@ -38,6 +39,9 @@
 	NSError *error;
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regEx options:0 error:&error];
 	NSTextCheckingResult *match = [regex firstMatchInString:self options:0 range:NSMakeRange(0, [self length])];
+	if (error) {
+		NSLog(@"Error validating with regex %@", regEx);
+	}
 	if (match) {
 		return YES;
 	} else {

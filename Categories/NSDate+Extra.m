@@ -74,6 +74,7 @@
 - (NSString *)stringValueFormattedBy:(NSString *)formatString
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     [dateFormatter setDateFormat:formatString];
     NSString *string = [dateFormatter stringFromDate:self];
     return string;

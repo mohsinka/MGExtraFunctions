@@ -17,6 +17,7 @@
 	if (![value isKindOfClass:[NSString class]]) return nil;
 
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
 	dateFormatter.dateFormat = format;
 	return [dateFormatter dateFromString:value];
 }
