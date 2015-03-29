@@ -29,7 +29,8 @@
 	return [UIColor colorWithRed:floatRed green:floatGreen blue:floatBlue alpha:floatAlpha];
 }
 
-+ (UIColor *)colorFromHexString:(NSString *)hexString {
++ (UIColor *)colorFromHexString:(NSString *)hexString
+{
 	if (hexString.length == 0) return nil;
 	unsigned red, green, blue, alpha = 255;
 	if (hexString.length < 8) {

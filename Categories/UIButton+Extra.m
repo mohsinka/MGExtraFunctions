@@ -37,6 +37,7 @@
 	[self setTitle:title forState:UIControlStateSelected];
 	[self setTitle:title forState:UIControlStateSelected|UIControlStateHighlighted];
 }
+
 - (void)setTitleColorForSelectedState:(UIColor *)color
 {
 	[self setTitleColor:color forState:UIControlStateSelected];

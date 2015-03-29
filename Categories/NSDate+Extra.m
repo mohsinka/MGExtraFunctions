@@ -15,7 +15,6 @@
 	return [[[NSDate date] dateByAddingTimeInterval:kNSDateOneDayInterval] dayBegin];
 }
 
-
 - (NSString *)intervalInStringSinceDate:(NSDate *)date
 {
 	if (!date) {
@@ -177,15 +176,6 @@
 		return NO;
 	
 	return YES;
-}
-
-@end
-
-@implementation NSDateComponents (Extra)
-
-- (NSDate *)dateWithCurrentCalendar
-{
-	return [[NSCalendar currentCalendar] dateFromComponents:self];
 }
 
 @end

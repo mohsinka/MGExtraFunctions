@@ -106,6 +106,4 @@
 	return number;
 }
 
-
-
 @end

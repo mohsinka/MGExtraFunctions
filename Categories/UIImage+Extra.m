@@ -112,7 +112,8 @@
 	return newImage;
 }
 
-- (UIImage *)fixOrientation {
+- (UIImage *)fixOrientation
+{
 	
     // No-op if the orientation is already correct
     if (self.imageOrientation == UIImageOrientationUp) return self;
@@ -191,7 +192,6 @@
     CGImageRelease(cgimg);
     return img;
 }
-
 
 + (UIImage *)stretchableImageWithName:(NSString *)name
 {

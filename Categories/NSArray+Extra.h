@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSArray (Extra)
-
 - (NSArray *)arrayOfKey:(NSString *)key;
 - (NSArray*)shuffledArray;
 - (id)objectAtIndexOrNil:(NSUInteger)index;
@@ -18,11 +17,7 @@
 - (NSArray *)arrayByRemovingObject:(id)object;
 @end
 
-
 @interface NSMutableArray (Extra)
-
 - (void)shuffle;
 - (void)moveObjectAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
-
-
 @end

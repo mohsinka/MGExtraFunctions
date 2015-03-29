@@ -36,6 +36,7 @@
 		return nil;
 	}
 }
+
 - (NSArray *)randomSubarrayWithCapacity:(NSUInteger)capacity
 {
 	capacity = MIN(capacity, self.count);
@@ -51,7 +52,8 @@
 	return [NSArray arrayWithArray:subarray];
 }
 
-- (NSArray*)shuffledArray {
+- (NSArray*)shuffledArray
+{
 	
     NSMutableArray *temp = [[NSMutableArray alloc] initWithArray:self];
 	[temp shuffle];
@@ -70,7 +72,6 @@
 
 @implementation NSMutableArray (Extra)
 
-
 - (void)shuffle
 {
     for (NSUInteger i = [self count]; i > 1; i--) {
@@ -87,7 +88,6 @@
 	[self removeObjectAtIndex:fromIndex];
 	[self insertObject:object atIndex:toIndex];
 }
-
 
 @end
 

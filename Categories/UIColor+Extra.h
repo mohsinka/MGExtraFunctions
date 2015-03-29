@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface UIColor (Extra)
+
 + (UIColor *) colorWithInteger:(NSInteger) integer;
 + (UIColor *) colorWithIntRed:(int)red green:(int)green blue:(int)blue alpha:(int)alpha;
 + (UIColor *) colorFromHexString:(NSString *)hexString;
 - (UIColor *) grayscaleColor;
+
 @end

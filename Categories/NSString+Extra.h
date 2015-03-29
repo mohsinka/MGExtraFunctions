@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (Extra)
+
 - (NSDate *) dateFormattedByString:(NSString *)formatString;
 - (NSString *)stringByRemovingCharacters:(NSString *)characters;
 - (BOOL)validateAsEmail;
 - (BOOL)validateWithRegEx:(NSString *)regEx;
+
 @end

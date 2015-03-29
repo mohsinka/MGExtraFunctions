@@ -28,10 +28,8 @@
 - (void)resizeToFitWithImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize
 {
 	CGSize size = [UIImageView sizeThatFitImageSize:imageSize maxViewSize:maxSize];
-	
 	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, size.width, size.height);
 }
-
 
 + (CGSize)sizeThatFitImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize
 {

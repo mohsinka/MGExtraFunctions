@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#define kNSDateOneMinuteInterval (NSTimeInterval) (60)
-#define kNSDateOneHourInterval (NSTimeInterval) (3600)
-#define kNSDateOneDayInterval (NSTimeInterval) (3600 * 24)
-#define kNSDateOneWeekInterval (NSTimeInterval) (3600 * 24 * 7)
-#define kNSDateOneMonthInterval (NSTimeInterval) (3600 * 24 * 31)
-#define kNSDateOneYearInterval (NSTimeInterval) (3600 * 24 * 356)
+#define kNSDateOneMinuteInterval	(NSTimeInterval) (60)
+#define kNSDateOneHourInterval		(NSTimeInterval) (3600)
+#define kNSDateOneDayInterval		(NSTimeInterval) (3600 * 24)
+#define kNSDateOneWeekInterval		(NSTimeInterval) (3600 * 24 * 7)
+#define kNSDateOneMonthInterval		(NSTimeInterval) (3600 * 24 * 31)
+#define kNSDateOneYearInterval		(NSTimeInterval) (3600 * 24 * 356)
 
 @interface NSDate (Extra)
 
@@ -32,11 +32,5 @@
 - (BOOL)isLaterThanDate:(NSDate *)date;
 + (NSDate *)tomorrow;
 - (BOOL)isBetweenDate:(NSDate*)beginDate andDate:(NSDate*)endDate;
-
-@end
-
-@interface NSDateComponents (Extra)
-
-- (NSDate *) dateWithCurrentCalendar;
 
 @end

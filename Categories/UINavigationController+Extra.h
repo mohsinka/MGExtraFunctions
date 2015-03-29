@@ -15,5 +15,4 @@
 - (id)previousViewControllerFor:(UIViewController *)viewController;
 - (void)removeViewControllerFromStack:(UIViewController *)viewController;
 
-
 @end
