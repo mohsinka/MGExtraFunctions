@@ -34,19 +34,25 @@
 	return [self validateWithRegEx:@"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"];
 }
 
-- (BOOL)validateWithRegEx:(NSString *)regEx
+- (BOOL)validateWithRegEx:(NSString *)regExPattern
 {
 	NSError *error;
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regEx options:0 error:&error];
-	NSTextCheckingResult *match = [regex firstMatchInString:self options:0 range:NSMakeRange(0, [self length])];
+	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regExPattern options:0 error:&error];
+	NSTextCheckingResult *match = [regex firstMatchInString:self options:0 range:NSMakeRange(0, self.length)];
 	if (error) {
-		NSLog(@"Error validating with regex %@", regEx);
+		NSLog(@"Error validating with regex %@", regExPattern);
 	}
 	if (match) {
-		return YES;
+		NSRange range = [regex rangeOfFirstMatchInString:self options:0 range:NSMakeRange(0, self.length)];
+		if (range.length < self.length) {
+			return NO;
+		} else {
+			return YES;
+		}
 	} else {
 		return NO;
 	}
 }
+
 
 @end
