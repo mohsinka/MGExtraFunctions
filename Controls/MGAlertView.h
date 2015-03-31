@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class MGAlertView;
-typedef void (^MGAlertViewCompletionHandler)(MGAlertView *alertView, NSUInteger selectedButton);
+typedef void (^MGAlertViewCompletionHandler)(MGAlertView *alertView, NSUInteger selectedButtonIndex);
 
 
 @interface MGAlertView : UIAlertView
