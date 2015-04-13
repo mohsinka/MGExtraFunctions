@@ -11,6 +11,14 @@
 
 @implementation UIView (Extra)
 
+- (UIView *)traverseSuperViewToClass:(Class)superviewClass {
+	UIView *superview = self.superview;
+	while (superview && ![superview isKindOfClass:superviewClass]) {
+		superview = superview.superview;
+	}
+	return superview;
+}
+
 - (void)rasterizeLayer
 {
 	self.layer.shouldRasterize = YES;

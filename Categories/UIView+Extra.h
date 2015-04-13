@@ -35,6 +35,7 @@
 - (CGFloat) rightXPoint;
 - (CGRect) zeroPositionFrame;
 
+- (UIView *)traverseSuperViewToClass:(Class)superviewClass;
 - (UIViewController *)firstViewController;
 - (void)clearBackgroundColor;
 - (void)setFullAutoresizingMask;
