@@ -134,10 +134,10 @@
 
 - (NSDate *)dayEnd
 {
-	return [[self dayBegin] dateByAddingTimeInterval:3600 * 24];
+	return [[self dayBegin] dateByAddingTimeInterval:kNSDateOneDayInterval - 1];
 }
 
-- (int)numberOfWeeksInMonth
+- (NSInteger)numberOfWeeksInMonth
 {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	
@@ -176,6 +176,16 @@
 		return NO;
 	
 	return YES;
+}
+
+- (NSInteger) daysBetweenDate:(NSDate *)date {
+	NSCalendar *calendar = [NSCalendar currentCalendar];
+	NSDate *fromDate;
+	NSDate *toDate;
+	[calendar rangeOfUnit:NSCalendarUnitDay startDate:&fromDate interval:NULL forDate:self];
+	[calendar rangeOfUnit:NSCalendarUnitDay startDate:&toDate interval:NULL forDate:date];
+	NSDateComponents *difference = [calendar components:NSCalendarUnitDay fromDate:fromDate toDate:toDate options:0];
+	return ABS([difference day]);
 }
 
 @end
