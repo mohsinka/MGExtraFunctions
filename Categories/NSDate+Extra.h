@@ -27,7 +27,8 @@
 - (NSDate *) dayBegin;
 - (NSDate *) monthEnd;
 - (NSDate *) dayEnd;
-- (int) numberOfWeeksInMonth;
+- (NSInteger) numberOfWeeksInMonth;
+- (NSInteger) daysBetweenDate:(NSDate *)date;
 - (BOOL)isEarlierThanDate:(NSDate *)date;
 - (BOOL)isLaterThanDate:(NSDate *)date;
 + (NSDate *)tomorrow;
