@@ -15,6 +15,7 @@
 - (id)randomObject;
 - (NSArray *)randomSubarrayWithCapacity:(NSUInteger)capacity;
 - (NSArray *)arrayByRemovingObject:(id)object;
+- (NSArray *)arrayByPrependingObject:(id)object;
 @end
 
 @interface NSMutableArray (Extra)

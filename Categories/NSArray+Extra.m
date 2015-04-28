@@ -21,6 +21,13 @@
 	return array;
 }
 
+- (NSArray *)arrayByPrependingObject:(id)object {
+	NSMutableArray *array = self.mutableCopy;
+	[array insertObject:object atIndex:0];
+	return [NSArray arrayWithArray:array];
+
+}
+
 - (NSArray *)arrayByRemovingObject:(id)object
 {
 	NSMutableArray *array = self.mutableCopy;
