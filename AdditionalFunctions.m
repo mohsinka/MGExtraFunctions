@@ -58,4 +58,8 @@ CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size)
     [view show];
 }
 
++ (void) showAlertWithError:(NSError *)error {
+	[UIAlertView showAlertWithTitle:error.localizedDescription message:nil];
+}
+
 @end

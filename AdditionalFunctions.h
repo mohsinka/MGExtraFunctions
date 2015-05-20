@@ -27,5 +27,6 @@ extern CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size);
 
 @interface UIAlertView (Extra)
 + (void) showAlertWithTitle:(NSString *)title message:(NSString *)message;
++ (void) showAlertWithError:(NSError *)error;
 @end
 

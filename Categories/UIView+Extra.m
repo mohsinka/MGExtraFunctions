@@ -11,7 +11,30 @@
 
 @implementation UIView (Extra)
 
-- (UIView *)traverseSuperViewToClass:(Class)superviewClass {
+- (UIViewController *)firstViewController {
+	return [self traverseResponderChainToObjectClass:[UIViewController class]];
+}
+
+- (UINavigationController *)firstNavigationController {
+	return [self traverseResponderChainToObjectClass:[UINavigationController class]];
+}
+
+- (id)traverseResponderChainToObjectClass:(Class)objectClass {
+	id responder = [self nextResponder];
+	if (responder) {
+		if ([responder isKindOfClass:objectClass]) {
+			return responder;
+		} else if ([responder isKindOfClass:[UIView class]]) {
+			return [responder traverseResponderChainToObjectClass:objectClass];
+		} else if ([responder isKindOfClass:[UIViewController class]]) {
+			return [[[responder view] superview] traverseResponderChainToObjectClass:objectClass];
+		}
+	} else {
+		return nil;
+	}
+}
+
+- (UIView *)traverseSuperviewToClass:(Class)superviewClass {
 	UIView *superview = self.superview;
 	while (superview && ![superview isKindOfClass:superviewClass]) {
 		superview = superview.superview;
@@ -90,36 +113,9 @@
 	return CGRectMakeWithSize(0, 0, self.frame.size);
 }
 
-- (void)clearBackgroundColor
-{
-	self.backgroundColor = [UIColor clearColor];
-}
-
 - (CGFloat)rightXPoint
 {
 	return self.x + self.width;
-}
-
-- (void)setFullAutoresizingMask
-{
-	self.autoresizingMask = UIViewAutoresizingFlexibleWidthAndHeight;
-}
-
-- (UIViewController *)firstViewController 
-{
-    return (UIViewController *) [self traverseResponderChainForUIViewController];
-}
-
-- (id) traverseResponderChainForUIViewController
-{
-    id nextResponder = [self nextResponder];
-    if ([nextResponder isKindOfClass:[UIViewController class]]) {
-        return nextResponder;
-    } else if ([nextResponder isKindOfClass:[UIView class]]) {
-        return [nextResponder traverseResponderChainForUIViewController];
-    } else {
-        return nil;
-    }
 }
 
 + (id)loadFromNibNamed:(NSString *)nibName

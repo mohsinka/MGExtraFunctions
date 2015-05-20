@@ -10,6 +10,11 @@
 
 @implementation NSDate (Extra)
 
+- (NSDate *)dateByAddingTimeFromDate:(NSDate *)time {
+	NSDateComponents *timeComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:time];
+	return [[NSCalendar currentCalendar] dateByAddingComponents:timeComponents toDate:self options:0];
+}
+
 + (NSDate *)tomorrow
 {
 	return [[[NSDate date] dateByAddingTimeInterval:kNSDateOneDayInterval] dayBegin];
@@ -56,17 +61,17 @@
 	} else if (interval < kNSDateOneMinuteInterval) {
 		return [NSString stringWithFormat:NSLocalizedString(@"now", nil), interval];
 	} else if (interval < kNSDateOneHourInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dm ago", nil), interval / kNSDateOneMinuteInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%dm", nil), interval / kNSDateOneMinuteInterval];
 	} else if (interval < kNSDateOneDayInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dh ago", nil), interval / kNSDateOneHourInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%dh", nil), interval / kNSDateOneHourInterval];
 	} else if (interval < kNSDateOneWeekInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dd ago", nil), interval / kNSDateOneDayInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%dd", nil), interval / kNSDateOneDayInterval];
 	} else if (interval < kNSDateOneMonthInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dw ago", nil), interval / kNSDateOneWeekInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%dw", nil), interval / kNSDateOneWeekInterval];
 	} else if (interval < kNSDateOneYearInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dm ago", nil), interval / kNSDateOneMonthInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%dm", nil), interval / kNSDateOneMonthInterval];
 	} else {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dy ago", nil), interval / kNSDateOneYearInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%dy", nil), interval / kNSDateOneYearInterval];
 	}
 }
 

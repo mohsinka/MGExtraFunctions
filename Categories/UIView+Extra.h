@@ -35,18 +35,19 @@
 - (CGFloat) rightXPoint;
 - (CGRect) zeroPositionFrame;
 
-- (UIView *)traverseSuperViewToClass:(Class)superviewClass;
+- (UIView *)traverseSuperviewToClass:(Class)superviewClass;
 - (UIViewController *)firstViewController;
-- (void)clearBackgroundColor;
-- (void)setFullAutoresizingMask;
+- (UINavigationController *)firstNavigationController;
 + (id)loadFromNibNamed:(NSString *)nibName;
-- (BOOL)isActivityShown;
-- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style;
-- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color;
-- (void)hideActivity;
 - (void)rasterizeLayer;
 - (UIView *)viewWithTagWithoutSubviews:(NSUInteger)tag;
 - (void)setAllSubviewsHidden:(BOOL)hidden;
 - (UIImage *)captureViewToUIImage;
+
+- (BOOL)isActivityShown;
+- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style;
+- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color;
+- (void)hideActivity;
+
 
 @end
