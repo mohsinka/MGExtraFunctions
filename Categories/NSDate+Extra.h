@@ -17,7 +17,7 @@
 
 @interface NSDate (Extra)
 
-- (NSDate *)dateByAddingTimeFromDate:(NSDate *)time {
+- (NSDate *)dateByAddingTimeFromDate:(NSDate *)time;
 - (NSString *) intervalInStringSinceDate:(NSDate *)date;
 - (NSString *) shortIntervalInStringSinceDate:(NSDate *)date;
 - (NSString *) stringValueFormattedBy:(NSString *)formatString;

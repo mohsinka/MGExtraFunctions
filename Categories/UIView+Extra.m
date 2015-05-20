@@ -28,6 +28,8 @@
 			return [responder traverseResponderChainToObjectClass:objectClass];
 		} else if ([responder isKindOfClass:[UIViewController class]]) {
 			return [[[responder view] superview] traverseResponderChainToObjectClass:objectClass];
+		} else {
+			return nil;
 		}
 	} else {
 		return nil;
