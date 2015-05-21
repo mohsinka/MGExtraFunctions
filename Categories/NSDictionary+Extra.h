@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSNull+Extra.h"
 
 @interface NSDictionary (Extra)
 
