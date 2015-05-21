@@ -53,7 +53,7 @@
 		date = [NSDate date];
 	}
 
-	int interval = round([date timeIntervalSinceDate:self]);
+	CGFloat interval = round([date timeIntervalSinceDate:self]);
 	interval = ABS(interval);
 	
 	if (interval < 0) {
@@ -61,17 +61,17 @@
 	} else if (interval < kNSDateOneMinuteInterval) {
 		return [NSString stringWithFormat:NSLocalizedString(@"now", nil), interval];
 	} else if (interval < kNSDateOneHourInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dm", nil), interval / kNSDateOneMinuteInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0fm", nil), interval / kNSDateOneMinuteInterval];
 	} else if (interval < kNSDateOneDayInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dh", nil), interval / kNSDateOneHourInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0fh", nil), interval / kNSDateOneHourInterval];
 	} else if (interval < kNSDateOneWeekInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dd", nil), interval / kNSDateOneDayInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0fd", nil), interval / kNSDateOneDayInterval];
 	} else if (interval < kNSDateOneMonthInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dw", nil), interval / kNSDateOneWeekInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0fw", nil), interval / kNSDateOneWeekInterval];
 	} else if (interval < kNSDateOneYearInterval) {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dm", nil), interval / kNSDateOneMonthInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0fm", nil), interval / kNSDateOneMonthInterval];
 	} else {
-		return [NSString stringWithFormat:NSLocalizedString(@"%dy", nil), interval / kNSDateOneYearInterval];
+		return [NSString stringWithFormat:NSLocalizedString(@"%.0fy", nil), interval / kNSDateOneYearInterval];
 	}
 }
 
