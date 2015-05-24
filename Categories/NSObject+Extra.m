@@ -10,13 +10,11 @@
 
 @implementation NSObject (Extra)
 
-+ (NSString *)className
-{
++ (NSString *)className {
 	return NSStringFromClass([self class]);
 }
 
-- (void)performSelectorOnMainThread:(SEL)aSelector withObject:(id)arg1 withObject:(id)arg2 waitUntilDone:(BOOL)wait
-{
+- (void)performSelectorOnMainThread:(SEL)aSelector withObject:(id)arg1 withObject:(id)arg2 waitUntilDone:(BOOL)wait {
 	if (!aSelector) return;
 	
 	NSMethodSignature *signature = [self methodSignatureForSelector:aSelector];

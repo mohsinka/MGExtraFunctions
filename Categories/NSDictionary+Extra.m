@@ -10,8 +10,7 @@
 
 @implementation NSDictionary (Extra)
 
-- (NSDate *)dateForKey:(NSString *)key format:(NSString *)format
-{
+- (NSDate *)dateForKey:(NSString *)key format:(NSString *)format {
 	id value = [self objectForKey:key];
 	if (!value) return nil;
 	if (![value isKindOfClass:[NSString class]]) return nil;
@@ -22,22 +21,19 @@
 	return [dateFormatter dateFromString:value];
 }
 
-- (id)notNullObjectForKey:(id)key
-{
+- (id)notNullObjectForKey:(id)key {
 	id value = [self objectForKey:key];
 	if (!value) return nil;
 	if ([value isKindOfClass:[NSNull class]]) return nil;
 	return value;
 }
 
-- (NSDate *)unixDateForKey:(NSString *)key
-{
+- (NSDate *)unixDateForKey:(NSString *)key {
 	NSTimeInterval interval = [self doubleForKey:key];
 	return [NSDate dateWithTimeIntervalSince1970:interval];
 }
 
-- (NSString *)stringForKey:(NSString *)key
-{
+- (NSString *)stringForKey:(NSString *)key {
 	id value = [self objectForKey:key];
 	if (!value) return @"";
 	if ([value isKindOfClass:[NSNull class]]) return @"";
@@ -45,21 +41,18 @@
 	return value;
 }
 
-- (NSURL *)urlForKey:(NSString *)key
-{
+- (NSURL *)urlForKey:(NSString *)key {
 	return [NSURL URLWithString:[self stringForKey:key]];
 }
 
-- (NSInteger)intForKey:(NSString *)key
-{
+- (NSInteger)intForKey:(NSString *)key {
 	id value = [self objectForKey:key];
 	if (!value) return 0;
 	if ([value isKindOfClass:[NSNull class]]) return 0;
 	return [value intValue];
 }
 
-- (BOOL)boolForKey:(NSString *)key
-{
+- (BOOL)boolForKey:(NSString *)key {
 	id value = [self objectForKey:key];
 	if (!value) return 0;
 	
@@ -68,8 +61,7 @@
 	return [value boolValue];
 }
 
-- (double)doubleForKey:(NSString *)key
-{
+- (double)doubleForKey:(NSString *)key {
 	id value = [self objectForKey:key];
 	if (!value) return 0;
 	
@@ -78,8 +70,7 @@
 	return [value doubleValue];
 }
 
-- (float)floatForKey:(NSString *)key
-{
+- (float)floatForKey:(NSString *)key {
 	id value = [self objectForKey:key];
 	if (!value) return 0;
 	if ([value isKindOfClass:[NSNull class]]) return 0;
@@ -87,13 +78,11 @@
 	return [value floatValue];
 }
 
-- (NSNumber *)numberForKey:(NSString *)key
-{
+- (NSNumber *)numberForKey:(NSString *)key {
 	return [self decimalNumberForKey:key];
 }
 
-- (NSDecimalNumber *)decimalNumberForKey:(NSString *)key
-{
+- (NSDecimalNumber *)decimalNumberForKey:(NSString *)key {
 	id value = [self objectForKey:key];
 	if (!value) return nil;
 	if ([value isKindOfClass:[NSNumber class]]) return [NSDecimalNumber decimalNumberWithDecimal:[value decimalValue]];

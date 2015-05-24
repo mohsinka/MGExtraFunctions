@@ -15,13 +15,11 @@
 	return [[NSCalendar currentCalendar] dateByAddingComponents:timeComponents toDate:self options:0];
 }
 
-+ (NSDate *)tomorrow
-{
++ (NSDate *)tomorrow {
 	return [[[NSDate date] dateByAddingTimeInterval:kNSDateOneDayInterval] dayBegin];
 }
 
-- (NSString *)intervalInStringSinceDate:(NSDate *)date
-{
+- (NSString *)intervalInStringSinceDate:(NSDate *)date {
 	if (!date) {
 		date = [NSDate date];
 	}
@@ -47,8 +45,7 @@
 	} 
 }
 
-- (NSString *)shortIntervalInStringSinceDate:(NSDate *)date
-{
+- (NSString *)shortIntervalInStringSinceDate:(NSDate *)date {
 	if (!date) {
 		date = [NSDate date];
 	}
@@ -75,8 +72,7 @@
 	}
 }
 
-- (NSString *)stringValueFormattedBy:(NSString *)formatString
-{
+- (NSString *)stringValueFormattedBy:(NSString *)formatString {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     [dateFormatter setDateFormat:formatString];
@@ -84,8 +80,7 @@
     return string;
 }
 
-- (NSComparisonResult)compareMonth:(NSDate *)date
-{
+- (NSComparisonResult)compareMonth:(NSDate *)date {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *currentDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth 
 														  fromDate:self];
@@ -96,8 +91,7 @@
 			[calendar dateFromComponents:compareDateComponents]];
 }
 
-- (NSComparisonResult)compareDay:(NSDate *)date
-{	
+- (NSComparisonResult)compareDay:(NSDate *)date {	
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *currentDateComponents = [calendar components:
 											   NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay
@@ -110,40 +104,34 @@
 			[calendar dateFromComponents:compareDateComponents]];
 }
 
-- (NSDate *)dateByAddingMonth:(NSInteger)month
-{
+- (NSDate *)dateByAddingMonth:(NSInteger)month {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:self];
 	dateComponents.month += month;
 	return [calendar dateFromComponents:dateComponents];
 }
 
-- (NSDate *)monthBegin
-{
+- (NSDate *)monthBegin {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:self];
 	return [calendar dateFromComponents:dateComponents];
 }
 
-- (NSDate *)dayBegin
-{
+- (NSDate *)dayBegin {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:self];
 	return [calendar dateFromComponents:dateComponents];
 }
 
-- (NSDate *)monthEnd
-{
+- (NSDate *)monthEnd {
 	return [[self dateByAddingMonth:1] dateByAddingTimeInterval:-1];
 }
 
-- (NSDate *)dayEnd
-{
+- (NSDate *)dayEnd {
 	return [[self dayBegin] dateByAddingTimeInterval:kNSDateOneDayInterval - 1];
 }
 
-- (NSInteger)numberOfWeeksInMonth
-{
+- (NSInteger)numberOfWeeksInMonth {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	
 	NSDateComponents *componentsMonthBegin = [calendar components:NSCalendarUnitDay | NSCalendarUnitWeekday 
@@ -162,18 +150,15 @@
 	return 5;
 }
 
-- (BOOL)isEarlierThanDate:(NSDate *)date
-{
+- (BOOL)isEarlierThanDate:(NSDate *)date {
 	return (self.timeIntervalSince1970 < date.timeIntervalSince1970);
 }
 
-- (BOOL)isLaterThanDate:(NSDate *)date
-{
+- (BOOL)isLaterThanDate:(NSDate *)date {
 	return (self.timeIntervalSince1970 > date.timeIntervalSince1970);
 }
 
-- (BOOL)isBetweenDate:(NSDate*)beginDate andDate:(NSDate*)endDate
-{
+- (BOOL)isBetweenDate:(NSDate*)beginDate andDate:(NSDate*)endDate {
 	if ([self compare:beginDate] == NSOrderedAscending)
 		return NO;
 	

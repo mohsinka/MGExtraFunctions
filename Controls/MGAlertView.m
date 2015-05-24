@@ -16,22 +16,19 @@
 
 @implementation MGAlertView
 
-- (void)showWithCompletionHandler:(void (^)(MGAlertView *, NSUInteger))completionHandler
-{
+- (void)showWithCompletionHandler:(void (^)(MGAlertView *, NSUInteger))completionHandler {
 	self.completionHandler = completionHandler;
 	self.delegate = self;
 	[self show];
 }
 
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
-{
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
 	if (self.completionHandler) {
 		self.completionHandler(self, buttonIndex);
 	}
 }
 
-- (void)alertViewCancel:(UIAlertView *)alertView
-{
+- (void)alertViewCancel:(UIAlertView *)alertView {
 	if (self.completionHandler) {
 		self.completionHandler(self, self.cancelButtonIndex);
 	}

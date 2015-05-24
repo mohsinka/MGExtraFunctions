@@ -10,8 +10,7 @@
 
 @implementation NSArray (Extra)
 
-- (NSArray *)arrayOfKey:(NSString *)key
-{
+- (NSArray *)arrayOfKey:(NSString *)key {
 	NSMutableArray *array = [NSMutableArray array];
 	for (NSObject *object in self) {
 		if ([object valueForKey:key]) {
@@ -28,15 +27,13 @@
 
 }
 
-- (NSArray *)arrayByRemovingObject:(id)object
-{
+- (NSArray *)arrayByRemovingObject:(id)object {
 	NSMutableArray *array = self.mutableCopy;
 	[array removeObject:object];
 	return [NSArray arrayWithArray:array];
 }
 
-- (id)objectAtIndexOrNil:(NSUInteger)index
-{
+- (id)objectAtIndexOrNil:(NSUInteger)index {
 	if (index < self.count) {
 		return [self objectAtIndex:index];
 	} else {
@@ -44,8 +41,7 @@
 	}
 }
 
-- (NSArray *)randomSubarrayWithCapacity:(NSUInteger)capacity
-{
+- (NSArray *)randomSubarrayWithCapacity:(NSUInteger)capacity {
 	capacity = MIN(capacity, self.count);
 	NSMutableArray *selfMutableCopy = self.mutableCopy;
 	NSMutableArray *subarray = [NSMutableArray arrayWithCapacity:capacity];
@@ -59,16 +55,14 @@
 	return [NSArray arrayWithArray:subarray];
 }
 
-- (NSArray*)shuffledArray
-{
+- (NSArray*)shuffledArray {
 	
     NSMutableArray *temp = [[NSMutableArray alloc] initWithArray:self];
 	[temp shuffle];
     return [NSArray arrayWithArray:temp];
 }
 
-- (id)randomObject
-{
+- (id)randomObject {
 	if (self.count == 0) return nil;
 	
 	return self[arc4random_uniform((unsigned) self.count)];	
@@ -79,16 +73,14 @@
 
 @implementation NSMutableArray (Extra)
 
-- (void)shuffle
-{
+- (void)shuffle {
     for (NSUInteger i = [self count]; i > 1; i--) {
         NSUInteger j = arc4random_uniform((unsigned int) i);
         [self exchangeObjectAtIndex:i-1 withObjectAtIndex:j];
     }
 }
 
-- (void)moveObjectAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex
-{
+- (void)moveObjectAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
 	if (fromIndex == toIndex) return;
 	
 	id object = [self objectAtIndex:fromIndex];

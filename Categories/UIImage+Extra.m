@@ -10,8 +10,7 @@
 
 @implementation UIImage (Extra)
 
-- (UIImage *)negativeMaskImage
-{
+- (UIImage *)negativeMaskImage {
 	// get width and height as integers, since we'll be using them as
 	// array subscripts, etc, and this'll save a whole lot of casting
 	CGSize size = self.size;
@@ -60,8 +59,7 @@
 	return returnImage;
 }
 
-- (UIImage *)grayscaleMaskImage
-{
+- (UIImage *)grayscaleMaskImage {
 	UIImage *image = self;
 	CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
 	UIGraphicsBeginImageContextWithOptions(rect.size, NO, image.scale);
@@ -75,8 +73,7 @@
 	return result;
 }
 
-- (UIImage *)imageWithColor:(UIColor *)color
-{
+- (UIImage *)imageWithColor:(UIColor *)color {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -92,8 +89,7 @@
     return image;
 }
 
-- (UIImage *)grayscaleCopy
-{
+- (UIImage *)grayscaleCopy {
 	CGRect imageRect = CGRectMake(0, 0, self.size.width, self.size.height);
 	
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
@@ -112,8 +108,7 @@
 	return newImage;
 }
 
-- (UIImage *)fixOrientation
-{
+- (UIImage *)fixOrientation {
 	
     // No-op if the orientation is already correct
     if (self.imageOrientation == UIImageOrientationUp) return self;
@@ -193,8 +188,7 @@
     return img;
 }
 
-+ (UIImage *)stretchableImageWithName:(NSString *)name
-{
++ (UIImage *)stretchableImageWithName:(NSString *)name {
 	UIImage *originalImage = [UIImage imageNamed:name];
 	int halfHeight = originalImage.size.height / 2;
 	int halfWidth = originalImage.size.width / 2;
@@ -206,13 +200,11 @@
 	}
 }
 
-+ (UIImage *)buttonImageWithName:(NSString *)name
-{
++ (UIImage *)buttonImageWithName:(NSString *)name {
 	return [UIImage stretchableImageWithName:name];
 }
 
-- (UIImage *) overlayWithImage:(UIImage *)image
-{
+- (UIImage *) overlayWithImage:(UIImage *)image {
 	UIGraphicsBeginImageContext(self.size);
 	[self drawInRect:CGRectMake(0, 0, self.size.width, self.size.height)];
 	[image drawInRect:CGRectMake(0, 0, self.size.width, self.size.height)];
@@ -221,8 +213,7 @@
 	return result;
 }
 
-- (UIImage *)cutImageWithRect:(CGRect)rect
-{
+- (UIImage *)cutImageWithRect:(CGRect)rect {
 	CGImageRef cuttedImage = CGImageCreateWithImageInRect(self.CGImage, rect);
 	UIImage *image = [UIImage imageWithCGImage:cuttedImage];
 	CGImageRelease(cuttedImage);
