@@ -87,27 +87,13 @@
 - (NSComparisonResult)compareMonth:(NSDate *)date
 {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
-	NSDateComponents *currentDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth 
-														  fromDate:self];
-	NSDateComponents *compareDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth 
-														  fromDate:date];
-	
-	return [[calendar dateFromComponents:currentDateComponents] compare:
-			[calendar dateFromComponents:compareDateComponents]];
+	return [calendar compareDate:date toDate:self toUnitGranularity:NSCalendarUnitYear | NSCalendarUnitMonth];
 }
 
 - (NSComparisonResult)compareDay:(NSDate *)date
 {	
 	NSCalendar *calendar = [NSCalendar currentCalendar];
-	NSDateComponents *currentDateComponents = [calendar components:
-											   NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay
-														  fromDate:self];
-	NSDateComponents *compareDateComponents = [calendar components:
-											   NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay 
-														  fromDate:date];
-	
-	return [[calendar dateFromComponents:currentDateComponents] compare:
-			[calendar dateFromComponents:compareDateComponents]];
+	return [calendar compareDate:date toDate:self toUnitGranularity:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay];
 }
 
 - (NSDate *)dateByAddingMonth:(NSInteger)month
