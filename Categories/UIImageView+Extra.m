@@ -10,8 +10,7 @@
 
 @implementation UIImageView (Extra)
 
-- (void)setImage:(UIImage *)image animated:(BOOL)animated
-{
+- (void)setImage:(UIImage *)image animated:(BOOL)animated {
 	if ([image isEqual:self.image]) return;
 	
 	if (animated) {
@@ -25,14 +24,12 @@
 	}
 }
 
-- (void)resizeToFitWithImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize
-{
+- (void)resizeToFitWithImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize {
 	CGSize size = [UIImageView sizeThatFitImageSize:imageSize maxViewSize:maxSize];
 	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, size.width, size.height);
 }
 
-+ (CGSize)sizeThatFitImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize
-{
++ (CGSize)sizeThatFitImageSize:(CGSize)imageSize maxViewSize:(CGSize)maxSize {
 	if (imageSize.width <= maxSize.width && imageSize.height <= imageSize.height) return imageSize;
 	double widthProportion = imageSize.width / maxSize.width;
 	double heightProportion = imageSize.height / maxSize.height;

@@ -10,8 +10,7 @@
 
 @implementation NSString (Extra)
 
-- (NSString *)stringByRemovingCharacters:(NSString *)characters
-{
+- (NSString *)stringByRemovingCharacters:(NSString *)characters {
 	NSString *returnString = [self copy];
 	for (int i = 0; i < characters.length; i++) {
 		NSString *character = [characters substringWithRange:NSMakeRange(i, 1)];
@@ -21,21 +20,18 @@
 	return returnString;
 }
 
-- (NSDate *) dateFormattedByString:(NSString *)formatString 
-{
+- (NSDate *) dateFormattedByString:(NSString *)formatString  {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     [dateFormatter setDateFormat:formatString];
     return [dateFormatter dateFromString:self];
 }
 
-- (BOOL)validateAsEmail
-{
+- (BOOL)validateAsEmail {
 	return [self validateWithRegEx:@"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"];
 }
 
-- (BOOL)validateWithRegEx:(NSString *)regExPattern
-{
+- (BOOL)validateWithRegEx:(NSString *)regExPattern {
 	NSError *error;
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regExPattern options:0 error:&error];
 	NSTextCheckingResult *match = [regex firstMatchInString:self options:0 range:NSMakeRange(0, self.length)];

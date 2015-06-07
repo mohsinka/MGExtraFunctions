@@ -10,27 +10,23 @@
 
 @implementation UIFont (Extra)
 
-- (BOOL)isBold
-{
+- (BOOL)isBold {
 	UIFontDescriptor *fontDescriptor = self.fontDescriptor;
 	UIFontDescriptorSymbolicTraits fontDescriptorSymbolicTraits = fontDescriptor.symbolicTraits;
 	return (fontDescriptorSymbolicTraits & UIFontDescriptorTraitBold);
 }
 
-- (BOOL)isItalic
-{
+- (BOOL)isItalic {
 	UIFontDescriptor *fontDescriptor = self.fontDescriptor;
 	UIFontDescriptorSymbolicTraits fontDescriptorSymbolicTraits = fontDescriptor.symbolicTraits;
 	return (fontDescriptorSymbolicTraits & UIFontDescriptorTraitItalic);
 }
 
-- (UIFont *)normalFont
-{
+- (UIFont *)normalFont {
 	return [UIFont fontWithName:self.familyName size:self.pointSize];
 }
 
-- (UIFont *)boldFont
-{
+- (UIFont *)boldFont {
 	BOOL isItalic = self.isItalic;
 	NSString *familyName = [self familyName];
 	NSArray *fontNames = [UIFont fontNamesForFamilyName:familyName];
@@ -63,8 +59,7 @@
 	return boldFont;
 }
 
-- (UIFont *)italicFont
-{
+- (UIFont *)italicFont {
 	BOOL isBold = self.isBold;
 	NSString *familyName = [self familyName];
 	NSArray *fontNames = [UIFont fontNamesForFamilyName:familyName];

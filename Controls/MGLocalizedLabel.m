@@ -10,8 +10,7 @@
 
 @implementation MGLocalizedLabel
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
 	self.text = NSLocalizedString(self.text, nil);
 }
 

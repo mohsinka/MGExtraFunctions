@@ -44,84 +44,68 @@
 	return superview;
 }
 
-- (void)rasterizeLayer
-{
+- (void)rasterizeLayer {
 	self.layer.shouldRasterize = YES;
 	self.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
-- (void)setPosition:(CGPoint)position
-{
+- (void)setPosition:(CGPoint)position {
 	self.frame = CGRectMakeWithSize(position.x, position.y, self.frame.size);
 }
 
-- (CGPoint)position
-{
+- (CGPoint)position {
 	return self.frame.origin;
 }
 
-- (CGPoint)centerOfView
-{
+- (CGPoint)centerOfView {
 	return CGPointMake(roundf(self.width / 2), roundf(self.height / 2));
 }
 
-- (CGFloat) width
-{
+- (CGFloat) width {
 	return self.frame.size.width;
 }
 
-- (void)setWidth:(CGFloat)width
-{
+- (void)setWidth:(CGFloat)width {
 	self.frame = CGRectWithWidth(self.frame, width);
 }
 
-- (CGFloat) height
-{
+- (CGFloat) height {
 	return self.frame.size.height;
 }
 
-- (void)setHeight:(CGFloat)height
-{
+- (void)setHeight:(CGFloat)height {
 	self.frame = CGRectWithHeight(self.frame, height);
 }
 
-- (CGFloat) x
-{
+- (CGFloat) x {
 	return self.frame.origin.x;
 }
 
-- (void)setX:(CGFloat)x
-{
+- (void)setX:(CGFloat)x {
 	self.frame = CGRectWithX(self.frame, x);
 }
 
-- (CGFloat) y
-{
+- (CGFloat) y {
 	return self.frame.origin.y;
 }
 
-- (void)setY:(CGFloat)y
-{
+- (void)setY:(CGFloat)y {
 	self.frame = CGRectWithY(self.frame, y);
 }
 
-- (CGFloat)bottomYPoint
-{
+- (CGFloat)bottomYPoint {
 	return self.y + self.height;
 }
 
-- (CGRect)zeroPositionFrame
-{
+- (CGRect)zeroPositionFrame {
 	return CGRectMakeWithSize(0, 0, self.frame.size);
 }
 
-- (CGFloat)rightXPoint
-{
+- (CGFloat)rightXPoint {
 	return self.x + self.width;
 }
 
-+ (id)loadFromNibNamed:(NSString *)nibName
-{
++ (id)loadFromNibNamed:(NSString *)nibName {
 	if (![[NSBundle mainBundle] pathForResource:nibName ofType:@"nib"]) {
 		if (IS_PHONE) {
 			nibName = [nibName stringByAppendingString:@"_iPhone"];
@@ -133,8 +117,7 @@
 	return [nib objectAtIndex:0];
 }
 
-- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color
-{
+- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color {
 	self.userInteractionEnabled = NO;
 	UIActivityIndicatorView *activityView = (UIActivityIndicatorView *) [self viewWithTagWithoutSubviews:kActivityViewTag];
 	if (!activityView) {
@@ -150,28 +133,24 @@
 	activityView.center = self.centerOfView;
 }
 
-- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style
-{
+- (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style {
 	[self showActivityWithStyle:style color:nil];
 }
 
-- (void)setAllSubviewsHidden:(BOOL)hidden
-{
+- (void)setAllSubviewsHidden:(BOOL)hidden {
 	for (UIView *view in self.subviews) {
     [view setHidden:hidden];
 	}
 }
 
-- (void)hideActivity
-{
+- (void)hideActivity {
 	self.userInteractionEnabled = YES;
 	UIView *activityView = [self viewWithTagWithoutSubviews:kActivityViewTag];
 	if (!activityView) return;
 	[activityView removeFromSuperview];
 }
 
-- (BOOL)isActivityShown
-{
+- (BOOL)isActivityShown {
 	if ([self viewWithTagWithoutSubviews:kActivityViewTag]) {
 		return YES;
 	} else {
@@ -179,8 +158,7 @@
 	}
 }
 
-- (UIImage *)captureViewToUIImage
-{
+- (UIImage *)captureViewToUIImage {
 	UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, 0);
 	[self.layer renderInContext:UIGraphicsGetCurrentContext()];
 	UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -188,8 +166,7 @@
 	return viewImage;
 }
 
-- (UIView *)viewWithTagWithoutSubviews:(NSUInteger)tag
-{
+- (UIView *)viewWithTagWithoutSubviews:(NSUInteger)tag {
 	for (UIView *view in self.subviews) {
     if (view.tag == tag) return view;
 	}

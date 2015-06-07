@@ -10,8 +10,7 @@
 
 @implementation MGLocalizedButton
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
 	NSString *normalTitle = [self titleForState:UIControlStateNormal];
 	[self setTitle:NSLocalizedString([self titleForState:UIControlStateNormal], nil) forState:UIControlStateNormal];
 	if (![normalTitle isEqualToString:[self titleForState:UIControlStateHighlighted]]) {

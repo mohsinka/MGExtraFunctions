@@ -10,16 +10,14 @@
 
 @implementation UINavigationController (Extra)
 
-- (void)pushViewControllerWithName:(NSString *)name animated:(BOOL)animated
-{
+- (void)pushViewControllerWithName:(NSString *)name animated:(BOOL)animated {
 	id viewController = [[NSClassFromString(name) alloc] initWithNibName:name bundle:nil];
 	if (viewController) {
 		[self pushViewController:viewController animated:animated];
 	}
 }
 
-- (id)initWithRootViewControllerName:(NSString *)name
-{
+- (id)initWithRootViewControllerName:(NSString *)name {
 	UIViewController *viewController = [[NSClassFromString(name) alloc] initWithNibName:name bundle:nil];
 	self = [self initWithRootViewController:viewController];
 	if (self) {
@@ -28,8 +26,7 @@
 	return self;
 }
 
-- (id)previousViewControllerFor:(UIViewController *)viewController
-{
+- (id)previousViewControllerFor:(UIViewController *)viewController {
 	id previousViewController;
 	for (UIViewController *currentViewController in self.viewControllers) {
 		if ([currentViewController isEqual:viewController]) {
@@ -40,8 +37,7 @@
 	return nil;
 }
 
-- (void)removeViewControllerFromStack:(UIViewController *)viewController
-{
+- (void)removeViewControllerFromStack:(UIViewController *)viewController {
 	BOOL isInStack = NO;
 	for (UIViewController *stackViewController in self.viewControllers) {
 		if ([stackViewController isEqual:viewController]) {

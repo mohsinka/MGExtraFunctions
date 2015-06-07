@@ -7,36 +7,31 @@
 
 #import "AdditionalFunctions.h"
 
-CGRect CGRectWithY(CGRect rect, CGFloat y)
-{
+CGRect CGRectWithY(CGRect rect, CGFloat y) {
 	CGRect newRect = rect;
 	newRect.origin.y = y;
 	return newRect;
 }
 
-CGRect CGRectWithX(CGRect rect, CGFloat x)
-{
+CGRect CGRectWithX(CGRect rect, CGFloat x) {
 	CGRect newRect = rect;
 	newRect.origin.x = x;
 	return newRect;
 }
 
-CGRect CGRectWithWidth(CGRect rect, CGFloat width)
-{
+CGRect CGRectWithWidth(CGRect rect, CGFloat width) {
 	CGRect newRect = rect;
 	newRect.size.width = width;
 	return newRect;
 }
 
-CGRect CGRectWithHeight(CGRect rect, CGFloat height)
-{
+CGRect CGRectWithHeight(CGRect rect, CGFloat height) {
 	CGRect newRect = rect;
 	newRect.size.height	= height;
 	return newRect;
 }
 
-CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size)
-{
+CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size) {
 	return CGRectMake(x, y, size.width, size.height);
 }
 
