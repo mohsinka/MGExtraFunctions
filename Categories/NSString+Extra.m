@@ -34,10 +34,11 @@
 - (BOOL)validateWithRegEx:(NSString *)regExPattern {
 	NSError *error;
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regExPattern options:0 error:&error];
-	NSTextCheckingResult *match = [regex firstMatchInString:self options:0 range:NSMakeRange(0, self.length)];
-	if (error) {
+	if (!regex) {
 		NSLog(@"Error validating with regex %@", regExPattern);
+		return NO;
 	}
+	NSTextCheckingResult *match = [regex firstMatchInString:self options:0 range:NSMakeRange(0, self.length)];
 	if (match) {
 		NSRange range = [regex rangeOfFirstMatchInString:self options:0 range:NSMakeRange(0, self.length)];
 		if (range.length < self.length) {

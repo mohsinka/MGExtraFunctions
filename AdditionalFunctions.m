@@ -45,10 +45,10 @@ CGRect CGRectMakeWithSize(CGFloat x, CGFloat y, CGSize size) {
 		}
 	}
 	
-    UIAlertView *view = [[UIAlertView alloc] initWithTitle:title 
+    UIAlertView *view = [[UIAlertView alloc] initWithTitle:title
                                                    message:message
                                                   delegate:nil
-                                         cancelButtonTitle:@"OK"
+                                         cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                          otherButtonTitles:nil];
     [view show];
 }
