@@ -36,7 +36,7 @@
 	}
 }
 
-- (UIView *)traverseSuperviewToClass:(Class)superviewClass {
+- (id)traverseSuperviewToClass:(Class)superviewClass {
 	UIView *superview = self.superview;
 	while (superview && ![superview isKindOfClass:superviewClass]) {
 		superview = superview.superview;

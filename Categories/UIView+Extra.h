@@ -35,7 +35,7 @@
 - (CGFloat) rightXPoint;
 - (CGRect) zeroPositionFrame;
 
-- (UIView *)traverseSuperviewToClass:(Class)superviewClass;
+- (id)traverseSuperviewToClass:(Class)superviewClass;
 - (UIViewController *)firstViewController;
 - (UINavigationController *)firstNavigationController;
 + (id)loadFromNibNamed:(NSString *)nibName;
