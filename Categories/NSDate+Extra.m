@@ -137,21 +137,31 @@
 }
 
 - (BOOL)isEarlierThanDate:(NSDate *)date {
-	return (self.timeIntervalSince1970 < date.timeIntervalSince1970);
+	if (date) {
+		return (self.timeIntervalSince1970 < date.timeIntervalSince1970);
+	} else {
+		return NO;
+	}
 }
 
 - (BOOL)isLaterThanDate:(NSDate *)date {
-	return (self.timeIntervalSince1970 > date.timeIntervalSince1970);
+	if (date) {
+		return (self.timeIntervalSince1970 > date.timeIntervalSince1970);
+	} else {
+		return NO;
+	}
 }
 
-- (BOOL)isBetweenDate:(NSDate*)beginDate andDate:(NSDate*)endDate {
-	if ([self compare:beginDate] == NSOrderedAscending)
-		return NO;
-	
-	if ([self compare:endDate] == NSOrderedDescending)
-		return NO;
-	
-	return YES;
+- (BOOL)isBetweenDate:(NSDate *)earlierDate andDate:(NSDate *)laterDate
+{
+	if ([self compare:earlierDate] != NSOrderedAscending) {
+		if ( [self compare:laterDate] != NSOrderedDescending) {
+			return YES;
+		}
+	}
+
+	// otherwise we are not
+	return NO;
 }
 
 - (NSInteger) daysBetweenDate:(NSDate *)date {

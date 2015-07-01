@@ -33,6 +33,6 @@
 - (BOOL)isEarlierThanDate:(NSDate *)date;
 - (BOOL)isLaterThanDate:(NSDate *)date;
 + (NSDate *)tomorrow;
-- (BOOL)isBetweenDate:(NSDate*)beginDate andDate:(NSDate*)endDate;
+- (BOOL)isBetweenDate:(NSDate *)earlierDate andDate:(NSDate *)laterDate;
 
 @end
