@@ -48,6 +48,7 @@
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style;
 - (void)showActivityWithStyle:(UIActivityIndicatorViewStyle)style color:(UIColor *)color;
 - (void)hideActivity;
++ (UIViewAnimationOptions)animationOptionFromAnimationCurve:(UIViewAnimationCurve)curve;
 
 
 @end

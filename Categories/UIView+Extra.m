@@ -36,6 +36,16 @@
 	}
 }
 
++ (UIViewAnimationOptions)animationOptionFromAnimationCurve:(UIViewAnimationCurve)curve {
+	switch (curve) {
+		case UIViewAnimationCurveEaseIn: return UIViewAnimationOptionCurveEaseIn;
+		case UIViewAnimationCurveLinear: return UIViewAnimationOptionCurveLinear;
+		case UIViewAnimationCurveEaseOut: return UIViewAnimationOptionCurveEaseOut;
+		case UIViewAnimationCurveEaseInOut: return UIViewAnimationOptionCurveEaseInOut;
+		default: return 0;
+	}
+}
+
 - (id)traverseSuperviewToClass:(Class)superviewClass {
 	UIView *superview = self.superview;
 	while (superview && ![superview isKindOfClass:superviewClass]) {
@@ -123,7 +133,7 @@
 	if (!activityView) {
 		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
 		activityView.tag = kActivityViewTag;
-    activityView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
+		activityView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
 		[activityView startAnimating];
 		[self addSubview:activityView];
 	}
@@ -139,7 +149,7 @@
 
 - (void)setAllSubviewsHidden:(BOOL)hidden {
 	for (UIView *view in self.subviews) {
-    [view setHidden:hidden];
+		[view setHidden:hidden];
 	}
 }
 
@@ -168,9 +178,9 @@
 
 - (UIView *)viewWithTagWithoutSubviews:(NSUInteger)tag {
 	for (UIView *view in self.subviews) {
-    if (view.tag == tag) return view;
+		if (view.tag == tag) return view;
 	}
-	
+
 	return nil;
 }
 
