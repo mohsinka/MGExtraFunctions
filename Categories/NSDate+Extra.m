@@ -81,11 +81,17 @@
 }
 
 - (NSComparisonResult)compareMonth:(NSDate *)date {
+	if (!date) {
+		return [self compare:nil];
+	}
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	return [calendar compareDate:date toDate:self toUnitGranularity:NSCalendarUnitYear | NSCalendarUnitMonth];
 }
 
-- (NSComparisonResult)compareDay:(NSDate *)date {	
+- (NSComparisonResult)compareDay:(NSDate *)date {
+	if (!date) {
+		return [self compare:nil];
+	}
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	return [calendar compareDate:date toDate:self toUnitGranularity:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay];
 }
