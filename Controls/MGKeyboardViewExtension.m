@@ -7,6 +7,7 @@
 //
 
 #import "MGKeyboardViewExtension.h"
+#import "UIView+Extra.h"
 
 @interface MGKeyboardViewExtension ()
 

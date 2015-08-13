@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #define kNSDateOneMinuteInterval	(NSTimeInterval) (60)
 #define kNSDateOneHourInterval		(NSTimeInterval) (3600)
