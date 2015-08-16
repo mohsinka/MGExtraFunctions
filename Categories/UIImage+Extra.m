@@ -89,6 +89,22 @@
     return image;
 }
 
+- (UIImage *)circleImageWithColor:(UIColor *)color size:(CGSize)size {
+	if (size.height == 0 || size.width == 0) return nil;
+	CGRect rect = CGRectMakeWithSize(0, 0, size);
+	UIGraphicsBeginImageContext(rect.size);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextSetFillColorWithColor(context, [color CGColor]);
+	CGContextFillEllipseInRect(context, rect);
+
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	if ([image respondsToSelector:@selector(resizableImageWithCapInsets:)]) {
+		image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(size.height / 2.0, size.width / 2.0, size.height / 2.0, size.width / 2.0)];
+	}
+	return image;
+}
+
 - (UIImage *)grayscaleCopy {
 	CGRect imageRect = CGRectMake(0, 0, self.size.width, self.size.height);
 	

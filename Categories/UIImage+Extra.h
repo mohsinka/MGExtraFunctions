@@ -19,5 +19,6 @@
 - (UIImage *) grayscaleCopy;
 - (UIImage *) grayscaleMaskImage;
 - (UIImage *) negativeMaskImage;
+- (UIImage *) circleImageWithColor:(UIColor *)color size:(CGSize)size;
 
 @end
