@@ -106,22 +106,21 @@
 }
 
 - (UIImage *)grayscaleCopy {
-	CGRect imageRect = CGRectMake(0, 0, self.size.width, self.size.height);
+	CIImage *inputImage = [CIImage imageWithCGImage:self.CGImage];
+	CIContext *context = [CIContext contextWithOptions:nil];
 	
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-	CGContextRef context = CGBitmapContextCreate(nil, self.size.width, self.size.height, 8, 0, colorSpace, (CGBitmapInfo) kCGImageAlphaNone);
+	CIFilter *filter = [CIFilter filterWithName:@"CIColorControls"];
+	[filter setValue:inputImage forKey:kCIInputImageKey];
+	[filter setValue:@(0.0) forKey:kCIInputSaturationKey];
 	
-	CGContextDrawImage(context, imageRect, [self CGImage]);
+	CIImage *outputImage = filter.outputImage;
 	
-	CGImageRef imageRef = CGBitmapContextCreateImage(context);
+	CGImageRef cgImageRef = [context createCGImage:outputImage fromRect:outputImage.extent];
 	
-	UIImage *newImage = [UIImage imageWithCGImage:imageRef];
+	UIImage *result = [UIImage imageWithCGImage:cgImageRef];
+	CGImageRelease(cgImageRef);
 	
-	CGColorSpaceRelease(colorSpace);
-	CGContextRelease(context);
-	CFRelease(imageRef);
-	
-	return newImage;
+	return result;
 }
 
 - (UIImage *)fixOrientation {
