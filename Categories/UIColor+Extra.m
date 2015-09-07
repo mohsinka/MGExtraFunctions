@@ -51,4 +51,34 @@
     }
 }
 
+- (UIColor *)colorWithWhiteComponent:(CGFloat)white {
+
+	NSInteger componenetsCount = CGColorGetNumberOfComponents(self.CGColor);
+	const CGFloat *currentColorComponents = CGColorGetComponents(self.CGColor);
+
+	CGFloat red = 0, green = 0, blue = 0, alpha = 0;
+
+	if (componenetsCount == 4) {
+		red = currentColorComponents[0];
+		green = currentColorComponents[1];
+		blue = currentColorComponents[2];
+		alpha = currentColorComponents[3];
+	} else if (componenetsCount == 2) {
+		red = currentColorComponents[0];
+		green = currentColorComponents[0];
+		blue = currentColorComponents[0];
+		alpha = currentColorComponents[1];
+	}
+
+	red = MIN(red + red * white, 1);
+	red = (red == 0) ? white : red;
+	green = MIN(green + green * white, 1);
+	green = (green == 0) ? white : green;
+	blue = MIN(blue + blue * white, 1);
+	blue = (blue == 0) ? white : blue;
+
+	UIColor *newColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+	return newColor;
+}
+
 @end
