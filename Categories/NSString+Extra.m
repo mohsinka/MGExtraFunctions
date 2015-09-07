@@ -28,7 +28,11 @@
 }
 
 - (BOOL)validateAsEmail {
-	return [self validateWithRegEx:@"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"];
+	if (self.length > 0) {
+		return [self validateWithRegEx:@"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"];
+	} else {
+		return NO;
+	}
 }
 
 - (BOOL)validateWithRegEx:(NSString *)regExPattern {
