@@ -16,7 +16,7 @@
 	}
 	_cell = cell;
 	cell.frame = self.bounds;
-	cell.autoresizingMask = UIViewAutoresizingFlexibleWidthAndHeight;
+	cell.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.contentView.backgroundColor = [UIColor clearColor];
 	[self.contentView addSubview:cell];
 }
