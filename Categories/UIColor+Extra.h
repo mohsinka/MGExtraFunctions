@@ -14,5 +14,6 @@
 + (UIColor *) colorWithIntRed:(int)red green:(int)green blue:(int)blue alpha:(int)alpha;
 + (UIColor *) colorFromHexString:(NSString *)hexString;
 - (UIColor *) grayscaleColor;
+- (UIColor *) colorWithWhiteComponent:(CGFloat)white;
 
 @end
